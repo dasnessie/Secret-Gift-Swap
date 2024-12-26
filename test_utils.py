@@ -1,3 +1,4 @@
+import random
 from utils import _accept_pairing, _generate_pairing
 
 
@@ -14,10 +15,11 @@ def test_accept_pairing():
     pairing = {"a": "b", "b": "c", "c": "a"}
     pairs_with_probability = {("a", "b"): 0.5}
 
+    random.seed(6740)
+
     selected_count = 0
     for i in range(100):
         if _accept_pairing(pairs_with_probability, pairing):
             selected_count += 1
 
-    assert selected_count >= 38
-    assert selected_count <= 62
+    assert selected_count == 47
