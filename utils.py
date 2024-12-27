@@ -1,5 +1,6 @@
 from copy import deepcopy
 from random import random, shuffle
+import warnings
 
 
 def _generate_pairing(participants: list[str]) -> set[tuple[str, str]]:
@@ -38,8 +39,29 @@ def _accept_pairing(
         bool: true if pairing should be accepted
     """
     restricted_pairs = pairs_with_probabilities.keys()
-    for (gifter, giftee) in pairing:
+    for gifter, giftee in pairing:
         if (gifter, giftee) in restricted_pairs:
             if random() > pairs_with_probabilities[(gifter, giftee)]:
                 return False
     return True
+
+
+def get_pairing_with_probabilities(
+    participants: list[str], pairs_with_probabilities: dict[tuple[str, str], float] = {}
+) -> set[tuple[str, str]]:
+    for i in range(5):
+        for i in range(100):
+            pairing = _generate_pairing(participants)
+            if _accept_pairing(pairs_with_probabilities, pairing):
+                return pairing
+        if (
+            all(value == 0 for value in pairs_with_probabilities.values())
+            or len(pairs_with_probabilities) == 0
+        ):
+            break  # increasing the probability would not help here, so we skip that
+        warnings.warn(
+            "Could not generate a pairing with given constraints (I tried 100 times)! Increasing probabilities and trying again..."
+        )
+        for pair, probability in pairs_with_probabilities.items():
+            pairs_with_probabilities[pair] == probability * 1.2
+    raise ValueError("Could not generate a pairing with these constraints!")

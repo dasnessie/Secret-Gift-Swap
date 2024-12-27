@@ -1,5 +1,5 @@
 import random
-from utils import _accept_pairing, _generate_pairing
+from utils import get_pairing_with_probabilities, _generate_pairing, _accept_pairing
 
 
 def test_generate_pairing():
@@ -23,3 +23,11 @@ def test_accept_pairing():
             selected_count += 1
 
     assert selected_count == 47
+
+
+def test_get_pairing_with_probabilities():
+    participants = ["a", "b", "c"]
+    assert get_pairing_with_probabilities(participants) in [
+        {("a", "b"), ("b", "c"), ("c", "a")},
+        {("a", "c"), ("b", "a"), ("c", "b")},
+    ]
