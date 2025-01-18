@@ -49,6 +49,18 @@ def _accept_pairing(
 def get_pairing_with_probabilities(
     participants: list[str], pairs_with_probabilities: dict[tuple[str, str], float] = {}
 ) -> set[tuple[str, str]]:
+    """_summary_
+
+    Args:
+        participants (list[str]): list of participant names
+        pairs_with_probabilities (dict[tuple[str, str], float], optional): Dict containing tuple of (giver, giftee) as key and probability as value. Defaults to {}.
+
+    Raises:
+        ValueError: No suitable pairing found
+
+    Returns:
+        set[tuple[str, str]]: set of tuples mapping each participant (first tuple entry) to someone to gift (second tuple entry)
+    """
     for i in range(5):
         for i in range(100):
             pairing = _generate_pairing(participants)
