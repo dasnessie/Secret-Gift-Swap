@@ -1,4 +1,5 @@
 import random
+import pytest
 from utils import get_pairing_with_probabilities, _generate_pairing, _accept_pairing
 
 
@@ -31,3 +32,49 @@ def test_get_pairing_with_probabilities():
         {("a", "b"), ("b", "c"), ("c", "a")},
         {("a", "c"), ("b", "a"), ("c", "b")},
     ]
+
+    assert get_pairing_with_probabilities(
+        participants=["a", "b", "c", "d"],
+        pairs_with_probabilities={
+            ("a", "b"): 0,
+            ("a", "c"): 0,
+            ("b", "c"): 0,
+            ("b", "d"): 0,
+            ("c", "a"): 0,
+            ("c", "d"): 0,
+            ("d", "a"): 0,
+            ("d", "b"): 0,
+        },
+    ) == {("a", "d"), ("b", "a"), ("c", "b"), ("d", "c")}
+
+    random.seed(6851)
+
+    assert get_pairing_with_probabilities(
+        participants=["a", "b", "c", "d"],
+        pairs_with_probabilities={
+            ("a", "b"): 0.5,
+            ("b", "d"): 0.5,
+            ("c", "d"): 0.5,
+            ("d", "a"): 0.5,
+        },
+    ) == {("c", "d"), ("a", "c"), ("d", "b"), ("b", "a")}
+
+    with pytest.raises(ValueError):
+        get_pairing_with_probabilities(
+            participants=["a", "b", "c", "d"],
+            pairs_with_probabilities={("a", "b"): 0, ("a", "c"): 0, ("a", "d"): 0},
+        )
+
+    random.seed(6851)
+
+    with pytest.warns(
+        UserWarning, match="Could not generate a pairing with given constraints"
+    ):
+        assert get_pairing_with_probabilities(
+            participants=["a", "b", "c", "d"],
+            pairs_with_probabilities={
+                ("a", "b"): 0.001,
+                ("a", "c"): 0.001,
+                ("a", "d"): 0.001,
+            },
+        ) == {("b", "a"), ("d", "c"), ("a", "d"), ("c", "b")}
