@@ -1,9 +1,25 @@
 from flask import Flask, render_template, redirect, request
+from flask_babel import Babel, _
 from slugify import slugify
 import urllib.parse
 from utils import get_pairing_with_probabilities
 
+
 app = Flask(__name__)
+
+
+def get_locale():
+    return request.accept_languages.best_match(["de", "en"])
+
+
+app.config["BABEL_TRANSLATION_DIRECTORIES"] = "translations"
+app.config["BABEL_DEFAULT_LOCALE"] = "en"
+babel = Babel(app, locale_selector=get_locale)
+
+
+@app.context_processor
+def inject_gettext():
+    return dict(_=_)
 
 
 @app.route("/", methods=["GET"])

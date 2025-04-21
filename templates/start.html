@@ -2,11 +2,9 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <p>Hello World!</p>
-
     <form method="post" class="fulfill-form">
-        <label for="exchange_name">Auslosung öffnen oder anlegen:</label>
+        <label for="exchange_name">{{ _('Auslosung öffnen oder anlegen:') }}</label>
         <input type="text" id="exchange_name" name="exchange_name" autofocus="True" required>
-        <input type="submit" value="OK" aria-label="Öffnen">
+        <input type="submit" value="OK" aria-label="{{ _('Öffnen') }}">
     </form>
 {% endblock %}

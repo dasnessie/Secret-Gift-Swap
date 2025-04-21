@@ -3,6 +3,6 @@
 
 {% block content %}
     <h2>{{ exchangeName }}</h2>
-    <p>Hallo {{ participantName }}!</p>
-    <p>Du beschenkst Dagobert Duck.</p>
+    <p>{{ _('Hallo %(name)s!', name=participantName) }}</p>
+    <p>{{ _('Du beschenkst Dagobert Duck.') }}</p>
 {% endblock %}
