@@ -1,5 +1,5 @@
 from typing import Literal
-from participant import Participant
+from participants import Participant
 
 matching_probabilities = {
     "never": 0,

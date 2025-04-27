@@ -1,4 +1,4 @@
-from uuid import uuid4
+from uuid import UUID, uuid4
 
 
 class Participant:
@@ -50,3 +50,35 @@ class Participant:
         if isinstance(value, Participant):
             return self.id == value.id
         return NotImplemented
+
+
+class Participants:
+    def __init__(self, participants: list[Participant]):
+        self.participant_list = participants
+
+    def __iter__(self):
+        return iter(self.participant_list)
+
+    def __len__(self):
+        return len(self.participant_list)
+
+    def __getitem__(self, key):
+        return self.participant_list[key]
+
+    def __setitem__(self, key, value):
+        if isinstance(value, Participant):
+            self.participant_list[key] = value
+        else:
+            raise TypeError
+
+    def get_by_name(self, name: str) -> list[Participant]:
+        result = []
+        for p in self.participant_list:
+            if name in p.name:
+                result.append(p)
+        return result
+
+    def get_by_id(self, id: UUID) -> Participant:
+        for p in self.participant_list:
+            if id == p.id:
+                return p

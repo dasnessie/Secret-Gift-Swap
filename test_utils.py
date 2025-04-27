@@ -2,7 +2,7 @@ import random
 import pytest
 from constraints import Constraint, Constraints
 from matching import Matching
-from participant import Participant
+from participants import Participant
 from utils import get_pairing_with_probabilities, _generate_pairing, _accept_pairing
 
 

@@ -4,14 +4,14 @@ import warnings
 
 from constraints import Constraint, Constraints
 from matching import Matching
-from participant import Participant
+from participants import Participant, Participants
 
 
-def _generate_pairing(participants: list[Participant]) -> Matching:
+def _generate_pairing(participants: Participants) -> Matching:
     """Generate a single pairing from a list of participants
 
     Args:
-        participants (list[Participant]): list of participants
+        participants (Participants): participants
 
     Returns:
         Matching: Matching of participants
@@ -51,15 +51,15 @@ def _accept_pairing(
 
 
 def get_pairing_with_probabilities(
-    participants: list[Participant],
+    participants: Participants,
     pairs_with_probabilities: Constraints = Constraints([]),
     retries: int = 100,
 ) -> Matching:
     """Generate one pairing, using probabilities
 
     Args:
-        participants (list[Participant]): list of participants
-        pairs_with_probabilities (COnstraints, optional): Constraints to respect. Defaults to empty set of constraints.
+        participants (Participants): participants
+        pairs_with_probabilities (Constraints, optional): Constraints to respect. Defaults to empty set of constraints.
 
     Raises:
         ValueError: No suitable pairing found
