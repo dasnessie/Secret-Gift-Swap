@@ -35,6 +35,13 @@ class Constraint:
             return self.__dict__ == value.__dict__
         return NotImplemented
 
+    def __str__(self):
+        arrow = "↔" if self.probability_level == "never" else "→"
+        return f"{self.giver} {arrow} {self.giftee}: {self.probability_level}"
+
+    def __repr__(self):
+        return f"Constraint(giver={self.giver}, giftee={self.giftee}, probability_level={self.probability_level})"
+
 
 class Constraints:
     def __init__(self, constraint_list: list[Constraint]):
@@ -44,6 +51,12 @@ class Constraints:
             constraint_list (list[Constraint]): list of constraints to represent
         """
         self.constraint_list = constraint_list
+
+    def __str__(self):
+        return "\n".join([str(c) for c in self.constraint_list])
+
+    def __repr__(self):
+        return f"Constraints([{', '.join([repr(c) for c in self.constraint_list])}])"
 
     def __len__(self):
         return len(self.constraint_list)

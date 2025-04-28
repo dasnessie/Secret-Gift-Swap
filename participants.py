@@ -72,6 +72,14 @@ class Participants:
             raise TypeError
 
     def get_by_name(self, name: str) -> list[Participant]:
+        """Get all participants matching a name
+
+        Args:
+            name (str): Name to search for
+
+        Returns:
+            list[Participant]: List of participants using that name
+        """
         result = []
         for p in self.participant_list:
             if name in p.name:
@@ -79,6 +87,23 @@ class Participants:
         return result
 
     def get_by_id(self, id: UUID) -> Participant:
+        """Get participant with given UUID
+
+        Args:
+            id (UUID): UUID to search for
+
+        Returns:
+            Participant: Participant using that UUID
+        """
         for p in self.participant_list:
             if id == p.id:
                 return p
+
+    def __str__(self):
+        result = []
+        for p in self.participant_list:
+            result.append(str(p))
+        return "[" + ", ".join(result) + "]"
+
+    def __repr__(self):
+        return f"Participants([{', '.join([repr(p) for p in self.participant_list])}])"
