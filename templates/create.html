@@ -2,21 +2,21 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h2>{{ _('Neue Auslosung anlegen') }}</h2>
-    <p>{{ _('Es gibt noch keine Auslosung mit dem eingegebenen Namen. Hier kannst du eine neue Auslosung anlegen.') }}</p>
+    <h2>{{ _('Create new gift exchange') }}</h2>
+    <p>{{ _('There is no gift exchange with this name yet. You can create a new gift exchange here.') }}</p>
 
-    <form id="participant-form" aria-label="{{ _('Teilnehmende anlegen') }}" action="/{{ exchangeName }}/create" method="POST">
+    <form id="participant-form" aria-label="{{ _('Add participants') }}" action="/{{ exchangeName }}/create" method="POST">
         <label for="name-input">{{ _('Name:') }}</label>
         <input type="text" id="name-input" name="name">
 
         <section aria-labelledby="participant-list-heading">
-            <h2 id="participant-list-heading">{{ _('Bisherige Teilnehmende') }}</h2>
+            <h2 id="participant-list-heading">{{ _('Current participants') }}</h2>
             <ul id="participant-list">
                 <li>Alice</li>
                 <li>Bob</li>
                 <li>Carlos</li>
             </ul>
         </section>
-        <button type="submit">{{ _('Auslosen!') }}</button>
+        <button type="submit">{{ _('Generate matching!') }}</button>
     </form>
 {% endblock %}

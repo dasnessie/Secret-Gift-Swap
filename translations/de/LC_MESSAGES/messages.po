@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-04-21 14:26+0200\n"
-"PO-Revision-Date: 2025-04-21 13:40+0200\n"
+"POT-Creation-Date: 2025-05-05 21:06+0200\n"
+"PO-Revision-Date: 2025-05-05 20:56+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: de\n"
 "Language-Team: de <LL@li.org>\n"
@@ -20,60 +20,64 @@ msgstr ""
 
 #: templates/base.html:6 templates/base.html:13
 msgid "Secret Gift Swap"
-msgstr ""
+msgstr "Secret Gift Swap"
 
 #: templates/base.html:22
-msgid "Secret Gift Swap auf Github"
-msgstr ""
+msgid "Secret Gift Swap on Github"
+msgstr "Secret Gift Swap auf Github"
 
 #: templates/create.html:5
-msgid "Neue Auslosung anlegen"
-msgstr ""
+msgid "Create new gift exchange"
+msgstr "Neue Auslosung anlegen"
 
 #: templates/create.html:6
 msgid ""
+"There is no gift exchange with this name yet. You can create a new gift "
+"exchange here."
+msgstr ""
 "Es gibt noch keine Auslosung mit dem eingegebenen Namen. Hier kannst du "
 "eine neue Auslosung anlegen."
-msgstr ""
 
 #: templates/create.html:8
-msgid "Teilnehmende anlegen"
-msgstr ""
+msgid "Add participants"
+msgstr "Teilnehmende anlegen"
 
 #: templates/create.html:9
 msgid "Name:"
-msgstr ""
+msgstr "Name:"
 
 #: templates/create.html:13
-msgid "Bisherige Teilnehmende"
-msgstr ""
+msgid "Current participants"
+msgstr "Aktuelle Teilnehmende"
 
 #: templates/create.html:20
-msgid "Auslosen!"
-msgstr ""
+msgid "Generate matching!"
+msgstr "Auslosen!"
 
 #: templates/exchange-overview.html:6
 msgid ""
+"Here are the results! Click your name to see who you're getting a gift "
+"for."
+msgstr ""
 "Hier sind die Ergebnisse der Auslosung! Klicke auf deinen Namen, um zu "
 "erfahren, wen du beschenken darfst."
-msgstr ""
 
 #: templates/exchange-user-result.html:6
 #, python-format
-msgid "Hallo %(name)s!"
-msgstr ""
+msgid "Hello %(name)s!"
+msgstr "Hallo %(name)s!"
 
 #: templates/exchange-user-result.html:7
-msgid "Du beschenkst Dagobert Duck."
-msgstr ""
+msgid "You're getting a gift for Dagobert Duck."
+msgstr "Du beschenkst Dagobert Duck."
 
 #: templates/start.html:6
-msgid "Auslosung öffnen oder anlegen:"
-msgstr ""
+msgid "Open or create gift exchange:"
+msgstr "Auslosung öffnen oder anlegen:"
 
 #: templates/start.html:8
-msgid "Öffnen"
-msgstr ""
+msgid "Open"
+msgstr "Öffnen"
 
 #: venv/lib/python3.13/site-packages/click/_termui_impl.py:556
 #, python-brace-format
