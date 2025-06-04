@@ -2,70 +2,81 @@ from copy import deepcopy
 from random import random, shuffle
 import warnings
 
-from constraints import Constraint, Constraints
-from matching import Matching
-from participants import Participant, Participants
+from constraint import (
+    Constraint,
+    get_all_probability_values_from_constraints,
+    get_probability_from_constraints,
+    get_restricted_pairs,
+)
+from match import Match, get_giftee_for_giver
+from participant import Participant
 
 
-def _generate_pairing(participants: Participants) -> Matching:
+def _generate_pairing(participants: list[Participant]) -> list[Match]:
     """Generate a single pairing from a list of participants
 
     Args:
-        participants (Participants): participants
+        participants (list[Participant]): participants
 
     Returns:
-        Matching: Matching of participants
+        list[Match]: Matching of participants
     """
     shuffled_participants = deepcopy(participants)
     shuffle(shuffled_participants)
-    result = {}
+    result = []
     for i in range(len(shuffled_participants)):
-        result[shuffled_participants[i]] = shuffled_participants[
-            (i + 1) % len(shuffled_participants)
-        ]
-    return Matching(result)
+        result.append(
+            Match(
+                giver=shuffled_participants[i],
+                giftee=shuffled_participants[(i + 1) % len(shuffled_participants)],
+            )
+        )
+    return result
 
 
 def _accept_pairing(
-    pairs_with_probabilities: Constraints,
-    pairing: Matching,
+    pairs_with_probabilities: list[Constraint],
+    pairing: list[Match],
     probability_multiplier: float = 1.0,
 ) -> bool:
     """Decide if pairing should be accepted given probabilities for specific pairs
 
     Args:
-        pairs_with_probabilities (Constraints): Constraints
-        pairing (Matching): a pairing, eg generated with _generate_pairing
+        pairs_with_probabilities (list[Constraint]): Constraints
+        pairing (list[Match]): a pairing, eg generated with _generate_pairing
 
     Returns:
         bool: true if pairing should be accepted
     """
-    for giver, giftee in pairing:
-        if (giver, giftee) in pairs_with_probabilities.restricted_pairs():
+    for m in pairing:
+        if (m.giver, m.giftee) in get_restricted_pairs(pairs_with_probabilities):
             if (
                 random()
-                > pairs_with_probabilities[(giver, giftee)] * probability_multiplier
+                > get_probability_from_constraints(
+                    pairs_with_probabilities, m.giver, m.giftee
+                )
+                * probability_multiplier
             ):
                 return False
     return True
 
 
 def get_pairing_with_probabilities(
-    participants: Participants,
-    pairs_with_probabilities: Constraints = Constraints([]),
+    participants: list[Participant],
+    pairs_with_probabilities: list[Constraint] = [],
     retries: int = 100,
-) -> Matching:
+) -> list[Match]:
     """Generate one pairing, using probabilities
 
     Args:
-        participants (Participants): participants
-        pairs_with_probabilities (Constraints, optional): Constraints to respect. Defaults to empty set of constraints.
+        participants (list[Participant]): participants
+        pairs_with_probabilities (list[Constraint], optional): Constraints to respect. Defaults to empty set of constraints.
 
     Raises:
         ValueError: No suitable pairing found
 
     Returns:
-        Matching: A matching
+        list[Match]: A matching
     """
     probability_multiplier = 1.0
     for i in range(5):
@@ -78,7 +89,9 @@ def get_pairing_with_probabilities(
         if (
             all(
                 value == 0
-                for value in pairs_with_probabilities.values_as_probabilities()
+                for value in get_all_probability_values_from_constraints(
+                    pairs_with_probabilities
+                )
             )
             or len(pairs_with_probabilities) == 0
         ):
