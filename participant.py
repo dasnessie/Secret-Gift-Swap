@@ -1,3 +1,4 @@
+from typing import Optional
 from uuid import UUID, uuid4
 
 
@@ -71,7 +72,7 @@ def get_participants_by_name(
     return result
 
 
-def get_participant_by_id(participants: list[Participant], id: UUID) -> Participant:
+def get_participant_by_id(participants: list[Participant], id: UUID) -> Optional[Participant]:
     """Get participant with given UUID from a list of participants
 
     Args:

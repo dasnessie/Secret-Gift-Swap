@@ -2,6 +2,7 @@ from flask import Flask, render_template, redirect, request
 from flask_babel import Babel, _
 from slugify import slugify
 import urllib.parse
+from participant import Participant
 from utils import get_pairing_with_probabilities
 
 
@@ -45,7 +46,7 @@ def view_create_exchange(exchange_name):
 
 @app.route("/<exchange_name>/create", methods=["POST"])
 def create_exchange(exchange_name):
-    pairing = get_pairing_with_probabilities(participants=["Alice", "Bob", "Carlos"])
+    pairing = get_pairing_with_probabilities(participants=[Participant("Alice"), Participant("Bob"), Participant("Carlos")])
     # Put the data in the database
     return redirect(f"/{exchange_name}")
 
