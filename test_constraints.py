@@ -1,10 +1,10 @@
-from participant import Participant
 from constraint import *
+from participant import Participant
 
 
 def test_remove_duplicates():
-    p1 = Participant(name="Alice")
-    p2 = Participant(name="Bob")
+    p1 = Participant(names="Alice")
+    p2 = Participant(names="Bob")
     c1 = Constraint(p1, p2, "2_past_exchange")
     c2 = Constraint(p1, p2, "3_past_exchange")
     assert get_probability_from_constraints([c1, c2], p1, p2) == 0.2

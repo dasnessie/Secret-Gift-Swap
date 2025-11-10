@@ -1,6 +1,6 @@
+import warnings
 from copy import deepcopy
 from random import random, shuffle
-import warnings
 
 from constraint import (
     Constraint,
@@ -8,7 +8,7 @@ from constraint import (
     get_probability_from_constraints,
     get_restricted_pairs,
 )
-from match import Match, get_giftee_for_giver
+from match import Match
 from participant import Participant
 
 
@@ -20,6 +20,7 @@ def _generate_pairing(participants: list[Participant]) -> list[Match]:
 
     Returns:
         list[Match]: Matching of participants
+
     """
     shuffled_participants = deepcopy(participants)
     shuffle(shuffled_participants)
@@ -29,7 +30,7 @@ def _generate_pairing(participants: list[Participant]) -> list[Match]:
             Match(
                 giver=shuffled_participants[i],
                 giftee=shuffled_participants[(i + 1) % len(shuffled_participants)],
-            )
+            ),
         )
     return result
 
@@ -47,13 +48,14 @@ def _accept_pairing(
 
     Returns:
         bool: true if pairing should be accepted
+
     """
     for m in pairing:
         if (m.giver, m.giftee) in get_restricted_pairs(pairs_with_probabilities):
             if (
                 random()
                 > get_probability_from_constraints(
-                    pairs_with_probabilities, m.giver, m.giftee
+                    pairs_with_probabilities, m.giver, m.giftee,
                 )
                 * probability_multiplier
             ):
@@ -77,27 +79,28 @@ def get_pairing_with_probabilities(
 
     Returns:
         list[Match]: A matching
+
     """
     probability_multiplier = 1.0
     for i in range(5):
         for i in range(retries):
             pairing = _generate_pairing(participants)
             if _accept_pairing(
-                pairs_with_probabilities, pairing, probability_multiplier
+                pairs_with_probabilities, pairing, probability_multiplier,
             ):
                 return pairing
         if (
             all(
                 value == 0
                 for value in get_all_probability_values_from_constraints(
-                    pairs_with_probabilities
+                    pairs_with_probabilities,
                 )
             )
             or len(pairs_with_probabilities) == 0
         ):
             break  # increasing the probability would not help here, so we skip that
         warnings.warn(
-            "Could not generate a pairing with given constraints (I tried 100 times)! Increasing probabilities and trying again..."
+            "Could not generate a pairing with given constraints (I tried 100 times)! Increasing probabilities and trying again...",
         )
         probability_multiplier = probability_multiplier * 1.2
     raise ValueError("Could not generate a pairing with these constraints!")
