@@ -1,9 +1,11 @@
 import urllib.parse
 
-from flask import Flask, redirect, render_template, request
+from flask import Flask, g, redirect, render_template, request
 from flask_babel import Babel, _
 from slugify import slugify
 
+from databaseHandler import DatabaseHandler
+from exchange import Exchange
 from participant import Participant
 from utils import get_pairing_with_probabilities
 
@@ -24,6 +26,19 @@ def inject_gettext():
     return {"_": _}
 
 
+def get_db():
+    if "db" not in g:
+        g.db = DatabaseHandler()
+    return g.db
+
+
+@app.teardown_appcontext
+def close_db(error=None):
+    db = g.pop("db", None)
+    if db is not None:
+        db.close_connection()
+
+
 @app.route("/", methods=["GET"])
 def start():
     return render_template("start.html")
@@ -33,8 +48,9 @@ def start():
 def route_to_exchange():
     exchange_name = slugify(request.form["exchange_name"])
     exchange_name = urllib.parse.quote_plus(exchange_name)
+    db = get_db()
     # if exchange exists
-    if False:
+    if db.exchange_exists(exchange_name):
         return redirect(f"/{exchange_name}")
     # else create exchange
     return redirect(f"/{exchange_name}/create")
@@ -47,14 +63,11 @@ def view_create_exchange(exchange_name):
 
 @app.route("/<exchange_name>/create", methods=["POST"])
 def create_exchange(exchange_name):
-    pairing = get_pairing_with_probabilities(
-        participants=[
-            Participant("Alice"),
-            Participant("Bob"),
-            Participant("Carlos"),
-        ],
-    )
-    # Put the data in the database
+    participants = [Participant("Alice"), Participant("Bob"), Participant("Carlos")]
+    pairing = get_pairing_with_probabilities(participants)
+    exchange = Exchange(exchange_name, participants, [], pairing)
+    db = get_db()
+    db.create_exchange(exchange, participants, [], pairing)
     return redirect(f"/{exchange_name}")
 
 
