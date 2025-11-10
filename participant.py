@@ -7,15 +7,25 @@ from uuid import UUID, uuid4
 class Participant:
     """Data about one person participating in a gift exchange."""
 
-    def __init__(self, names: str | list[str], active_name: int = 0):
+    def __init__(
+        self,
+        names: str | list[str],
+        active_name: int = 0,
+        uuid: uuid4 = None,
+    ):
         """A person participating in a gift exchange.
 
         Args:
             names (str | list[str]): name or list of names for the person.
             active_name (int, optional): name to use for the person. Defaults to 0.
+            uuid (uuid4): uuid to use for participant, if one already exists.
+                Defaults to None.
 
         """
-        self.uuid = uuid4()
+        if uuid is None:
+            self.uuid = uuid4()
+        else:
+            self.uuid = uuid
         self.names = names if isinstance(names, list) else [names]
         self.active_name = active_name
 

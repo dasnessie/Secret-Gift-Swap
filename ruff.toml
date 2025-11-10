@@ -40,7 +40,7 @@ target-version = "py39"
 # Unlike Flake8, Ruff doesn't enable pycodestyle warnings (`W`) or
 # McCabe complexity (`C901`) by default.
 select = ["ANN", "BLE", "A", "COM", "C4", "FIX", "FA", "ISC", "Q", "RSE", "RET", "SIM", "TC", "ARG", "FLY", "I", "N", "E", "W", "DOC", "D", "F",
-"PT001", "PT002", "PT003", "PT006", "PT007", "PT008", "PT009", "PT010", "PT011", "PT012", "PT013", "PT014", "PT015", "PT016", "PT017", "PT018", "PT019", "PT020", "PT021", "PT022", "PT023", "PT024", "PT025", "PT026", "PT027", "PT028", "PT030", "PT031",]
+"PT001", "PT002", "PT003", "PT006", "PT007", "PT008", "PT009", "PT010", "PT012", "PT013", "PT014", "PT015", "PT016", "PT017", "PT018", "PT019", "PT020", "PT021", "PT022", "PT023", "PT024", "PT025", "PT026", "PT027", "PT028", "PT030",]
 ignore = ["D100", "D105", "D401", "ANN204"]
 
 # Allow fix for all enabled rules (when `--fix`) is provided.
@@ -52,6 +52,7 @@ dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
 
 [lint.per-file-ignores]
 "app.py" = ["ANN001", "ANN201", "D103"]
+"test_*.py" = ["ANN201", "D103"]
 
 [format]
 # Like Black, use double quotes for strings.

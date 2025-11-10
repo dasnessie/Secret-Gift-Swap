@@ -1,4 +1,5 @@
 from constraint import Constraint
+from match import Match
 from participant import Participant
 
 
@@ -10,6 +11,7 @@ class Exchange:
         name: str,
         participants: list[Participant],
         constraints: list[Constraint],
+        pairing: list[Match],
     ):
         """Information about one gift exchange.
 
@@ -17,8 +19,10 @@ class Exchange:
             name (str): name of exchange. Used to identify it.
             participants (list[Participant]): People participating in the exchange
             constraints (list[Constraint]): Constraints used in generation of matching
+            pairing (list[Match]): Pairing generated for this exchange
 
         """
         self.name = name
         self.participants = participants
         self.constraints = constraints
+        self.pairing = pairing

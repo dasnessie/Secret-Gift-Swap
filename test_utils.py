@@ -9,15 +9,16 @@ from utils import _accept_pairing, _generate_pairing, get_pairing_with_probabili
 
 
 def test_generate_pairing():
-    pa = Participant(names="a")
-    pb = Participant(names="b")
-    pc = Participant(names="c")
+    pa = Participant(names="a", uuid="a")
+    pb = Participant(names="b", uuid="b")
+    pc = Participant(names="c", uuid="c")
     participants = [pa, pb, pc]
     assert sorted(
-        _generate_pairing(participants), key=lambda m: m.giver.get_name(),
+        _generate_pairing(participants),
+        key=lambda m: m.giver_id,
     ) in [
-        [Match(pa, pb), Match(pb, pc), Match(pc, pa)],
-        [Match(pa, pc), Match(pb, pa), Match(pc, pb)],
+        [Match(pa.uuid, pb.uuid), Match(pb.uuid, pc.uuid), Match(pc.uuid, pa.uuid)],
+        [Match(pa.uuid, pc.uuid), Match(pb.uuid, pa.uuid), Match(pc.uuid, pb.uuid)],
     ]
     assert participants == [
         pa,
@@ -27,11 +28,15 @@ def test_generate_pairing():
 
 
 def test_accept_pairing():
-    pa = Participant(names="a")
-    pb = Participant(names="b")
-    pc = Participant(names="c")
-    pairing = [Match(pa, pb), Match(pb, pc), Match(pc, pa)]
-    pairs_with_probability = [Constraint(pa, pb, "3_past_exchange")]
+    pa = Participant(names="a", uuid="a")
+    pb = Participant(names="b", uuid="b")
+    pc = Participant(names="c", uuid="c")
+    pairing = [
+        Match(pa.uuid, pb.uuid),
+        Match(pb.uuid, pc.uuid),
+        Match(pc.uuid, pa.uuid),
+    ]
+    pairs_with_probability = [Constraint(pa.uuid, pb.uuid, "3_past_exchange")]
 
     random.seed(6740)
 
@@ -44,34 +49,40 @@ def test_accept_pairing():
 
 
 def test_get_pairing_with_probabilities():
-    pa = Participant(names="a")
-    pb = Participant(names="b")
-    pc = Participant(names="c")
-    pd = Participant(names="d")
+    pa = Participant(names="a", uuid="a")
+    pb = Participant(names="b", uuid="b")
+    pc = Participant(names="c", uuid="c")
+    pd = Participant(names="d", uuid="d")
     participants = [pa, pb, pc]
     assert sorted(
-        get_pairing_with_probabilities(participants), key=lambda m: m.giver.get_name(),
+        get_pairing_with_probabilities(participants),
+        key=lambda m: m.giver_id,
     ) in [
-        [Match(pa, pb), Match(pb, pc), Match(pc, pa)],
-        [Match(pa, pc), Match(pb, pa), Match(pc, pb)],
+        [Match(pa.uuid, pb.uuid), Match(pb.uuid, pc.uuid), Match(pc.uuid, pa.uuid)],
+        [Match(pa.uuid, pc.uuid), Match(pb.uuid, pa.uuid), Match(pc.uuid, pb.uuid)],
     ]
 
     assert sorted(
         get_pairing_with_probabilities(
             participants=[pa, pb, pc, pd],
             pairs_with_probabilities=[
-                Constraint(pa, pb, "1_past_exchange"),
-                Constraint(pa, pc, "1_past_exchange"),
-                Constraint(pb, pc, "1_past_exchange"),
-                Constraint(pb, pd, "1_past_exchange"),
-                Constraint(pc, pa, "1_past_exchange"),
-                Constraint(pc, pd, "1_past_exchange"),
-                Constraint(pd, pa, "1_past_exchange"),
-                Constraint(pd, pb, "1_past_exchange"),
+                Constraint(pa.uuid, pb.uuid, "1_past_exchange"),
+                Constraint(pa.uuid, pc.uuid, "1_past_exchange"),
+                Constraint(pb.uuid, pc.uuid, "1_past_exchange"),
+                Constraint(pb.uuid, pd.uuid, "1_past_exchange"),
+                Constraint(pc.uuid, pa.uuid, "1_past_exchange"),
+                Constraint(pc.uuid, pd.uuid, "1_past_exchange"),
+                Constraint(pd.uuid, pa.uuid, "1_past_exchange"),
+                Constraint(pd.uuid, pb.uuid, "1_past_exchange"),
             ],
         ),
-        key=lambda m: m.giver.get_name(),
-    ) == [Match(pa, pd), Match(pb, pa), Match(pc, pb), Match(pd, pc)]
+        key=lambda m: m.giver_id,
+    ) == [
+        Match(pa.uuid, pd.uuid),
+        Match(pb.uuid, pa.uuid),
+        Match(pc.uuid, pb.uuid),
+        Match(pd.uuid, pc.uuid),
+    ]
 
     random.seed(6851)
 
@@ -79,38 +90,51 @@ def test_get_pairing_with_probabilities():
         get_pairing_with_probabilities(
             participants=[pa, pb, pc, pd],
             pairs_with_probabilities=[
-                Constraint(pa, pb, "3_past_exchange"),
-                Constraint(pb, pd, "3_past_exchange"),
-                Constraint(pc, pd, "3_past_exchange"),
-                Constraint(pd, pa, "3_past_exchange"),
+                Constraint(pa.uuid, pb.uuid, "3_past_exchange"),
+                Constraint(pb.uuid, pd.uuid, "3_past_exchange"),
+                Constraint(pc.uuid, pd.uuid, "3_past_exchange"),
+                Constraint(pd.uuid, pa.uuid, "3_past_exchange"),
             ],
         ),
-        key=lambda m: m.giver.get_name(),
-    ) == [Match(pa, pc), Match(pb, pa), Match(pc, pd), Match(pd, pb)]
+        key=lambda m: m.giver_id,
+    ) == [
+        Match(pa.uuid, pc.uuid),
+        Match(pb.uuid, pa.uuid),
+        Match(pc.uuid, pd.uuid),
+        Match(pd.uuid, pb.uuid),
+    ]
 
     with pytest.raises(ValueError):
         get_pairing_with_probabilities(
             participants=[pa, pb, pc, pd],
             pairs_with_probabilities=[
-                Constraint(pa, pb, "1_past_exchange"),
-                Constraint(pa, pc, "1_past_exchange"),
-                Constraint(pa, pd, "1_past_exchange"),
+                Constraint(pa.uuid, pb.uuid, "1_past_exchange"),
+                Constraint(pa.uuid, pc.uuid, "1_past_exchange"),
+                Constraint(pa.uuid, pd.uuid, "1_past_exchange"),
             ],
         )
 
     random.seed(6851)
 
     with pytest.warns(
-        UserWarning, match="Could not generate a pairing with given constraints",
+        UserWarning,
+        match="Could not generate a pairing with given constraints",
     ):
         cs = [
-            Constraint(pa, pb, "2_past_exchange"),
-            Constraint(pa, pc, "2_past_exchange"),
-            Constraint(pa, pd, "2_past_exchange"),
+            Constraint(pa.uuid, pb.uuid, "2_past_exchange"),
+            Constraint(pa.uuid, pc.uuid, "2_past_exchange"),
+            Constraint(pa.uuid, pd.uuid, "2_past_exchange"),
         ]
         assert sorted(
             get_pairing_with_probabilities(
-                participants=[pa, pb, pc, pd], pairs_with_probabilities=cs, retries=1,
+                participants=[pa, pb, pc, pd],
+                pairs_with_probabilities=cs,
+                retries=1,
             ),
-            key=lambda m: m.giver.get_name(),
-        ) == [Match(pa, pc), Match(pb, pa), Match(pc, pd), Match(pd, pb)]
+            key=lambda m: m.giver_id,
+        ) == [
+            Match(pa.uuid, pc.uuid),
+            Match(pb.uuid, pa.uuid),
+            Match(pc.uuid, pd.uuid),
+            Match(pd.uuid, pb.uuid),
+        ]
