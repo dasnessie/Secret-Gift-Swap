@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-05-05 21:06+0200\n"
+"POT-Creation-Date: 2025-11-10 19:13+0100\n"
 "PO-Revision-Date: 2025-05-05 20:56+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -64,7 +64,8 @@ msgid "Hello %(name)s!"
 msgstr ""
 
 #: templates/exchange-user-result.html:7
-msgid "You're getting a gift for Dagobert Duck."
+#, python-format
+msgid "You're getting a gift for %(giftee)s."
 msgstr ""
 
 #: templates/start.html:6

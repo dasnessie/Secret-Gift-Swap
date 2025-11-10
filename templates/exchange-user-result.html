@@ -4,5 +4,5 @@
 {% block content %}
     <h2>{{ exchangeName }}</h2>
     <p>{{ _('Hello %(name)s!', name=participantName) }}</p>
-    <p>{{ _("You're getting a gift for Dagobert Duck.") }}</p>
+    <p>{{ _("You're getting a gift for %(giftee)s.", giftee=gifteeName) }}</p>
 {% endblock %}

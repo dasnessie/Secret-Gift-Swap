@@ -93,6 +93,29 @@ def get_participants_by_name(
     return result
 
 
+def get_single_participant_by_name(
+    participants: list[Participant],
+    name: str,
+) -> Participant:
+    """Return the participant if there is exactly one with this name.
+
+    Args:
+        participants (list[Participant]): Participants to search in
+        name (str): name to look for
+
+    Raises:
+        ValueError: If there is more than one result
+
+    Returns:
+        Participant: The one participant matching this name, if possible
+
+    """
+    matching_participants = get_participants_by_name(participants, name)
+    if len(matching_participants) == 1:
+        return matching_participants[0]
+    raise ValueError(f"Found {len(matching_participants)} matches!")
+
+
 def get_participant_by_id(
     participants: list[Participant],
     uuid: UUID,
@@ -108,6 +131,6 @@ def get_participant_by_id(
 
     """
     for p in participants:
-        if uuid == p.id:
+        if uuid == p.uuid:
             return p
     return None

@@ -5,8 +5,8 @@
     <h2>{{ exchangeName }}</h2>
     <p>{{ _("Here are the results! Click your name to see who you're getting a gift for.") }}</p>
     <ul>
-        <li><a href="/{{ exchangeName }}/results/Alice">Alice</a></li>
-        <li><a href="/{{ exchangeName }}/results/Bob">Bob</a></li>
-        <li><a href="/{{ exchangeName }}/results/Carlos">Carlos</a></li>
+        {% for participant in participants %}
+        <li><a href="/{{ exchangeName }}/results/{{ participant.get_name() }}">{{ participant.get_name() }}</a></li>
+        {% endfor %}
     </ul>
 {% endblock %}

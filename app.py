@@ -6,7 +6,12 @@ from slugify import slugify
 
 from databaseHandler import DatabaseHandler
 from exchange import Exchange
-from participant import Participant
+from match import get_giftee_for_giver
+from participant import (
+    Participant,
+    get_participant_by_id,
+    get_single_participant_by_name,
+)
 from utils import get_pairing_with_probabilities
 
 app = Flask(__name__)
@@ -33,7 +38,7 @@ def get_db():
 
 
 @app.teardown_appcontext
-def close_db(error=None):
+def close_db(_error=None):
     db = g.pop("db", None)
     if db is not None:
         db.close_connection()
@@ -73,14 +78,31 @@ def create_exchange(exchange_name):
 
 @app.route("/<exchange_name>")
 def view_exchange(exchange_name):
-    return render_template("exchange-overview.html", exchangeName=exchange_name)
+    db = get_db()
+    exchange = db.get_exchange(exchange_name)
+    return render_template(
+        "exchange-overview.html",
+        exchangeName=exchange_name,
+        participants=exchange.participants,
+    )
 
 
 @app.route("/<exchange_name>/results/<participant_name>")
 def view_exchange_participant_result(exchange_name, participant_name):
-    # Ask user to confirm their name
+    db = get_db()
+    exchange = db.get_exchange(exchange_name)
+    giver_id = get_single_participant_by_name(
+        exchange.participants,
+        participant_name,
+    ).uuid
+    giftee = get_participant_by_id(
+        exchange.participants,
+        get_giftee_for_giver(exchange.pairing, giver_id),
+    )
+    # TODO Ask user to confirm their name
     return render_template(
         "exchange-user-result.html",
         exchangeName=exchange_name,
         participantName=participant_name,
+        gifteeName=giftee.get_name(),
     )
