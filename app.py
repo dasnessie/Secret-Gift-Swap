@@ -68,7 +68,11 @@ def view_create_exchange(exchange_name):
 
 @app.route("/<exchange_name>/create", methods=["POST"])
 def create_exchange(exchange_name):
-    participants = [Participant("Alice"), Participant("Bob"), Participant("Carlos")]
+    participants = [
+        Participant(["Alice", "Ali"], 1),
+        Participant("Bob"),
+        Participant("Carlos"),
+    ]
     pairing = get_pairing_with_probabilities(participants)
     exchange = Exchange(exchange_name, participants, [], pairing)
     db = get_db()
@@ -90,15 +94,7 @@ def view_exchange(exchange_name):
 @app.route("/<exchange_name>/results/<participant_name>")
 def view_exchange_participant_result(exchange_name, participant_name):
     db = get_db()
-    exchange = db.get_exchange(exchange_name)
-    giver_id = get_single_participant_by_name(
-        exchange.participants,
-        participant_name,
-    ).uuid
-    giftee = get_participant_by_id(
-        exchange.participants,
-        get_giftee_for_giver(exchange.pairing, giver_id),
-    )
+    giftee = db.get_giftee_for_giver(exchange_name, participant_name)
     # TODO Ask user to confirm their name
     return render_template(
         "exchange-user-result.html",

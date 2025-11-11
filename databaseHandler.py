@@ -1,5 +1,5 @@
-import json
 import sqlite3
+from uuid import uuid4
 
 from constraint import Constraint
 from exchange import Exchange
@@ -29,10 +29,19 @@ class DatabaseHandler:
         self.cursor.execute(
             "CREATE TABLE IF NOT EXISTS "
             "participants(uuid TEXT PRIMARY KEY, "
-            "names TEXT, "
-            "active_name INTEGER, "
             "exchange_name TEXT, "
             "FOREIGN KEY (exchange_name) REFERENCES exchanges (name)"
+            ") STRICT",
+        )
+        self.cursor.execute(
+            "CREATE TABLE IF NOT EXISTS "
+            "participant_names(participant_id TEXT, "
+            "name TEXT, "
+            "active INTEGER, "
+            "exchange_name TEXT, "
+            "FOREIGN KEY (exchange_name) REFERENCES exchanges (name), "
+            "FOREIGN KEY (participant_id) REFERENCES participants (uuid), "
+            "UNIQUE (name, exchange_name)"
             ") STRICT",
         )
         self.cursor.execute(
@@ -95,9 +104,14 @@ class DatabaseHandler:
         for participant in participants:
             self.cursor.execute(
                 "INSERT INTO participants VALUES "
-                f"('{participant.uuid}', '{json.dumps(participant.names)}', "
-                f"{participant.active_name}, '{exchange.name}')",
+                f"('{participant.uuid}', '{exchange.name}')",
             )
+            for i, name in enumerate(participant.names):
+                self.cursor.execute(
+                    "INSERT INTO participant_names VALUES "
+                    f"('{participant.uuid}', '{name}', "
+                    f"{int(i == participant.active_name)}, '{exchange.name}')",
+                )
         for constraint in constraints:
             self.cursor.execute(
                 "INSERT INTO constraints VALUES "
@@ -120,21 +134,33 @@ class DatabaseHandler:
         Args:
             name (str): name of the exchange to get
 
+        Raises:
+            ValueError: If the exchange does not exist
+
         Returns:
             Exchange: The exchange object from the database
 
         """
         if not self.exchange_exists(name):
-            return None
+            raise ValueError(f"There is no exchange with name '{name}'!")
         result = self.cursor.execute(
             f"SELECT * FROM participants WHERE exchange_name = '{name}'",
         )
         participants = []
         for r in result.fetchall():
-            uuid, names, active_name, exchange = r
+            uuid, _exchange = r
+            result_participant_names = self.cursor.execute(
+                "SELECT name, active FROM participant_names "
+                f"WHERE participant_id = '{uuid}'",
+            )
+            participant_names = []
+            for participant_name, active in result_participant_names.fetchall():
+                participant_names.append(participant_name)
+                if active:
+                    active_name = len(participant_names) - 1
             participants.append(
                 Participant(
-                    names=json.loads(names),
+                    names=participant_names,
                     active_name=active_name,
                     uuid=uuid,
                 ),
@@ -157,3 +183,68 @@ class DatabaseHandler:
             pairing.append(Match(giver_uuid, giftee_uuid))
 
         return Exchange(exchange_name, participants, constraints, pairing)
+
+    def get_participant(self, participant_id: uuid4) -> Participant:
+        """Get participant by their uuid.
+
+        Args:
+            participant_id (uuid4): Id of the participant
+
+        Raises:
+            ValueError: If there is no participant with that id
+
+        Returns:
+            Participant: The participant with the id
+
+        """
+        result_participant_names = self.cursor.execute(
+            "SELECT name, active FROM participant_names "
+            f"WHERE participant_id = '{participant_id}'",
+        )
+        participant_names = []
+        for participant_name, active in result_participant_names.fetchall():
+            participant_names.append(participant_name)
+            if active:
+                active_name = len(participant_names) - 1
+        if len(participant_names) == 0:
+            raise ValueError(f"There is no participant with id '{participant_id}'!")
+        return Participant(
+            names=participant_names,
+            active_name=active_name,
+            uuid=participant_id,
+        )
+
+    def get_giftee_for_giver(self, exchange_name: str, giver_name: str) -> Participant:
+        """Get the participant a given participant will get a gift for.
+
+        Args:
+            exchange_name (str): name of the exchange to search in
+            giver_name (str): name of the giver
+
+        Raises:
+            ValueError: If the exchange does not exist
+            ValueError: If there is no participant with the given name in the exchange
+
+        Returns:
+            Participant: Participant to get a gift for (giftee)
+
+        """
+        if not self.exchange_exists(exchange_name):
+            raise ValueError(f"There is no exchange with name '{exchange_name}'!")
+        result = self.cursor.execute(
+            "SELECT m.giftee_id "
+            "FROM matches AS m "
+            "JOIN participants as p "
+            "ON p.uuid = m.giver_id "
+            "JOIN participant_names as n "
+            "ON p.uuid = n.participant_id "
+            f"WHERE n.name = '{giver_name}' "
+            f"AND p.exchange_name = '{exchange_name}'",
+        )
+        giftee_id = result.fetchone()[0]
+        if not giftee_id:
+            raise ValueError(
+                f"There is no participant with name '{giver_name}' "
+                f"in exchange '{exchange_name}'!",
+            )
+        return self.get_participant(giftee_id)
