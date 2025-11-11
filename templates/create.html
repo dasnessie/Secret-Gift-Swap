@@ -5,16 +5,41 @@
     <h2>{{ _('Create new gift exchange') }}</h2>
     <p>{{ _('There is no gift exchange with this name yet. You can create a new gift exchange here.') }}</p>
 
-    <form id="participant-form" aria-label="{{ _('Add participants') }}" action="/{{ exchangeName }}/create" method="POST">
-
-        <ul id="participants">
-            <li>
-                <input type="text" name="participant" class="participant"/>
-                <button type="button" class="delete-participant">{{ _('Delete') }}</button>
-            </li>
-        </ul>
-        <button type="button" id="add-participant">{{ _('Add participant') }}</button>
-
+    <form id="participant-form" action="/{{ exchangeName }}/create" method="POST">
+        <fieldset id="participants" aria-label="{{ _('Add participants') }}">
+            <h3>{{ _('Participants') }}</h3>
+            <ul id="participant-list">
+                <li>
+                    <input type="text" name="participant" class="participant"/>
+                    <button type="button" class="delete-participant">{{ _('Delete') }}</button>
+                </li>
+            </ul>
+            <button type="button" id="add-participant">{{ _('Add participant') }}</button>
+            <button type="button" id="next-button">{{ _('Next') }}</button>
+        </fieldset>
+        <fieldset id="constraints" hidden>
+            <h3>{{ _('Constraints') }}</h3>
+            <ul id="constraint-list">
+                <li>
+                    <select class="giver">
+                        <option value="" disabled selected>{{ _('Select participant…') }}</option>
+                    </select>
+                    to
+                    <select class="giftee">
+                        <option value="" disabled selected>{{ _('Select participant…') }}</option>
+                    </select>
+                    <select class="probability-level">
+                        <option value="" disabled selected>{{ _('Select constraint level…') }}</option>
+                        <option value="never">{{ _('Never match') }}</option>
+                        <option value="1_past_exchange">{{ _('Did match last exchange') }}</option>
+                        <option value="2_past_exchange">{{ _('Did match two exchanges ago') }}</option>
+                        <option value="3_past_exchange">{{ _('Did match three exchanges ago') }}</option>
+                    </select>
+                    <button type="button" class="delete-constraint">{{ _('Delete') }}</button>
+                </li>
+            </ul>
+            <button type="button" id="add-constraint">{{ _('Add constraint') }}</button>
+        </fieldset>
         <button type="submit">{{ _('Generate matching!') }}</button>
     </form>
 

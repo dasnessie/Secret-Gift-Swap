@@ -182,7 +182,7 @@ class DatabaseHandler:
             exchange_name, giver_uuid, giftee_uuid = r
             pairing.append(Match(giver_uuid, giftee_uuid))
 
-        return Exchange(exchange_name, participants, constraints, pairing)
+        return Exchange(name, participants, constraints, pairing)
 
     def get_participant(self, participant_id: uuid4) -> Participant:
         """Get participant by their uuid.
