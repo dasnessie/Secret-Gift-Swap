@@ -7,16 +7,22 @@
 
     <form id="participant-form" aria-label="{{ _('Add participants') }}" action="/{{ exchangeName }}/create" method="POST">
         <label for="name-input">{{ _('Name:') }}</label>
-        <input type="text" id="name-input" name="name">
 
-        <section aria-labelledby="participant-list-heading">
-            <h2 id="participant-list-heading">{{ _('Current participants') }}</h2>
-            <ul id="participant-list">
-                <li>Alice</li>
-                <li>Bob</li>
-                <li>Carlos</li>
-            </ul>
-        </section>
+        <ul id="participants">
+            <li><input type="text" name="participant" /></li>
+        </ul>
+        <button type="button" id="add-participant">Add participant</button>
+
         <button type="submit">{{ _('Generate matching!') }}</button>
     </form>
+
+    <script>
+    document.getElementById('add-participant').addEventListener('click', () => {
+        const participants = document.getElementById('participants');
+        const newParticipantLine = participants.lastElementChild.cloneNode(true);
+        console.log(newParticipantLine)
+        newParticipantLine.getElementsByTagName('input')[0].value = '';
+        participants.appendChild(newParticipantLine);
+    });
+    </script>
 {% endblock %}

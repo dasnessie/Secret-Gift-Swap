@@ -69,9 +69,7 @@ def view_create_exchange(exchange_name):
 @app.route("/<exchange_name>/create", methods=["POST"])
 def create_exchange(exchange_name):
     participants = [
-        Participant(["Alice", "Ali"], 1),
-        Participant("Bob"),
-        Participant("Carlos"),
+        Participant(participant) for participant in request.form.getlist("participant")
     ]
     pairing = get_pairing_with_probabilities(participants)
     exchange = Exchange(exchange_name, participants, [], pairing)
