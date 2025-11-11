@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-11-10 19:13+0100\n"
+"POT-Creation-Date: 2025-11-11 16:02+0100\n"
 "PO-Revision-Date: 2025-05-05 20:56+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: de\n"
@@ -35,8 +35,9 @@ msgid ""
 "There is no gift exchange with this name yet. You can create a new gift "
 "exchange here."
 msgstr ""
-"Es gibt noch keine Auslosung mit dem eingegebenen Namen. Hier kannst du "
-"eine neue Auslosung anlegen."
+"Es gibt noch keine Auslosung mit "
+"dem eingegebenen Namen. Hier kannst du"
+" eine neue Auslosung anlegen."
 
 #: templates/create.html:8
 msgid "Add participants"
@@ -47,10 +48,14 @@ msgid "Name:"
 msgstr "Name:"
 
 #: templates/create.html:13
-msgid "Current participants"
-msgstr "Aktuelle Teilnehmende"
+msgid "Delete"
+msgstr "Löschen"
 
-#: templates/create.html:20
+#: templates/create.html:16
+msgid "Add participant"
+msgstr "Teilnehmer hinzufügen"
+
+#: templates/create.html:18
 msgid "Generate matching!"
 msgstr "Auslosen!"
 

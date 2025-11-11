@@ -6,11 +6,8 @@ from slugify import slugify
 
 from databaseHandler import DatabaseHandler
 from exchange import Exchange
-from match import get_giftee_for_giver
 from participant import (
     Participant,
-    get_participant_by_id,
-    get_single_participant_by_name,
 )
 from utils import get_pairing_with_probabilities
 

@@ -6,23 +6,17 @@
     <p>{{ _('There is no gift exchange with this name yet. You can create a new gift exchange here.') }}</p>
 
     <form id="participant-form" aria-label="{{ _('Add participants') }}" action="/{{ exchangeName }}/create" method="POST">
-        <label for="name-input">{{ _('Name:') }}</label>
 
         <ul id="participants">
-            <li><input type="text" name="participant" /></li>
+            <li>
+                <input type="text" name="participant" />
+                <button type="button" class="delete-participant">{{ _('Delete') }}</button>
+            </li>
         </ul>
-        <button type="button" id="add-participant">Add participant</button>
+        <button type="button" id="add-participant">{{ _('Add participant') }}</button>
 
         <button type="submit">{{ _('Generate matching!') }}</button>
     </form>
 
-    <script>
-    document.getElementById('add-participant').addEventListener('click', () => {
-        const participants = document.getElementById('participants');
-        const newParticipantLine = participants.lastElementChild.cloneNode(true);
-        console.log(newParticipantLine)
-        newParticipantLine.getElementsByTagName('input')[0].value = '';
-        participants.appendChild(newParticipantLine);
-    });
-    </script>
+    <script src="/static/create.js"></script>
 {% endblock %}
