@@ -81,7 +81,7 @@ class DatabaseHandler:
             bool: Whether or not the exchange exists
 
         """
-        res = self.cursor.execute(f"SELECT 1 FROM exchanges WHERE name = '{name}'")
+        res = self.cursor.execute("SELECT 1 FROM exchanges WHERE name = ?", (name,))
         return res.fetchone() is not None
 
     def create_exchange(
@@ -100,28 +100,43 @@ class DatabaseHandler:
             pairing (list[Match]): The pairing to create
 
         """
-        self.cursor.execute(f"INSERT INTO exchanges VALUES ('{exchange.name}')")
+        self.cursor.execute("INSERT INTO exchanges VALUES (?)", (exchange.name,))
         for participant in participants:
             self.cursor.execute(
-                "INSERT INTO participants VALUES "
-                f"('{participant.uuid}', '{exchange.name}')",
+                "INSERT INTO participants VALUES (?, ?)",
+                (
+                    str(participant.uuid),
+                    exchange.name,
+                ),
             )
             for i, name in enumerate(participant.names):
                 self.cursor.execute(
-                    "INSERT INTO participant_names VALUES "
-                    f"('{participant.uuid}', '{name}', "
-                    f"{int(i == participant.active_name)}, '{exchange.name}')",
+                    "INSERT INTO participant_names VALUES (?, ?, ?, ?)",
+                    (
+                        str(participant.uuid),
+                        name,
+                        int(i == participant.active_name),
+                        exchange.name,
+                    ),
                 )
         for constraint in constraints:
             self.cursor.execute(
-                "INSERT INTO constraints VALUES "
-                f"('{constraint.giver_id}', '{constraint.giftee_id}', "
-                f"'{exchange.name}', '{constraint.probability_level}')",
+                "INSERT INTO constraints VALUES (?, ?, ?, ?)",
+                (
+                    str(constraint.giver_id),
+                    str(constraint.giftee_id),
+                    exchange.name,
+                    constraint.probability_level,
+                ),
             )
         for match in pairing:
             self.cursor.execute(
-                "INSERT INTO matches VALUES "
-                f"('{exchange.name}', '{match.giver_id}', '{match.giftee_id}')",
+                "INSERT INTO matches VALUES (?, ?, ?)",
+                (
+                    exchange.name,
+                    str(match.giver_id),
+                    str(match.giftee_id),
+                ),
             )
         self.connection.commit()
 
@@ -144,14 +159,15 @@ class DatabaseHandler:
         if not self.exchange_exists(name):
             raise ValueError(f"There is no exchange with name '{name}'!")
         result = self.cursor.execute(
-            f"SELECT * FROM participants WHERE exchange_name = '{name}'",
+            "SELECT * FROM participants WHERE exchange_name = ?",
+            (name,),
         )
         participants = []
         for r in result.fetchall():
             uuid, _exchange = r
             result_participant_names = self.cursor.execute(
-                "SELECT name, active FROM participant_names "
-                f"WHERE participant_id = '{uuid}'",
+                "SELECT name, active FROM participant_names WHERE participant_id = ?",
+                (str(uuid),),
             )
             participant_names = []
             for participant_name, active in result_participant_names.fetchall():
@@ -167,7 +183,8 @@ class DatabaseHandler:
             )
 
         result = self.cursor.execute(
-            f"SELECT * FROM constraints WHERE exchange_name = '{name}'",
+            "SELECT * FROM constraints WHERE exchange_name = ?",
+            (name,),
         )
         constraints = []
         for r in result.fetchall():
@@ -175,7 +192,8 @@ class DatabaseHandler:
             constraints.append(Constraint(giver_id, giftee_id, probability_level))
 
         result = self.cursor.execute(
-            f"SELECT * FROM matches WHERE exchange_name = '{name}'",
+            "SELECT * FROM matches WHERE exchange_name = ?",
+            (name,),
         )
         pairing = []
         for r in result.fetchall():
@@ -198,8 +216,8 @@ class DatabaseHandler:
 
         """
         result_participant_names = self.cursor.execute(
-            "SELECT name, active FROM participant_names "
-            f"WHERE participant_id = '{participant_id}'",
+            "SELECT name, active FROM participant_names WHERE participant_id = ?",
+            (str(participant_id),),
         )
         participant_names = []
         for participant_name, active in result_participant_names.fetchall():
@@ -238,8 +256,12 @@ class DatabaseHandler:
             "ON p.uuid = m.giver_id "
             "JOIN participant_names as n "
             "ON p.uuid = n.participant_id "
-            f"WHERE n.name = '{giver_name}' "
-            f"AND p.exchange_name = '{exchange_name}'",
+            "WHERE n.name = ? "
+            "AND p.exchange_name = ?",
+            (
+                giver_name,
+                exchange_name,
+            ),
         )
         giftee_id = result.fetchone()[0]
         if not giftee_id:
