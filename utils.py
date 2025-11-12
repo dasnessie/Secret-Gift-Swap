@@ -22,19 +22,20 @@ def _generate_pairing(participants: list[Participant]) -> list[Match]:
         list[Match]: Matching of participants
 
     """
-    shuffled_participants = deepcopy(participants)
-    shuffle(shuffled_participants)
-    result = []
-    for i in range(len(shuffled_participants)):
-        result.append(
-            Match(
-                giver_id=shuffled_participants[i].uuid,
-                giftee_id=shuffled_participants[
-                    (i + 1) % len(shuffled_participants)
-                ].uuid,
-            ),
-        )
-    return result
+    shuffled_givers = deepcopy(participants)
+    shuffled_giftees = deepcopy(participants)
+    shuffle(shuffled_givers)
+    no_self_gifts = False
+    while not no_self_gifts:
+        shuffle(shuffled_giftees)
+        no_self_gifts = True
+        for giver, giftee in zip(shuffled_givers, shuffled_giftees):
+            if giver == giftee:
+                no_self_gifts = False
+    return [
+        Match(giver.uuid, giftee.uuid)
+        for giver, giftee in zip(shuffled_givers, shuffled_giftees)
+    ]
 
 
 def _accept_pairing(

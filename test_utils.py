@@ -66,6 +66,22 @@ def test_get_pairing_with_probabilities():
         get_pairing_with_probabilities(
             participants=[pa, pb, pc, pd],
             pairs_with_probabilities=[
+                Constraint(pa.uuid, pb.uuid, "never"),
+                Constraint(pa.uuid, pc.uuid, "never"),
+            ],
+        ),
+        key=lambda m: m.giver_id,
+    ) == [
+        Match(pa.uuid, pd.uuid),
+        Match(pb.uuid, pc.uuid),
+        Match(pc.uuid, pb.uuid),
+        Match(pd.uuid, pa.uuid),
+    ]
+
+    assert sorted(
+        get_pairing_with_probabilities(
+            participants=[pa, pb, pc, pd],
+            pairs_with_probabilities=[
                 Constraint(pa.uuid, pb.uuid, "1_past_exchange"),
                 Constraint(pa.uuid, pc.uuid, "1_past_exchange"),
                 Constraint(pb.uuid, pc.uuid, "1_past_exchange"),
@@ -98,10 +114,10 @@ def test_get_pairing_with_probabilities():
         ),
         key=lambda m: m.giver_id,
     ) == [
-        Match(pa.uuid, pc.uuid),
+        Match(pa.uuid, pb.uuid),
         Match(pb.uuid, pa.uuid),
         Match(pc.uuid, pd.uuid),
-        Match(pd.uuid, pb.uuid),
+        Match(pd.uuid, pc.uuid),
     ]
 
     with pytest.raises(ValueError):
@@ -114,7 +130,7 @@ def test_get_pairing_with_probabilities():
             ],
         )
 
-    random.seed(6851)
+    random.seed(6951)
 
     with pytest.warns(
         UserWarning,
@@ -133,8 +149,8 @@ def test_get_pairing_with_probabilities():
             ),
             key=lambda m: m.giver_id,
         ) == [
-            Match(pa.uuid, pc.uuid),
+            Match(pa.uuid, pd.uuid),
             Match(pb.uuid, pa.uuid),
-            Match(pc.uuid, pd.uuid),
-            Match(pd.uuid, pb.uuid),
+            Match(pc.uuid, pb.uuid),
+            Match(pd.uuid, pc.uuid),
         ]

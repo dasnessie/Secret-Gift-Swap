@@ -68,7 +68,7 @@ class Participant:
 
     def __eq__(self, value: any):
         if isinstance(value, Participant):
-            return self.id == value.id
+            return self.uuid == value.uuid
         return NotImplemented
 
 

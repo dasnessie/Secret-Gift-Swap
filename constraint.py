@@ -74,6 +74,8 @@ def get_restricted_pairs(
     result = []
     for c in constraints:
         result.append((c.giver_id, c.giftee_id))
+        if c.probability_level == "never":
+            result.append((c.giftee_id, c.giver_id))
     return result
 
 
