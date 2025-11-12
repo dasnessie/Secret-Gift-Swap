@@ -1,6 +1,7 @@
 import urllib.parse
+from sqlite3 import IntegrityError
 
-from flask import Flask, g, redirect, render_template, request
+from flask import Flask, Response, g, make_response, redirect, render_template, request
 from flask_babel import Babel, _
 from slugify import slugify
 
@@ -61,35 +62,54 @@ def route_to_exchange():
 
 @app.route("/<exchange_name>/create", methods=["GET"])
 def view_create_exchange(exchange_name):
-    return render_template("create.html", exchangeName=exchange_name)
+    db = get_db()
+    if db.exchange_exists(exchange_name):
+        return redirect(f"/{exchange_name}")
+    response = make_response(render_template("create.html", exchangeName=exchange_name))
+    response.headers["Cache-Control"] = "no-store, no-cache, must-revalidate, max-age=0"
+    response.headers["Pragma"] = "no-cache"
+    response.headers["Expires"] = "0"
+    return response
 
 
 @app.route("/<exchange_name>/create", methods=["POST"])
 def create_exchange(exchange_name):
-    participants = [
-        Participant(participant) for participant in request.form.getlist("participant")
-    ]
+    participant_names = [p for p in request.form.getlist("participant") if p]
+    if len(participant_names) != len(set(participant_names)):
+        return Response(status=422)
+    participants = [Participant(participant) for participant in participant_names]
     name_id_mapping = {p.names[p.active_name]: p.uuid for p in participants}
     constraint_givers = request.form.getlist("giver")
     constraint_giftees = request.form.getlist("giftee")
     constraint_probabilities = request.form.getlist("probability-level")
     constraints = []
-    for giver, giftee, probability in zip(
-        constraint_givers,
-        constraint_giftees,
-        constraint_probabilities,
-    ):
-        constraints.append(
-            Constraint(
-                name_id_mapping[giver],
-                name_id_mapping[giftee],
-                probability,
-            ),
-        )
-    pairing = get_pairing_with_probabilities(participants, constraints)
+    try:
+        for giver, giftee, probability in zip(
+            constraint_givers,
+            constraint_giftees,
+            constraint_probabilities,
+        ):
+            constraints.append(
+                Constraint(
+                    name_id_mapping[giver],
+                    name_id_mapping[giftee],
+                    probability,
+                ),
+            )
+    except KeyError:
+        return Response(status=422)
+    try:
+        pairing = get_pairing_with_probabilities(participants, constraints)
+    except ValueError:
+        return Response(status=422)
     exchange = Exchange(exchange_name, participants, constraints, pairing)
     db = get_db()
-    db.create_exchange(exchange, participants, constraints, pairing)
+    try:
+        db.create_exchange(exchange, participants, constraints, pairing)
+    except IntegrityError as e:
+        if db.exchange_exists(exchange_name):
+            return Response(status=409)
+        raise e
     return redirect(f"/{exchange_name}")
 
 

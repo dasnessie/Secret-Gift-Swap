@@ -58,7 +58,7 @@ class Participant:
         return self.names[self.active_name]
 
     def __hash__(self):
-        return self.id.__hash__()
+        return self.uuid.__hash__()
 
     def __str__(self):
         return self.get_name()
