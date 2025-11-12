@@ -4,6 +4,7 @@ from flask import Flask, g, redirect, render_template, request
 from flask_babel import Babel, _
 from slugify import slugify
 
+from constraint import Constraint
 from databaseHandler import DatabaseHandler
 from exchange import Exchange
 from participant import (
@@ -68,10 +69,27 @@ def create_exchange(exchange_name):
     participants = [
         Participant(participant) for participant in request.form.getlist("participant")
     ]
-    pairing = get_pairing_with_probabilities(participants)
-    exchange = Exchange(exchange_name, participants, [], pairing)
+    name_id_mapping = {p.names[p.active_name]: p.uuid for p in participants}
+    constraint_givers = request.form.getlist("giver")
+    constraint_giftees = request.form.getlist("giftee")
+    constraint_probabilities = request.form.getlist("probability-level")
+    constraints = []
+    for giver, giftee, probability in zip(
+        constraint_givers,
+        constraint_giftees,
+        constraint_probabilities,
+    ):
+        constraints.append(
+            Constraint(
+                name_id_mapping[giver],
+                name_id_mapping[giftee],
+                probability,
+            ),
+        )
+    pairing = get_pairing_with_probabilities(participants, constraints)
+    exchange = Exchange(exchange_name, participants, constraints, pairing)
     db = get_db()
-    db.create_exchange(exchange, participants, [], pairing)
+    db.create_exchange(exchange, participants, constraints, pairing)
     return redirect(f"/{exchange_name}")
 
 

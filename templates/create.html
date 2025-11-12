@@ -7,7 +7,7 @@
 
     <form id="participant-form" action="/{{ exchangeName }}/create" method="POST">
         <fieldset id="participants" aria-label="{{ _('Add participants') }}">
-            <h3>{{ _('Participants') }}</h3>
+            <legend>{{ _('Participants') }}</legend>
             <ul id="participant-list">
                 <li>
                     <input type="text" name="participant" class="participant"/>
@@ -18,17 +18,17 @@
             <button type="button" id="next-button">{{ _('Next') }}</button>
         </fieldset>
         <fieldset id="constraints" hidden>
-            <h3>{{ _('Constraints') }}</h3>
+            <legend>{{ _('Constraints') }}</legend>
             <ul id="constraint-list">
                 <li>
-                    <select class="giver">
+                    <select class="giver" name="giver">
                         <option value="" disabled selected>{{ _('Select participant…') }}</option>
                     </select>
                     to
-                    <select class="giftee">
+                    <select class="giftee" name="giftee">
                         <option value="" disabled selected>{{ _('Select participant…') }}</option>
                     </select>
-                    <select class="probability-level">
+                    <select class="probability-level" name="probability-level">
                         <option value="" disabled selected>{{ _('Select constraint level…') }}</option>
                         <option value="never">{{ _('Never match') }}</option>
                         <option value="1_past_exchange">{{ _('Did match last exchange') }}</option>
