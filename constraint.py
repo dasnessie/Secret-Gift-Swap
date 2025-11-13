@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Literal
 
 if TYPE_CHECKING:
-    from uuid import uuid4
+    from uuid import UUID
 
 matching_probabilities = {
     "never": 0,
@@ -19,8 +19,8 @@ class Constraint:
 
     def __init__(
         self,
-        giver_id: uuid4,
-        giftee_id: uuid4,
+        giver_id: UUID,
+        giftee_id: UUID,
         probability_level: Literal[
             "never",
             "1_past_exchange",
@@ -31,8 +31,8 @@ class Constraint:
         """One single constraint.
 
         Args:
-            giver_id (uuid4): Person that would be giving the gift
-            giftee_id (uuid4): Person that would be receiving the gift
+            giver_id (UUID): Person that would be giving the gift
+            giftee_id (UUID): Person that would be receiving the gift
             probability_level (Literal): How much to avoid this pairing.
                 Never: Never match these people in either direction;
                 [1/2/3]_past_exchange: this pairing was used 1/2/3 exchanges ago.
@@ -60,14 +60,14 @@ class Constraint:
 
 def get_restricted_pairs(
     constraints: list[Constraint],
-) -> list[tuple[uuid4, uuid4]]:
+) -> list[tuple[UUID, UUID]]:
     """Get all pairs restricted by the constraints.
 
     Args:
         constraints (list[Constraint]): List of constraints
 
     Returns:
-        list[tuple[uuid4, uuid4]]: list of restricted pairings.
+        list[tuple[UUID, UUID]]: list of restricted pairings.
         First entry is the giver, second the giftee.
 
     """
@@ -81,15 +81,15 @@ def get_restricted_pairs(
 
 def get_probability_from_constraints(
     constraints: list[Constraint],
-    giver_id: uuid4,
-    giftee_id: uuid4,
+    giver_id: UUID,
+    giftee_id: UUID,
 ) -> float:
     """Find matching probability for a given pair in a list of constraints.
 
     Args:
         constraints (list[Constraint]): List of constraints to search
-        giver_id (uuid4): Participant giving the gift
-        giftee_id (uuid4): Participant receiving the gift
+        giver_id (UUID): Participant giving the gift
+        giftee_id (UUID): Participant receiving the gift
 
     Returns:
         float: Intended probability of matching

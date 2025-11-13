@@ -1,5 +1,5 @@
 import sqlite3
-from uuid import uuid4
+from uuid import UUID
 
 from constraint import Constraint
 from exchange import Exchange
@@ -178,7 +178,7 @@ class DatabaseHandler:
                 Participant(
                     names=participant_names,
                     active_name=active_name,
-                    uuid=uuid,
+                    uuid=UUID(uuid),
                 ),
             )
 
@@ -189,7 +189,13 @@ class DatabaseHandler:
         constraints = []
         for r in result.fetchall():
             giver_id, giftee_id, exchange_name, probability_level = r
-            constraints.append(Constraint(giver_id, giftee_id, probability_level))
+            constraints.append(
+                Constraint(
+                    UUID(giver_id),
+                    UUID(giftee_id),
+                    probability_level,
+                ),
+            )
 
         result = self.cursor.execute(
             "SELECT * FROM matches WHERE exchange_name = ?",
@@ -198,15 +204,15 @@ class DatabaseHandler:
         pairing = []
         for r in result.fetchall():
             exchange_name, giver_uuid, giftee_uuid = r
-            pairing.append(Match(giver_uuid, giftee_uuid))
+            pairing.append(Match(UUID(giver_uuid), UUID(giftee_uuid)))
 
         return Exchange(name, participants, constraints, pairing)
 
-    def get_participant(self, participant_id: uuid4) -> Participant:
+    def get_participant(self, participant_id: UUID) -> Participant:
         """Get participant by their uuid.
 
         Args:
-            participant_id (uuid4): Id of the participant
+            participant_id (UUID): Id of the participant
 
         Raises:
             ValueError: If there is no participant with that id
@@ -229,7 +235,7 @@ class DatabaseHandler:
         return Participant(
             names=participant_names,
             active_name=active_name,
-            uuid=participant_id,
+            uuid=UUID(participant_id),
         )
 
     def get_giftee_for_giver(self, exchange_name: str, giver_name: str) -> Participant:

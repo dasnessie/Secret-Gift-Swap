@@ -11,14 +11,14 @@ class Participant:
         self,
         names: str | list[str],
         active_name: int = 0,
-        uuid: uuid4 = None,
+        uuid: UUID = None,
     ):
         """A person participating in a gift exchange.
 
         Args:
             names (str | list[str]): name or list of names for the person.
             active_name (int, optional): name to use for the person. Defaults to 0.
-            uuid (uuid4): uuid to use for participant, if one already exists.
+            uuid (UUID): uuid to use for participant, if one already exists.
                 Defaults to None.
 
         """

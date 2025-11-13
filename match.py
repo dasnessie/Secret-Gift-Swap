@@ -3,18 +3,18 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from uuid import uuid4
+    from uuid import UUID
 
 
 class Match:
     """Match of one giver to one giftee."""
 
-    def __init__(self, giver_id: uuid4, giftee_id: uuid4):
+    def __init__(self, giver_id: UUID, giftee_id: UUID):
         """Match one participant (giver) to another (giftee).
 
         Args:
-            giver_id (uuid4): Participant giving the gift
-            giftee_id (uuid4): Participant receiving the gift
+            giver_id (UUID): Participant giving the gift
+            giftee_id (UUID): Participant receiving the gift
 
         """
         self.giver_id = giver_id
@@ -34,16 +34,16 @@ class Match:
 
 def get_giftee_for_giver(
     matching: list[Match],
-    giver_id: uuid4,
-) -> uuid4 | None:
+    giver_id: UUID,
+) -> UUID | None:
     """Given a giver, get their giftee from a list of matches.
 
     Args:
         matching (list[Match]): Pairing to use
-        giver_id (uuid4): Participant to get giftee for
+        giver_id (UUID): Participant to get giftee for
 
     Returns:
-        uuid4|None: Giftee
+        UUID|None: Giftee
 
     """
     for m in matching:
