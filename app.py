@@ -1,7 +1,16 @@
 import urllib.parse
 from sqlite3 import IntegrityError
 
-from flask import Flask, Response, g, make_response, redirect, render_template, request
+from flask import (
+    Flask,
+    Response,
+    g,
+    jsonify,
+    make_response,
+    redirect,
+    render_template,
+    request,
+)
 from flask_babel import Babel, _
 from slugify import slugify
 
@@ -58,6 +67,13 @@ def route_to_exchange():
         return redirect(f"/{exchange_name}/")
     # else create exchange
     return redirect(f"/{exchange_name}/create/")
+
+
+@app.route("/check_name")
+def check_name():
+    name = request.args.get("name", "").strip()
+    db = get_db()
+    return jsonify({"nameAvailable": not db.exchange_exists(name)})
 
 
 @app.route("/data-disclaimer/", methods=["GET"])
