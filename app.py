@@ -55,9 +55,9 @@ def route_to_exchange():
     db = get_db()
     # if exchange exists
     if db.exchange_exists(exchange_name):
-        return redirect(f"/{exchange_name}")
+        return redirect(f"/{exchange_name}/")
     # else create exchange
-    return redirect(f"/{exchange_name}/create")
+    return redirect(f"/{exchange_name}/create/")
 
 
 @app.route("/data-disclaimer/", methods=["GET"])
@@ -65,11 +65,11 @@ def data_disclaimer():
     return render_template("data-disclaimer.html")
 
 
-@app.route("/<exchange_name>/create", methods=["GET"])
+@app.route("/<exchange_name>/create/", methods=["GET"])
 def view_create_exchange(exchange_name):
     db = get_db()
     if db.exchange_exists(exchange_name):
-        return redirect(f"/{exchange_name}")
+        return redirect(f"/{exchange_name}/")
     response = make_response(render_template("create.html", exchangeName=exchange_name))
     response.headers["Cache-Control"] = "no-store, no-cache, must-revalidate, max-age=0"
     response.headers["Pragma"] = "no-cache"
@@ -77,7 +77,7 @@ def view_create_exchange(exchange_name):
     return response
 
 
-@app.route("/<exchange_name>/create", methods=["POST"])
+@app.route("/<exchange_name>/create/", methods=["POST"])
 def create_exchange(exchange_name):
     participant_names = [p for p in request.form.getlist("participant") if p]
     if len(participant_names) != len(set(participant_names)):
@@ -115,12 +115,14 @@ def create_exchange(exchange_name):
         if db.exchange_exists(exchange_name):
             return Response(status=409)
         raise e
-    return redirect(f"/{exchange_name}")
+    return redirect(f"/{exchange_name}/")
 
 
-@app.route("/<exchange_name>")
+@app.route("/<exchange_name>/")
 def view_exchange(exchange_name):
     db = get_db()
+    if not db.exchange_exists(exchange_name):
+        return redirect(f"/{exchange_name}/create/")
     exchange = db.get_exchange(exchange_name)
     return render_template(
         "exchange-overview.html",
@@ -129,7 +131,7 @@ def view_exchange(exchange_name):
     )
 
 
-@app.route("/<exchange_name>/results/<participant_name>")
+@app.route("/<exchange_name>/results/<participant_name>/")
 def view_exchange_participant_result(exchange_name, participant_name):
     db = get_db()
     giftee = db.get_giftee_for_giver(exchange_name, participant_name)
