@@ -1,7 +1,38 @@
+function validateUserNames(e) {
+  const nameInputs = Array.from(
+    document.querySelectorAll("#participant-list input.participant")
+  );
+  const names = nameInputs
+    .map((input) => input.value)
+    .filter((value) => value !== "");
+
+  const nameCounts = {};
+  for (value of names) {
+    nameCounts[value] = (nameCounts[value] || 0) + 1;
+  }
+  const duplicateNames = Object.keys(nameCounts).filter(
+    (key) => nameCounts[key] > 1
+  );
+  for (const input of nameInputs) {
+    if (duplicateNames.includes(input.value)) {
+      input.setCustomValidity("Can't have the same name twice!");
+    } else {
+      input.setCustomValidity("");
+    }
+  }
+}
+
+document.getElementsByName("participant")[0].addEventListener("blur", (e) => {
+  validateUserNames(e);
+});
+
 function addParticipantField() {
   const participants = document.getElementById("participant-list");
   const newParticipantLine = participants.lastElementChild.cloneNode(true);
   newParticipantLine.getElementsByTagName("input")[0].value = "";
+  newParticipantLine.firstElementChild.addEventListener("blur", (e) => {
+    validateUserNames(e);
+  });
   participants.appendChild(newParticipantLine);
   newParticipantLine.firstElementChild.focus();
 }
@@ -37,22 +68,27 @@ document.getElementById("participant-list").addEventListener("click", (e) => {
 });
 
 document.getElementById("next-button").addEventListener("click", () => {
-  const participants = document.getElementById("participant-list").children;
-  const giverSelect = document.getElementsByClassName("giver")[0];
-  const gifteeSelect = document.getElementsByClassName("giftee")[0];
-  for (const el of participants) {
-    const participantName = el.getElementsByTagName("input")[0].value;
-    if (participantName != "") {
-      const optionGiver = new Option(participantName, participantName);
-      giverSelect.appendChild(optionGiver);
-      const optionGiftee = new Option(participantName, participantName);
-      gifteeSelect.appendChild(optionGiftee);
+  const form = document.getElementById("participant-form");
+  if (form.checkValidity()) {
+    const participants = document.getElementById("participant-list").children;
+    const giverSelect = document.getElementsByClassName("giver")[0];
+    const gifteeSelect = document.getElementsByClassName("giftee")[0];
+    for (const el of participants) {
+      const participantName = el.getElementsByTagName("input")[0].value;
+      if (participantName != "") {
+        const optionGiver = new Option(participantName, participantName);
+        giverSelect.appendChild(optionGiver);
+        const optionGiftee = new Option(participantName, participantName);
+        gifteeSelect.appendChild(optionGiftee);
+      }
     }
+    giverSelect.value = "";
+    gifteeSelect.value = "";
+    document.getElementById("participants").disabled = true;
+    document.getElementById("constraints").hidden = false;
+  } else {
+    form.reportValidity();
   }
-  giverSelect.value = "";
-  gifteeSelect.value = "";
-  document.getElementById("participants").disabled = true;
-  document.getElementById("constraints").hidden = false;
 });
 
 document.getElementById("add-constraint").addEventListener("click", () => {
@@ -83,7 +119,7 @@ document.getElementById("constraint-list").addEventListener("click", (e) => {
 
 const form = document.getElementById("participant-form");
 form.addEventListener("submit", () => {
-  form.querySelectorAll("fieldset, input, select, textarea").forEach((el) => {
+  for (el of form.querySelectorAll("fieldset, input, select, textarea")) {
     el.disabled = false;
-  });
+  }
 });
