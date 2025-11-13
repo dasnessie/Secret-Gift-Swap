@@ -60,6 +60,11 @@ def route_to_exchange():
     return redirect(f"/{exchange_name}/create")
 
 
+@app.route("/data-disclaimer/", methods=["GET"])
+def data_disclaimer():
+    return render_template("data-disclaimer.html")
+
+
 @app.route("/<exchange_name>/create", methods=["GET"])
 def view_create_exchange(exchange_name):
     db = get_db()

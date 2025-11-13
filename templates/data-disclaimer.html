@@ -1,0 +1,19 @@
+<!doctype html>
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>{{ _('Data Disclaimer') }}</h2>
+    <p>{{ _("Please don't enter sensitive data on this page.") }}
+        {{ _("Think about using nicknames.") }}
+        {{ _("I can not and will not make any guarantees about the safety of your data here.") }}
+        {{ _("In fact, I will probably do shenanigans with it.") }}</p>
+    <p>{{ _("Shenanigans may include, but are not limited to:") }}</p>
+    <ul>
+        <li>{{ _("Read your data") }}</li>
+        <li>{{ _("Eat your data") }}</li>
+        <li>{{ _("Put you on santas naughty list") }}</li>
+        <li>{{ _("Trash it") }}</li>
+        <li>{{ _("Change it") }}</li>
+        <li>{{ _("Mail-upgrade it") }}</li>
+    </ul>
+{% endblock %}
