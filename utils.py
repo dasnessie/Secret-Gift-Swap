@@ -18,10 +18,15 @@ def _generate_pairing(participants: list[Participant]) -> list[Match]:
     Args:
         participants (list[Participant]): participants
 
+    Raises:
+        ValueError: If there are none or just one participant
+
     Returns:
         list[Match]: Matching of participants
 
     """
+    if len(participants) < 2:
+        raise ValueError("Can't generate a pairing for just one participant!")
     shuffled_givers = deepcopy(participants)
     shuffled_giftees = deepcopy(participants)
     shuffle(shuffled_givers)

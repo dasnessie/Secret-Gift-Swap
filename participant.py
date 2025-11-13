@@ -64,7 +64,10 @@ class Participant:
         return self.get_name()
 
     def __repr__(self):
-        return f"Participant(name={self.names}, active_name = {self.active_name})"
+        return (
+            f"Participant(names={self.names}, active_name = {self.active_name}, "
+            f"uuid={self.uuid})"
+        )
 
     def __eq__(self, value: any):
         if isinstance(value, Participant):

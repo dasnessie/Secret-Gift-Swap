@@ -77,16 +77,15 @@ def view_create_exchange(exchange_name):
     return response
 
 
-@app.route("/<exchange_name>/create/", methods=["POST"])
-def create_exchange(exchange_name):
-    participant_names = [p for p in request.form.getlist("participant") if p]
+def create_exchange(exchange_name, form):
+    participant_names = [p for p in form.getlist("participant") if p]
     if len(participant_names) != len(set(participant_names)):
         return Response(status=422)
     participants = [Participant(participant) for participant in participant_names]
     name_id_mapping = {p.names[p.active_name]: p.uuid for p in participants}
-    constraint_givers = request.form.getlist("giver")
-    constraint_giftees = request.form.getlist("giftee")
-    constraint_probabilities = request.form.getlist("probability-level")
+    constraint_givers = form.getlist("giver")
+    constraint_giftees = form.getlist("giftee")
+    constraint_probabilities = form.getlist("probability-level")
     constraints = []
     try:
         for giver, giftee, probability in zip(
@@ -113,9 +112,20 @@ def create_exchange(exchange_name):
         db.create_exchange(exchange, participants, constraints, pairing)
     except IntegrityError as e:
         if db.exchange_exists(exchange_name):
-            return Response(status=409)
+            return render_template("rename-exchange.html", form_data=form)
         raise e
     return redirect(f"/{exchange_name}/")
+
+
+@app.route("/<exchange_name>/create/", methods=["POST"])
+def route_create_exchange(exchange_name):
+    return create_exchange(exchange_name, request.form)
+
+
+@app.route("/rename_exchange/", methods=["POST"])
+def route_create_renamed_exchange():
+    exchange_name = request.form.getlist("exchange_name")[0]
+    return create_exchange(exchange_name, request.form)
 
 
 @app.route("/<exchange_name>/")
