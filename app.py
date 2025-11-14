@@ -33,6 +33,9 @@ app.config["BABEL_TRANSLATION_DIRECTORIES"] = "translations"
 app.config["BABEL_DEFAULT_LOCALE"] = "en"
 babel = Babel(app, locale_selector=get_locale)
 
+# Let me use zip in jinja
+app.jinja_env.globals.update(zip=zip)
+
 
 @app.context_processor
 def inject_gettext():
@@ -82,11 +85,18 @@ def data_disclaimer():
 
 
 @app.route("/<exchange_name>/create/", methods=["GET"])
-def view_create_exchange(exchange_name):
+def view_create_exchange(exchange_name, errorMessage=None, formData=None):
     db = get_db()
     if db.exchange_exists(exchange_name):
         return redirect(f"/{exchange_name}/")
-    response = make_response(render_template("create.html", exchangeName=exchange_name))
+    response = make_response(
+        render_template(
+            "create.html",
+            exchangeName=exchange_name,
+            errorMessage=errorMessage,
+            existingFormData=formData,
+        ),
+    )
     response.headers["Cache-Control"] = "no-store, no-cache, must-revalidate, max-age=0"
     response.headers["Pragma"] = "no-cache"
     response.headers["Expires"] = "0"
@@ -109,19 +119,28 @@ def create_exchange(exchange_name, form):
             constraint_giftees,
             constraint_probabilities,
         ):
-            constraints.append(
-                Constraint(
-                    name_id_mapping[giver],
-                    name_id_mapping[giftee],
-                    probability,
-                ),
-            )
+            if giver and giftee and probability:
+                constraints.append(
+                    Constraint(
+                        name_id_mapping[giver],
+                        name_id_mapping[giftee],
+                        probability,
+                    ),
+                )
     except KeyError:
         return Response(status=422)
     try:
         pairing = get_pairing_with_probabilities(participants, constraints)
     except ValueError:
-        return Response(status=422)
+        return view_create_exchange(
+            exchange_name,
+            errorMessage=(
+                "Could not create a valid exchange with this data. "
+                "Try removing some constraints "
+                "or adding some participants to fix this."
+            ),
+            formData=form,
+        )
     exchange = Exchange(exchange_name, participants, constraints, pairing)
     db = get_db()
     try:

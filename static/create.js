@@ -86,6 +86,7 @@ document.getElementById("next-button").addEventListener("click", () => {
     gifteeSelect.value = "";
     document.getElementById("participants").disabled = true;
     document.getElementById("constraints").hidden = false;
+    document.getElementById("constraints").disabled = false;
   } else {
     form.reportValidity();
   }

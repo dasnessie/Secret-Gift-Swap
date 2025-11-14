@@ -5,38 +5,127 @@
     <h2>{{ _('Create new gift exchange') }}</h2>
     <p>{{ _('There is no gift exchange with this name yet. You can create a new gift exchange here.') }}</p>
 
+    {% if errorMessage %}
+        <p class="exchange-creation-error"> {{ errorMessage }} </p>
+    {% endif %}
+
     <form id="participant-form" action="/{{ exchangeName }}/create" method="POST">
-        <fieldset id="participants" aria-label="{{ _('Add participants') }}">
+        <fieldset id="participants" aria-label="{{ _('Add participants') }}"
+            {% if existingFormData and existingFormData.getlist("giver") %}
+                disabled
+            {% endif %}
+        >
             <legend>{{ _('Participants') }}</legend>
             <ul id="participant-list">
-                <li>
-                    <input type="text" name="participant" class="participant"/>
-                    <button type="button" class="delete-participant">{{ _('Delete') }}</button>
-                </li>
+                {% if existingFormData and existingFormData.getlist("participant") %}
+                    {% for participant in existingFormData.getlist("participant") %}
+                        <li>
+                            <input type="text" name="participant" class="participant" value="{{ participant }}"/>
+                            <button type="button" class="delete-participant">{{ _('Delete') }}</button>
+                        </li>
+                    {% endfor %}
+                {% else %}
+                    <li>
+                        <input type="text" name="participant" class="participant"/>
+                        <button type="button" class="delete-participant">{{ _('Delete') }}</button>
+                    </li>
+                {% endif %}
             </ul>
             <button type="button" id="add-participant">{{ _('Add participant') }}</button>
             <button type="button" id="next-button">{{ _('Next') }}</button>
         </fieldset>
-        <fieldset id="constraints" hidden>
+        <fieldset id="constraints" 
+            {% if not (existingFormData and existingFormData.getlist("giver") and existingFormData.getlist("giftee") and existingFormData.getlist("probability-level")) %}
+            hidden disabled
+            {% endif %}
+        >
             <legend>{{ _('Constraints') }}</legend>
             <ul id="constraint-list">
-                <li>
-                    <select class="giver" name="giver">
-                        <option value="" disabled selected>{{ _('Select participant…') }}</option>
-                    </select>
-                    to
-                    <select class="giftee" name="giftee">
-                        <option value="" disabled selected>{{ _('Select participant…') }}</option>
-                    </select>
-                    <select class="probability-level" name="probability-level">
-                        <option value="" disabled selected>{{ _('Select constraint level…') }}</option>
-                        <option value="never">{{ _('Never match') }}</option>
-                        <option value="1_past_exchange">{{ _('Did match last exchange') }}</option>
-                        <option value="2_past_exchange">{{ _('Did match two exchanges ago') }}</option>
-                        <option value="3_past_exchange">{{ _('Did match three exchanges ago') }}</option>
-                    </select>
-                    <button type="button" class="delete-constraint">{{ _('Delete') }}</button>
-                </li>
+                {% if existingFormData and existingFormData.getlist("giver") and existingFormData.getlist("giftee") and existingFormData.getlist("probability-level") %}
+                    {% for giver, giftee, probability in zip(existingFormData.getlist("giver"), existingFormData.getlist("giftee"), existingFormData.getlist("probability-level"))%}
+                        <li>
+                            <select required class="giver" name="giver">
+                                <option value="" 
+                                    {% if not giver %}
+                                        selected
+                                    {% endif%}
+                                >{{ _('Select participant…') }}</option>
+                                {% if existingFormData.getlist("participant") %}
+                                    {% for participant in existingFormData.getlist("participant") %}
+                                        <option value="{{ participant }}"
+                                            {% if participant == giver %}
+                                                selected
+                                            {% endif %}
+                                        >{{ participant }}</option>
+                                    {% endfor %}
+                                {% endif %}
+                            </select>
+                            to
+                            <select required class="giftee" name="giftee">
+                                <option value="" 
+                                    {% if not giftee %}
+                                        selected
+                                    {% endif%}
+                                >{{ _('Select participant…') }}</option>
+                                {% if existingFormData.getlist("participant") %}
+                                    {% for participant in existingFormData.getlist("participant") %}
+                                        <option value="{{ participant }}"
+                                            {% if participant == giftee %}
+                                                selected
+                                            {% endif %}
+                                        >{{ participant }}</option>
+                                    {% endfor %}
+                                {% endif %}
+                            </select>
+                            <select required class="probability-level" name="probability-level">
+                                <option value="" 
+                                    {% if probability == "" %}
+                                        selected
+                                    {% endif %}
+                                >{{ _('Select constraint level…') }}</option>
+                                <option value="never"
+                                    {% if probability == "never" %}
+                                        selected
+                                    {% endif %}
+                                >{{ _('Never match') }}</option>
+                                <option value="1_past_exchange"
+                                    {% if probability == "1_past_exchange" %}
+                                        selected
+                                    {% endif %}
+                                >{{ _('Did match last exchange') }}</option>
+                                <option value="2_past_exchange"
+                                    {% if probability == "2_past_exchange" %}
+                                        selected
+                                    {% endif %}
+                                >{{ _('Did match two exchanges ago') }}</option>
+                                <option value="3_past_exchange"
+                                {% if probability == "3_past_exchange" %}
+                                    selected
+                                {% endif %}
+                                >{{ _('Did match three exchanges ago') }}</option>
+                            </select>
+                            <button type="button" class="delete-constraint">{{ _('Delete') }}</button>
+                        </li>
+                    {% endfor %}
+                {% else %}
+                    <li>
+                        <select required class="giver" name="giver">
+                            <option value="" selected>{{ _('Select participant…') }}</option>
+                        </select>
+                        to
+                        <select required class="giftee" name="giftee">
+                            <option value="" selected>{{ _('Select participant…') }}</option>
+                        </select>
+                        <select required class="probability-level" name="probability-level">
+                            <option value="" selected>{{ _('Select constraint level…') }}</option>
+                            <option value="never">{{ _('Never match') }}</option>
+                            <option value="1_past_exchange">{{ _('Did match last exchange') }}</option>
+                            <option value="2_past_exchange">{{ _('Did match two exchanges ago') }}</option>
+                            <option value="3_past_exchange">{{ _('Did match three exchanges ago') }}</option>
+                        </select>
+                        <button type="button" class="delete-constraint">{{ _('Delete') }}</button>
+                    </li>
+                {% endif %}
             </ul>
             <button type="button" id="add-constraint">{{ _('Add constraint') }}</button>
         </fieldset>
