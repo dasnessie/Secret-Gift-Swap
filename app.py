@@ -134,10 +134,10 @@ def create_exchange(exchange_name, form):
     except ValueError:
         return view_create_exchange(
             exchange_name,
-            errorMessage=(
+            errorMessage=_(
                 "Could not create a valid exchange with this data. "
                 "Try removing some constraints "
-                "or adding some participants to fix this."
+                "or adding some participants to fix this.",
             ),
             formData=form,
         )

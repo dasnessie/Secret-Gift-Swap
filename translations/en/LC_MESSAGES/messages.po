@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-11-11 16:02+0100\n"
+"POT-Creation-Date: 2025-11-14 19:04+0100\n"
 "PO-Revision-Date: 2025-05-05 20:56+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -18,11 +18,21 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
 
+#: app.py:138
+msgid ""
+"Could not create a valid exchange with this data. Try removing some "
+"constraints or adding some participants to fix this."
+msgstr ""
+
 #: templates/base.html:6 templates/base.html:13
 msgid "Secret Gift Swap"
 msgstr ""
 
 #: templates/base.html:22
+msgid "Data disclaimer"
+msgstr ""
+
+#: templates/base.html:23
 msgid "Secret Gift Swap on Github"
 msgstr ""
 
@@ -36,20 +46,112 @@ msgid ""
 "exchange here."
 msgstr ""
 
-#: templates/create.html:8
+#: templates/create.html:13
 msgid "Add participants"
 msgstr ""
 
-#: templates/create.html:13
+#: templates/create.html:18
+msgid "Participants"
+msgstr ""
+
+#: templates/create.html:24 templates/create.html:30 templates/create.html:107
+#: templates/create.html:126
 msgid "Delete"
 msgstr ""
 
-#: templates/create.html:16
+#: templates/create.html:34
 msgid "Add participant"
 msgstr ""
 
-#: templates/create.html:18
+#: templates/create.html:35
+msgid "Next"
+msgstr ""
+
+#: templates/create.html:42
+msgid "Constraints"
+msgstr ""
+
+#: templates/create.html:52 templates/create.html:69 templates/create.html:113
+#: templates/create.html:117
+msgid "Select participant…"
+msgstr ""
+
+#: templates/create.html:85 templates/create.html:120
+msgid "Select constraint level…"
+msgstr ""
+
+#: templates/create.html:90 templates/create.html:121
+msgid "Never match"
+msgstr ""
+
+#: templates/create.html:95 templates/create.html:122
+msgid "Did match last exchange"
+msgstr ""
+
+#: templates/create.html:100 templates/create.html:123
+msgid "Did match two exchanges ago"
+msgstr ""
+
+#: templates/create.html:105 templates/create.html:124
+msgid "Did match three exchanges ago"
+msgstr ""
+
+#: templates/create.html:130
+msgid "Add constraint"
+msgstr ""
+
+#: templates/create.html:132
 msgid "Generate matching!"
+msgstr ""
+
+#: templates/data-disclaimer.html:5
+msgid "Data Disclaimer"
+msgstr ""
+
+#: templates/data-disclaimer.html:6
+msgid "Please don't enter sensitive data on this page."
+msgstr ""
+
+#: templates/data-disclaimer.html:7
+msgid "Think about using nicknames."
+msgstr ""
+
+#: templates/data-disclaimer.html:8
+msgid ""
+"I can not and will not make any guarantees about the safety of your data "
+"here."
+msgstr ""
+
+#: templates/data-disclaimer.html:9
+msgid "In fact, I will probably do shenanigans with it."
+msgstr ""
+
+#: templates/data-disclaimer.html:10
+msgid "Shenanigans may include, but are not limited to:"
+msgstr ""
+
+#: templates/data-disclaimer.html:12
+msgid "Read your data"
+msgstr ""
+
+#: templates/data-disclaimer.html:13
+msgid "Eat your data"
+msgstr ""
+
+#: templates/data-disclaimer.html:14
+msgid "Put you on santas naughty list"
+msgstr ""
+
+#: templates/data-disclaimer.html:15
+msgid "Trash it"
+msgstr ""
+
+#: templates/data-disclaimer.html:16
+msgid "Change it"
+msgstr ""
+
+#: templates/data-disclaimer.html:17
+msgid "Mail-upgrade it"
 msgstr ""
 
 #: templates/exchange-overview.html:6
@@ -66,6 +168,30 @@ msgstr ""
 #: templates/exchange-user-result.html:7
 #, python-format
 msgid "You're getting a gift for %(giftee)s."
+msgstr ""
+
+#: templates/rename-exchange.html:5
+msgid "Oops"
+msgstr ""
+
+#: templates/rename-exchange.html:6
+msgid "It seems like an exchange with this name already exists."
+msgstr ""
+
+#: templates/rename-exchange.html:7
+msgid "Most likely someone created it while you were entering the data for yours."
+msgstr ""
+
+#: templates/rename-exchange.html:8
+msgid "Please choose a new name for your exchange to proceed."
+msgstr ""
+
+#: templates/rename-exchange.html:11
+msgid "Create your gift exchange as:"
+msgstr ""
+
+#: templates/rename-exchange.html:18
+msgid "Create exchange"
 msgstr ""
 
 #: templates/start.html:6
