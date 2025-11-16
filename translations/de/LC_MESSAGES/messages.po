@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-11-16 10:55+0100\n"
+"POT-Creation-Date: 2025-11-16 14:27+0100\n"
 "PO-Revision-Date: 2025-05-05 20:56+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: de\n"
@@ -177,12 +177,30 @@ msgstr ""
 "Hier sind die Ergebnisse der Auslosung! Klicke auf deinen Namen, um zu "
 "erfahren, wen du beschenken darfst."
 
-#: templates/exchange-user-result.html:6
+#: templates/exchange-user-result.html:7
+msgid "Confirm your name"
+msgstr "Namen bestätigen"
+
+#: templates/exchange-user-result.html:8
+#, python-format
+msgid "Are you %(name)s and want to see who you'll be getting a gift for?"
+msgstr ""
+"Bist du %(name)s und möchtest wissen, wen du beschenken wirst?"
+
+#: templates/exchange-user-result.html:10
+msgid "Yes"
+msgstr "Ja"
+
+#: templates/exchange-user-result.html:11
+msgid "No"
+msgstr "Nein"
+
+#: templates/exchange-user-result.html:15
 #, python-format
 msgid "Hello %(name)s!"
 msgstr "Hallo %(name)s!"
 
-#: templates/exchange-user-result.html:7
+#: templates/exchange-user-result.html:16
 #, python-format
 msgid "You're getting a gift for %(giftee)s."
 msgstr "Du beschenkst %(giftee)s."
