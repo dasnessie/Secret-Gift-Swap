@@ -1,12 +1,16 @@
-document.getElementById("yes-button").addEventListener("click", () => {
-  document.getElementById("result-content").hidden = false;
+function returnToOverview(event) {
+  event.preventDefault();
+  window.location.href = "../../";
+}
+
+document.getElementById("no-button").addEventListener("click", (e) => {
+  returnToOverview(e);
 });
 
-document.getElementById("no-button").addEventListener("click", () => {
-  window.location.href = "../../";
+document.getElementById("name-confirmation").addEventListener("cancel", (e) => {
+  returnToOverview(e);
 });
 
 window.addEventListener("pageshow", (event) => {
-  document.getElementById("result-content").hidden = true;
   document.getElementById("name-confirmation").showModal();
 });

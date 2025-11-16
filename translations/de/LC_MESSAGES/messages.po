@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-11-16 14:27+0100\n"
+"POT-Creation-Date: 2025-11-16 19:32+0100\n"
 "PO-Revision-Date: 2025-05-05 20:56+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: de\n"
@@ -23,7 +23,7 @@ msgid ""
 "Could not create a valid exchange with this data. Try removing some "
 "constraints or adding some participants to fix this."
 msgstr ""
-"Mit diesen Daten konnte keine gültige Auslosung erzeugt werden.Versuch "
+"Mit diesen Daten konnte keine gültige Auslosung erzeugt werden. Versuch "
 "Einschränkungen zu entfernen oder Teilnehmer hinzuzufügen, um das Problem"
 " zu beheben."
 
@@ -35,15 +35,15 @@ msgstr "Namen dürfen nicht doppelt vorkommen!"
 msgid "This exchange name is already taken!"
 msgstr "Diese Auslosung gibt es schon!"
 
-#: templates/base.html:7 templates/base.html:14
+#: templates/base.html:8 templates/base.html:15
 msgid "Secret Gift Swap"
 msgstr "Secret Gift Swap"
 
-#: templates/base.html:23
+#: templates/base.html:24
 msgid "Data disclaimer"
 msgstr "Datenhinweis"
 
-#: templates/base.html:24
+#: templates/base.html:25
 msgid "Secret Gift Swap on Github"
 msgstr "Secret Gift Swap auf Github"
 
@@ -86,12 +86,12 @@ msgstr "Einschränkungen"
 
 #: templates/create.html:52 templates/create.html:69 templates/create.html:113
 #: templates/create.html:117
-msgid "Select participant…"
-msgstr "Teilnehmer auswählen…"
+msgid "Participant…"
+msgstr "Teilnehmender…"
 
 #: templates/create.html:85 templates/create.html:120
-msgid "Select constraint level…"
-msgstr "Einschränkungsstufe auswählen…"
+msgid "Constraint level…"
+msgstr "Einschränkungsstufe…"
 
 #: templates/create.html:90 templates/create.html:121
 msgid "Never match"
@@ -184,8 +184,7 @@ msgstr "Namen bestätigen"
 #: templates/exchange-user-result.html:8
 #, python-format
 msgid "Are you %(name)s and want to see who you'll be getting a gift for?"
-msgstr ""
-"Bist du %(name)s und möchtest wissen, wen du beschenken wirst?"
+msgstr "Bist du %(name)s und möchtest wissen, wen du beschenken wirst?"
 
 #: templates/exchange-user-result.html:10
 msgid "Yes"
@@ -221,7 +220,7 @@ msgstr ""
 
 #: templates/rename-exchange.html:8
 msgid "Please choose a new name for your exchange to proceed."
-msgstr "Bitte gib deinem Exchange einen neuen Namen, bevor du weitermachst."
+msgstr "Bitte gib deiner Auslosung einen neuen Namen, bevor du weitermachst."
 
 #: templates/rename-exchange.html:11
 msgid "Create your gift exchange as:"

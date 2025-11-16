@@ -11,9 +11,9 @@
             <button id="no-button">{{ _("No") }}</button>
         </form>
     </dialog>
-    <div id="result-content" hidden>
+    <div id="result-content">
         <p>{{ _('Hello %(name)s!', name=participantName) }}</p>
-        <p>{{ _("You're getting a gift for %(giftee)s.", giftee=gifteeName) }}</p>
+        <p>{{ _("You're getting a gift for %(giftee)s.", giftee="<strong>" ~ gifteeName ~ "</strong>") | safe }}</p>
     </div>
     <script src="/static/exchange-user-result.js"></script>
 {% endblock %}
