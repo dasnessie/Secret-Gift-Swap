@@ -57,6 +57,11 @@ def close_db(_error=None):
         db.close_connection()
 
 
+@app.errorhandler(404)
+def not_found(_e):
+    return render_template("404.html"), 404
+
+
 @app.route("/", methods=["GET"])
 def start():
     return render_template("start.html")
@@ -181,8 +186,10 @@ def view_exchange(exchange_name):
 @app.route("/<exchange_name>/results/<participant_name>/")
 def view_exchange_participant_result(exchange_name, participant_name):
     db = get_db()
-    giftee = db.get_giftee_for_giver(exchange_name, participant_name)
-    # TODO Ask user to confirm their name
+    try:
+        giftee = db.get_giftee_for_giver(exchange_name, participant_name)
+    except ValueError as e:
+        return not_found(e)
     return render_template(
         "exchange-user-result.html",
         exchangeName=exchange_name,

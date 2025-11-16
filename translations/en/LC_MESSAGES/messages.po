@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-11-16 19:32+0100\n"
+"POT-Creation-Date: 2025-11-16 23:18+0100\n"
 "PO-Revision-Date: 2025-05-05 20:56+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
 
-#: app.py:140
+#: app.py:145
 msgid ""
 "Could not create a valid exchange with this data. Try removing some "
 "constraints or adding some participants to fix this."
@@ -30,6 +30,18 @@ msgstr ""
 
 #: static/rename-exchange.js:14
 msgid "This exchange name is already taken!"
+msgstr ""
+
+#: templates/404.html:5
+msgid "Page not found"
+msgstr ""
+
+#: templates/404.html:6
+msgid "Sorry, it seems like this page does not exist."
+msgstr ""
+
+#: templates/404.html:7
+msgid "Back to the start"
 msgstr ""
 
 #: templates/base.html:8 templates/base.html:15
@@ -108,7 +120,7 @@ msgstr ""
 msgid "Add constraint"
 msgstr ""
 
-#: templates/create.html:132
+#: templates/create.html:133
 msgid "Generate matching!"
 msgstr ""
 
