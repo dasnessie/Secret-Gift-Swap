@@ -133,6 +133,17 @@ label[type="button"] {
   background-color: var(--color-danger);
 }
 
+button[hidden] {
+  display: none !important;
+}
+
+.secondary-button {
+  background-color: var(--color-theme-light);
+  border: 2px solid var(--color-theme-medium);
+  color: black;
+  padding: calc(0.5rem - 2px) calc(0.9rem - 2px);
+}
+
 textarea,
 input:not(:checkbox) {
   appearance: none;
@@ -243,6 +254,14 @@ fieldset:disabled button {
   );
   cursor: default;
   /* opacity: 0.5; */
+}
+
+fieldset:disabled .secondary-button {
+  background-color: var(--color-theme-light);
+  border: 2px solid
+    color-mix(in srgb, var(--color-theme-medium) 20%, #9494947d 80%);
+  color: gray;
+  padding: calc(0.5rem - 2px) calc(0.9rem - 2px);
 }
 
 /* Select */

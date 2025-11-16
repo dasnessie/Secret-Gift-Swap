@@ -116,9 +116,9 @@ def create_exchange(exchange_name, form):
         return Response(status=422)
     participants = [Participant(participant) for participant in participant_names]
     name_id_mapping = {p.names[p.active_name]: p.uuid for p in participants}
-    constraint_givers = form.getlist("giver")
-    constraint_giftees = form.getlist("giftee")
-    constraint_probabilities = form.getlist("probability-level")
+    constraint_givers = form.getlist("giver")[1:]
+    constraint_giftees = form.getlist("giftee")[1:]
+    constraint_probabilities = form.getlist("probability-level")[1:]
     constraints = []
     try:
         for giver, giftee, probability in zip(

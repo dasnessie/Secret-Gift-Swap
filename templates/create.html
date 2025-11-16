@@ -27,12 +27,11 @@
                 {% else %}
                     <li>
                         <input type="text" name="participant" class="participant"/>
-                        <button type="button" class="delete-participant">{{ _('Delete') }}</button>
+                        <button type="button" class="delete-participant secondary-button">{{ _('Delete') }}</button>
                     </li>
                 {% endif %}
             </ul>
-            <button type="button" id="add-participant">{{ _('Add participant') }}</button>
-            <button type="button" id="next-button">{{ _('Next') }}</button>
+            <button type="button" id="add-participant" class="secondary-button">{{ _('Add participant') }}</button>
         </fieldset>
         <fieldset id="constraints" 
             {% if not (existingFormData and existingFormData.getlist("giver") and existingFormData.getlist("giftee") and existingFormData.getlist("probability-level")) %}
@@ -41,6 +40,23 @@
         >
             <legend>{{ _('Constraints') }}</legend>
             <ul id="constraint-list">
+                <li hidden>
+                    <select class="giver" name="giver">
+                        <option value="" selected>{{ _('Participant…') }}</option>
+                    </select>
+                    to
+                    <select class="giftee" name="giftee">
+                        <option value="" selected>{{ _('Participant…') }}</option>
+                    </select>
+                    <select class="probability-level" name="probability-level">
+                        <option value="" selected>{{ _('Constraint level…') }}</option>
+                        <option value="never">{{ _('Never match') }}</option>
+                        <option value="1_past_exchange">{{ _('Did match last exchange') }}</option>
+                        <option value="2_past_exchange">{{ _('Did match two exchanges ago') }}</option>
+                        <option value="3_past_exchange">{{ _('Did match three exchanges ago') }}</option>
+                    </select>
+                    <button type="button" class="delete-constraint secondary-button">{{ _('Delete') }}</button>
+                </li>
                 {% if existingFormData and existingFormData.getlist("giver") and existingFormData.getlist("giftee") and existingFormData.getlist("probability-level") %}
                     {% for giver, giftee, probability in zip(existingFormData.getlist("giver"), existingFormData.getlist("giftee"), existingFormData.getlist("probability-level"))%}
                         <li>
@@ -104,33 +120,16 @@
                                 {% endif %}
                                 >{{ _('Did match three exchanges ago') }}</option>
                             </select>
-                            <button type="button" class="delete-constraint">{{ _('Delete') }}</button>
+                            <button type="button" class="delete-constraint secondary-button">{{ _('Delete') }}</button>
                         </li>
                     {% endfor %}
-                {% else %}
-                    <li>
-                        <select required class="giver" name="giver">
-                            <option value="" selected>{{ _('Participant…') }}</option>
-                        </select>
-                        to
-                        <select required class="giftee" name="giftee">
-                            <option value="" selected>{{ _('Participant…') }}</option>
-                        </select>
-                        <select required class="probability-level" name="probability-level">
-                            <option value="" selected>{{ _('Constraint level…') }}</option>
-                            <option value="never">{{ _('Never match') }}</option>
-                            <option value="1_past_exchange">{{ _('Did match last exchange') }}</option>
-                            <option value="2_past_exchange">{{ _('Did match two exchanges ago') }}</option>
-                            <option value="3_past_exchange">{{ _('Did match three exchanges ago') }}</option>
-                        </select>
-                        <button type="button" class="delete-constraint">{{ _('Delete') }}</button>
-                    </li>
                 {% endif %}
             </ul>
-            <button type="button" id="add-constraint">{{ _('Add constraint') }}</button>
+            <button type="button" id="add-constraint" class="secondary-button">{{ _('Add constraint') }}</button>
         </fieldset>
         <div id="submit-buttons">
-            <button type="submit">{{ _('Generate matching!') }}</button>
+            <button type="button" id="next-button">{{ _('Next') }}</button>
+            <button type="submit" id="generate-button" hidden>{{ _('Generate matching!') }}</button>
         </div>
     </form>
 

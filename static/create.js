@@ -87,6 +87,8 @@ document.getElementById("next-button").addEventListener("click", () => {
     document.getElementById("participants").disabled = true;
     document.getElementById("constraints").hidden = false;
     document.getElementById("constraints").disabled = false;
+    document.getElementById("next-button").hidden = true;
+    document.getElementById("generate-button").hidden = false;
   } else {
     form.reportValidity();
   }
@@ -97,7 +99,10 @@ document.getElementById("add-constraint").addEventListener("click", () => {
   const newConstraintLine = constraints.lastElementChild.cloneNode(true);
   for (const el of newConstraintLine.getElementsByTagName("select")) {
     el.value = "";
+    el.required = true;
+    el.disabled = false;
   }
+  newConstraintLine.hidden = false;
   constraints.appendChild(newConstraintLine);
 });
 
