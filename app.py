@@ -12,6 +12,7 @@ from flask import (
     request,
 )
 from flask_babel import Babel, _
+from flask_babel_js import BabelJS
 from slugify import slugify
 
 from constraint import Constraint
@@ -32,6 +33,7 @@ def get_locale():
 app.config["BABEL_TRANSLATION_DIRECTORIES"] = "translations"
 app.config["BABEL_DEFAULT_LOCALE"] = "en"
 babel = Babel(app, locale_selector=get_locale)
+babel_js = BabelJS(app)
 
 # Let me use zip in jinja
 app.jinja_env.globals.update(zip=zip)

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-11-14 19:04+0100\n"
+"POT-Creation-Date: 2025-11-16 10:55+0100\n"
 "PO-Revision-Date: 2025-05-05 20:56+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: de\n"
@@ -18,23 +18,32 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
 
-#: app.py:138
+#: app.py:140
 msgid ""
 "Could not create a valid exchange with this data. Try removing some "
 "constraints or adding some participants to fix this."
 msgstr ""
-"Mit diesen Daten konnte keine gültige Auslosung erzeugt werden."
-"Versuch Einschränkungen zu entfernen oder Teilnehmer hinzuzufügen, um das Problem zu beheben."
+"Mit diesen Daten konnte keine gültige Auslosung erzeugt werden.Versuch "
+"Einschränkungen zu entfernen oder Teilnehmer hinzuzufügen, um das Problem"
+" zu beheben."
 
-#: templates/base.html:6 templates/base.html:13
+#: static/create.js:18
+msgid "Can't have the same name twice!"
+msgstr "Namen dürfen nicht doppelt vorkommen!"
+
+#: static/rename-exchange.js:14
+msgid "This exchange name is already taken!"
+msgstr "Diese Auslosung gibt es schon!"
+
+#: templates/base.html:7 templates/base.html:14
 msgid "Secret Gift Swap"
 msgstr "Secret Gift Swap"
 
-#: templates/base.html:22
+#: templates/base.html:23
 msgid "Data disclaimer"
 msgstr "Datenhinweis"
 
-#: templates/base.html:23
+#: templates/base.html:24
 msgid "Secret Gift Swap on Github"
 msgstr "Secret Gift Swap auf Github"
 

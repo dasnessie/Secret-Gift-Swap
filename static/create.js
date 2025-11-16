@@ -15,7 +15,7 @@ function validateUserNames(e) {
   );
   for (const input of nameInputs) {
     if (duplicateNames.includes(input.value)) {
-      input.setCustomValidity("Can't have the same name twice!");
+      input.setCustomValidity(_("Can't have the same name twice!"));
     } else {
       input.setCustomValidity("");
     }
