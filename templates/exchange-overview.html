@@ -2,7 +2,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h2>{{ exchangeName }}</h2>
+    <h2><a href="/{{ exchangeName }}/">{{ exchangeName }}</a></h2>
     <p>{{ _("Here are the results! Click your name to see who you're getting a gift for.") }}</p>
     <ul>
         {% for participant in participants %}
