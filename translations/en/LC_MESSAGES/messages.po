@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-11-17 19:41+0100\n"
+"POT-Creation-Date: 2025-11-17 21:53+0100\n"
 "PO-Revision-Date: 2025-05-05 20:56+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -70,16 +70,16 @@ msgid ""
 "exchange here."
 msgstr ""
 
-#: templates/create.html:13
-msgid "Add participants"
-msgstr ""
-
 #: templates/create.html:18
 msgid "Participants"
 msgstr ""
 
-#: templates/create.html:24 templates/create.html:30 templates/create.html:60
-#: templates/create.html:135
+#: templates/create.html:23 templates/create.html:29
+msgid "participant name"
+msgstr ""
+
+#: templates/create.html:24 templates/create.html:30 templates/create.html:70
+#: templates/create.html:145
 msgid "Delete"
 msgstr ""
 
@@ -91,52 +91,64 @@ msgstr ""
 msgid "Constraints"
 msgstr ""
 
-#: templates/create.html:44 templates/create.html:65
+#: templates/create.html:44 templates/create.html:75
 msgid "From"
 msgstr ""
 
-#: templates/create.html:46 templates/create.html:51 templates/create.html:71
-#: templates/create.html:97
+#: templates/create.html:45 templates/create.html:76
+msgid "gift giver"
+msgstr ""
+
+#: templates/create.html:46 templates/create.html:56 templates/create.html:81
+#: templates/create.html:107
 msgid "Participant…"
 msgstr ""
 
-#: templates/create.html:48 templates/create.html:82
+#: templates/create.html:53 templates/create.html:92
 msgid "to"
 msgstr ""
 
-#: templates/create.html:49 templates/create.html:87
+#: templates/create.html:54 templates/create.html:97
 msgid "and"
 msgstr ""
 
-#: templates/create.html:54 templates/create.html:113
+#: templates/create.html:55 templates/create.html:102
+msgid "gift receiver"
+msgstr ""
+
+#: templates/create.html:63 templates/create.html:118
+msgid "constraint level"
+msgstr ""
+
+#: templates/create.html:64 templates/create.html:123
 msgid "Constraint level…"
 msgstr ""
 
-#: templates/create.html:55 templates/create.html:118
+#: templates/create.html:65 templates/create.html:128
 msgid "Never match"
 msgstr ""
 
-#: templates/create.html:56 templates/create.html:123
+#: templates/create.html:66 templates/create.html:133
 msgid "Did match last exchange"
 msgstr ""
 
-#: templates/create.html:57 templates/create.html:128
+#: templates/create.html:67 templates/create.html:138
 msgid "Did match two exchanges ago"
 msgstr ""
 
-#: templates/create.html:58 templates/create.html:133
+#: templates/create.html:68 templates/create.html:143
 msgid "Did match three exchanges ago"
 msgstr ""
 
-#: templates/create.html:140
+#: templates/create.html:150
 msgid "Add constraint"
 msgstr ""
 
-#: templates/create.html:144 templates/create.html:147
+#: templates/create.html:154 templates/create.html:157
 msgid "Next"
 msgstr ""
 
-#: templates/create.html:145 templates/create.html:148
+#: templates/create.html:155 templates/create.html:158
 msgid "Generate matching!"
 msgstr ""
 
@@ -558,5 +570,8 @@ msgstr[1] ""
 #~ msgstr ""
 
 #~ msgid "Select constraint level…"
+#~ msgstr ""
+
+#~ msgid "Add participants"
 #~ msgstr ""
 

@@ -6,11 +6,11 @@
     <p>{{ _('There is no gift exchange with this name yet. You can create a new gift exchange here.') }}</p>
 
     {% if errorMessage %}
-        <p class="exchange-creation-error"> {{ errorMessage }} </p>
+        <p class="exchange-creation-error" role="alert"> {{ errorMessage }} </p>
     {% endif %}
 
     <form id="participant-form" action="/{{ exchangeName }}/create" method="POST">
-        <fieldset id="participants" aria-label="{{ _('Add participants') }}"
+        <fieldset id="participants"
             {% if existingFormData and existingFormData.getlist("giver") %}
                 disabled
             {% endif %}
@@ -20,13 +20,13 @@
                 {% if existingFormData and existingFormData.getlist("participant") %}
                     {% for participant in existingFormData.getlist("participant") %}
                         <li>
-                            <input type="text" name="participant" class="participant" value="{{ participant }}"/>
+                            <input type="text" name="participant" class="participant" aria-label="{{ _('participant name') }}" value="{{ participant }}"/>
                             <button type="button" class="delete-participant">{{ _('Delete') }}</button>
                         </li>
                     {% endfor %}
                 {% else %}
                     <li>
-                        <input type="text" name="participant" class="participant"/>
+                        <input type="text" name="participant" class="participant" aria-label="{{ _('participant name') }}" autofocus/>
                         <button type="button" class="delete-participant secondary-button">{{ _('Delete') }}</button>
                     </li>
                 {% endif %}
@@ -42,7 +42,7 @@
             <ul id="constraint-list">
                 <li hidden>
                     <span class="sr-only from-label">{{ _('From') }}</span>
-                    <select class="giver" name="giver">
+                    <select class="giver" name="giver" aria-label="{{ _('gift giver') }}">
                         <option value="" selected>{{ _('Participant…') }}</option>
                         {% if existingFormData and existingFormData.getlist("participant") %}
                             {% for participant in existingFormData.getlist("participant") %}
@@ -52,7 +52,7 @@
                     </select>
                     <span class="arrow-right" aria-label="{{ _('to') }}">→</span>
                     <span class="arrow-both" aria-label="{{ _('and') }}" hidden>↔</span>
-                    <select class="giftee" name="giftee">
+                    <select class="giftee" name="giftee" aria-label="{{ _('gift receiver') }}">
                         <option value="" selected>{{ _('Participant…') }}</option>
                         {% if existingFormData and existingFormData.getlist("participant") %}
                             {% for participant in existingFormData.getlist("participant") %}
@@ -60,7 +60,7 @@
                             {% endfor %}
                         {% endif %}
                     </select>
-                    <select class="probability-level" name="probability-level">
+                    <select class="probability-level" name="probability-level" aria-label="{{ _('constraint level') }}">
                         <option value="" selected>{{ _('Constraint level…') }}</option>
                         <option value="never">{{ _('Never match') }}</option>
                         <option value="1_past_exchange">{{ _('Did match last exchange') }}</option>
@@ -73,7 +73,7 @@
                     {% for giver, giftee, probability in zip(existingFormData.getlist("giver")[1:], existingFormData.getlist("giftee")[1:], existingFormData.getlist("probability-level")[1:])%}
                         <li>
                             <span class="sr-only from-label">{{ _('From') }}</span>
-                            <select required class="giver" name="giver">
+                            <select required class="giver" name="giver" aria-label="{{ _('gift giver') }}">
                                 <option value="" 
                                     {% if not giver %}
                                         selected
@@ -99,7 +99,7 @@
                                 hidden
                             {% endif %}
                             >↔</span>
-                            <select required class="giftee" name="giftee">
+                            <select required class="giftee" name="giftee" aria-label="{{ _('gift receiver') }}">
                                 <option value="" 
                                     {% if not giftee %}
                                         selected
@@ -115,7 +115,7 @@
                                     {% endfor %}
                                 {% endif %}
                             </select>
-                            <select required class="probability-level" name="probability-level">
+                            <select required class="probability-level" name="probability-level" aria-label="{{ _('constraint level') }}">
                                 <option value="" 
                                     {% if probability == "" %}
                                         selected

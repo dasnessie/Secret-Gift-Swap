@@ -115,6 +115,7 @@ document.getElementById("next-button").addEventListener("click", () => {
     document.getElementById("constraints").disabled = false;
     document.getElementById("next-button").hidden = true;
     document.getElementById("generate-button").hidden = false;
+    document.getElementById("add-constraint").focus();
   } else {
     form.reportValidity();
   }
@@ -164,6 +165,7 @@ document.getElementById("add-constraint").addEventListener("click", () => {
   newConstraintLine.getElementsByClassName("from-label")[0].hidden = false;
   newConstraintLine.hidden = false;
   constraints.appendChild(newConstraintLine);
+  newConstraintLine.getElementsByClassName("giver")[0].focus();
 });
 
 document.getElementById("constraint-list").addEventListener("click", (e) => {
