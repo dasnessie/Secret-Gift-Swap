@@ -1,4 +1,4 @@
-function validateUserNames(e) {
+function getParticipantNameCounts() {
   const nameInputs = Array.from(
     document.querySelectorAll("#participant-list input.participant")
   );
@@ -10,6 +10,14 @@ function validateUserNames(e) {
   for (value of names) {
     nameCounts[value] = (nameCounts[value] || 0) + 1;
   }
+  return nameCounts;
+}
+
+function validateUserNames(e) {
+  const nameInputs = Array.from(
+    document.querySelectorAll("#participant-list input.participant")
+  );
+  const nameCounts = getParticipantNameCounts();
   const duplicateNames = Object.keys(nameCounts).filter(
     (key) => nameCounts[key] > 1
   );
@@ -19,6 +27,19 @@ function validateUserNames(e) {
     } else {
       input.setCustomValidity("");
     }
+  }
+}
+
+function validateSufficientParticipants() {
+  const nameCounts = getParticipantNameCounts();
+  if (Object.keys(nameCounts).length < 3) {
+    addParticipantField();
+    const nameInputs = document.querySelectorAll(
+      "#participant-list input.participant"
+    );
+    nameInputs[nameInputs.length - 1].setCustomValidity(
+      _("You need at least three participants to set up an exchange.")
+    );
   }
 }
 
@@ -71,6 +92,9 @@ document.getElementById("participant-list").addEventListener("click", (e) => {
 
 document.getElementById("next-button").addEventListener("click", () => {
   const form = document.getElementById("participant-form");
+  if (form.checkValidity()) {
+    validateSufficientParticipants();
+  }
   if (form.checkValidity()) {
     const participants = document.getElementById("participant-list").children;
     const giverSelect = document.getElementsByClassName("giver")[0];
