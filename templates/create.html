@@ -44,11 +44,21 @@
                     <span class="sr-only from-label">{{ _('From') }}</span>
                     <select class="giver" name="giver">
                         <option value="" selected>{{ _('Participant…') }}</option>
+                        {% if existingFormData and existingFormData.getlist("participant") %}
+                            {% for participant in existingFormData.getlist("participant") %}
+                                <option value="{{ participant }}">{{ participant }}</option>
+                            {% endfor %}
+                        {% endif %}
                     </select>
                     <span class="arrow-right" aria-label="{{ _('to') }}">→</span>
                     <span class="arrow-both" aria-label="{{ _('and') }}" hidden>↔</span>
                     <select class="giftee" name="giftee">
                         <option value="" selected>{{ _('Participant…') }}</option>
+                        {% if existingFormData and existingFormData.getlist("participant") %}
+                            {% for participant in existingFormData.getlist("participant") %}
+                                <option value="{{ participant }}">{{ participant }}</option>
+                            {% endfor %}
+                        {% endif %}
                     </select>
                     <select class="probability-level" name="probability-level">
                         <option value="" selected>{{ _('Constraint level…') }}</option>
