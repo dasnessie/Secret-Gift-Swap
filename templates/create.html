@@ -58,7 +58,7 @@
                     <button type="button" class="delete-constraint secondary-button">{{ _('Delete') }}</button>
                 </li>
                 {% if existingFormData and existingFormData.getlist("giver") and existingFormData.getlist("giftee") and existingFormData.getlist("probability-level") %}
-                    {% for giver, giftee, probability in zip(existingFormData.getlist("giver"), existingFormData.getlist("giftee"), existingFormData.getlist("probability-level"))%}
+                    {% for giver, giftee, probability in zip(existingFormData.getlist("giver")[1:], existingFormData.getlist("giftee")[1:], existingFormData.getlist("probability-level")[1:])%}
                         <li>
                             <select required class="giver" name="giver">
                                 <option value="" 
@@ -128,8 +128,13 @@
             <button type="button" id="add-constraint" class="secondary-button">{{ _('Add constraint') }}</button>
         </fieldset>
         <div id="submit-buttons">
-            <button type="button" id="next-button">{{ _('Next') }}</button>
-            <button type="submit" id="generate-button" hidden>{{ _('Generate matching!') }}</button>
+            {% if existingFormData and existingFormData.getlist("giver") and existingFormData.getlist("giftee") and existingFormData.getlist("probability-level") %}
+                <button type="button" id="next-button" hidden>{{ _('Next') }}</button>
+                <button type="submit" id="generate-button">{{ _('Generate matching!') }}</button>
+            {% else %}
+                <button type="button" id="next-button">{{ _('Next') }}</button>
+                <button type="submit" id="generate-button" hidden>{{ _('Generate matching!') }}</button>
+            {% endif %}
         </div>
     </form>
 
