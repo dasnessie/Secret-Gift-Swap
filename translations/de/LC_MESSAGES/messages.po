@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-11-16 23:18+0100\n"
+"POT-Creation-Date: 2025-11-17 11:45+0100\n"
 "PO-Revision-Date: 2025-05-05 20:56+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: de\n"
@@ -79,8 +79,8 @@ msgstr "Teilnehmende anlegen"
 msgid "Participants"
 msgstr "Teilnehmende"
 
-#: templates/create.html:24 templates/create.html:30 templates/create.html:107
-#: templates/create.html:126
+#: templates/create.html:24 templates/create.html:30 templates/create.html:60
+#: templates/create.html:127
 msgid "Delete"
 msgstr "Löschen"
 
@@ -88,44 +88,56 @@ msgstr "Löschen"
 msgid "Add participant"
 msgstr "Teilnehmer hinzufügen"
 
-#: templates/create.html:35
-msgid "Next"
-msgstr "Weiter"
-
-#: templates/create.html:42
+#: templates/create.html:41
 msgid "Constraints"
 msgstr "Einschränkungen"
 
-#: templates/create.html:52 templates/create.html:69 templates/create.html:113
-#: templates/create.html:117
+#: templates/create.html:44 templates/create.html:65
+msgid "From"
+msgstr "Von"
+
+#: templates/create.html:46 templates/create.html:51 templates/create.html:71
+#: templates/create.html:89
 msgid "Participant…"
 msgstr "Teilnehmender…"
 
-#: templates/create.html:85 templates/create.html:120
+#: templates/create.html:48 templates/create.html:82
+msgid "to"
+msgstr "an"
+
+#: templates/create.html:49 templates/create.html:83
+msgid "and"
+msgstr "und"
+
+#: templates/create.html:54 templates/create.html:105
 msgid "Constraint level…"
 msgstr "Einschränkungsstufe…"
 
-#: templates/create.html:90 templates/create.html:121
+#: templates/create.html:55 templates/create.html:110
 msgid "Never match"
 msgstr "Nie gegenseitig beschenken!"
 
-#: templates/create.html:95 templates/create.html:122
+#: templates/create.html:56 templates/create.html:115
 msgid "Did match last exchange"
 msgstr "Wurde letztes Mal ausgelost"
 
-#: templates/create.html:100 templates/create.html:123
+#: templates/create.html:57 templates/create.html:120
 msgid "Did match two exchanges ago"
 msgstr "Wurde vorletztes Mal ausgelost"
 
-#: templates/create.html:105 templates/create.html:124
+#: templates/create.html:58 templates/create.html:125
 msgid "Did match three exchanges ago"
 msgstr "Wurde vor drei Malen ausgelost"
 
-#: templates/create.html:130
+#: templates/create.html:132
 msgid "Add constraint"
 msgstr "Einschränkung hinzufügen"
 
-#: templates/create.html:133
+#: templates/create.html:136 templates/create.html:139
+msgid "Next"
+msgstr "Weiter"
+
+#: templates/create.html:137 templates/create.html:140
 msgid "Generate matching!"
 msgstr "Auslosen!"
 

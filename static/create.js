@@ -22,9 +22,11 @@ function validateUserNames(e) {
   }
 }
 
-document.getElementsByName("participant")[0].addEventListener("blur", (e) => {
-  validateUserNames(e);
-});
+for (const participantNameInput of document.getElementsByName("participant")) {
+  participantNameInput.addEventListener("blur", (e) => {
+    validateUserNames(e);
+  });
+}
 
 function addParticipantField() {
   const participants = document.getElementById("participant-list");
@@ -94,6 +96,32 @@ document.getElementById("next-button").addEventListener("click", () => {
   }
 });
 
+function setArrows(e) {
+  const rightArrow =
+    e.target.parentElement.getElementsByClassName("arrow-right")[0];
+  const bothArrow =
+    e.target.parentElement.getElementsByClassName("arrow-both")[0];
+  const fromLabel =
+    e.target.parentElement.getElementsByClassName("from-label")[0];
+  if (e.target.value == "never") {
+    rightArrow.hidden = true;
+    fromLabel.hidden = true;
+    bothArrow.hidden = false;
+  } else {
+    bothArrow.hidden = true;
+    rightArrow.hidden = false;
+    fromLabel.hidden = false;
+  }
+}
+
+for (const probabilitySelect of document
+  .getElementById("constraint-list")
+  .getElementsByClassName("probability-level")) {
+  probabilitySelect.addEventListener("change", (e) => {
+    setArrows(e);
+  });
+}
+
 document.getElementById("add-constraint").addEventListener("click", () => {
   const constraints = document.getElementById("constraint-list");
   const newConstraintLine = constraints.lastElementChild.cloneNode(true);
@@ -102,6 +130,14 @@ document.getElementById("add-constraint").addEventListener("click", () => {
     el.required = true;
     el.disabled = false;
   }
+  newConstraintLine
+    .getElementsByClassName("probability-level")[0]
+    .addEventListener("change", (e) => {
+      setArrows(e);
+    });
+  newConstraintLine.getElementsByClassName("arrow-both")[0].hidden = true;
+  newConstraintLine.getElementsByClassName("arrow-right")[0].hidden = false;
+  newConstraintLine.getElementsByClassName("from-label")[0].hidden = false;
   newConstraintLine.hidden = false;
   constraints.appendChild(newConstraintLine);
 });

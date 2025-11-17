@@ -41,10 +41,12 @@
             <legend>{{ _('Constraints') }}</legend>
             <ul id="constraint-list">
                 <li hidden>
+                    <span class="sr-only from-label">{{ _('From') }}</span>
                     <select class="giver" name="giver">
                         <option value="" selected>{{ _('Participant…') }}</option>
                     </select>
-                    to
+                    <span class="arrow-right" aria-label="{{ _('to') }}">→</span>
+                    <span class="arrow-both" aria-label="{{ _('and') }}" hidden>↔</span>
                     <select class="giftee" name="giftee">
                         <option value="" selected>{{ _('Participant…') }}</option>
                     </select>
@@ -60,6 +62,7 @@
                 {% if existingFormData and existingFormData.getlist("giver") and existingFormData.getlist("giftee") and existingFormData.getlist("probability-level") %}
                     {% for giver, giftee, probability in zip(existingFormData.getlist("giver")[1:], existingFormData.getlist("giftee")[1:], existingFormData.getlist("probability-level")[1:])%}
                         <li>
+                            <span class="sr-only from-label">{{ _('From') }}</span>
                             <select required class="giver" name="giver">
                                 <option value="" 
                                     {% if not giver %}
@@ -76,7 +79,16 @@
                                     {% endfor %}
                                 {% endif %}
                             </select>
-                            to
+                            <span class="arrow-right" aria-label="{{ _('to') }}"
+                            {% if probability == 'never' %}
+                                hidden
+                            {% endif %}
+                            >→</span>
+                            <span class="arrow-both" aria-label="{{ _('and') }}"
+                            {% if probability != 'never' %} 
+                                hidden
+                            {% endif %}
+                            >↔</span>
                             <select required class="giftee" name="giftee">
                                 <option value="" 
                                     {% if not giftee %}
