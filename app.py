@@ -35,8 +35,8 @@ app.config["BABEL_DEFAULT_LOCALE"] = "en"
 babel = Babel(app, locale_selector=get_locale)
 babel_js = BabelJS(app)
 
-# Let me use zip in jinja
-app.jinja_env.globals.update(zip=zip)
+app.jinja_env.globals.update(zip=zip)  # Let me use zip in jinja
+app.jinja_env.filters["quote_plus"] = lambda u: urllib.parse.quote_plus(u)
 
 
 @app.context_processor
@@ -183,8 +183,11 @@ def view_exchange(exchange_name):
     )
 
 
-@app.route("/<exchange_name>/results/<participant_name>/")
+@app.route(
+    "/<exchange_name>/results/<path:participant_name>/",
+)  # <path:… makes sure we can handle participant names containing slashes
 def view_exchange_participant_result(exchange_name, participant_name):
+    participant_name = urllib.parse.unquote_plus(participant_name)
     db = get_db()
     try:
         giftee = db.get_giftee_for_giver(exchange_name, participant_name)
