@@ -31,15 +31,22 @@ function validateUserNames(e) {
 }
 
 function validateSufficientParticipants() {
+  const nameInputs = Array.from(
+    document.querySelectorAll("#participant-list input.participant")
+  );
   const nameCounts = getParticipantNameCounts();
   if (Object.keys(nameCounts).length < 3) {
-    addParticipantField();
-    const nameInputs = document.querySelectorAll(
-      "#participant-list input.participant"
-    );
-    nameInputs[nameInputs.length - 1].setCustomValidity(
-      _("You need at least three participants to set up an exchange.")
-    );
+    const missing_inputs = Math.max(3 - nameInputs.length, 0);
+    for (let i = 0; i < missing_inputs; i++) {
+      nameInputs.push(addParticipantField().firstElementChild);
+    }
+    for (const nameInput of nameInputs) {
+      if (nameInput.value == "") {
+        nameInput.setCustomValidity(
+          _("You need at least three participants to set up an exchange.")
+        );
+      }
+    }
   }
 }
 
@@ -58,6 +65,7 @@ function addParticipantField() {
   });
   participants.appendChild(newParticipantLine);
   newParticipantLine.firstElementChild.focus();
+  return newParticipantLine;
 }
 
 document
