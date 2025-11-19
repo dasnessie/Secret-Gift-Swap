@@ -63,6 +63,9 @@ function addParticipantField() {
   newParticipantLine.firstElementChild.addEventListener("blur", (e) => {
     validateUserNames(e);
   });
+  newParticipantLine.firstElementChild.addEventListener("keydown", (e) => {
+    participantInputEnterEvent(e);
+  });
   participants.appendChild(newParticipantLine);
   newParticipantLine.firstElementChild.focus();
   return newParticipantLine;
@@ -72,16 +75,28 @@ document
   .getElementById("add-participant")
   .addEventListener("click", addParticipantField);
 
-document.getElementById("participant-list").addEventListener("keydown", (e) => {
+function participantInputEnterEvent(e) {
   if (e.key != "Enter") {
     return;
   }
-  if (!e.target.classList.contains("participant")) {
-    return;
-  }
   e.preventDefault();
-  addParticipantField();
-});
+  const participants = document.getElementById("participant-list").children;
+  for (let i = 0; i < participants.length; i++) {
+    if (participants[i].firstElementChild == e.target) {
+      if (i == participants.length - 1) {
+        addParticipantField();
+      } else {
+        participants[i + 1].firstElementChild.focus();
+      }
+    }
+  }
+}
+
+for (participantInput of document.getElementsByClassName("participant")) {
+  participantInput.addEventListener("keydown", (e) => {
+    participantInputEnterEvent(e);
+  });
+}
 
 document.getElementById("participant-list").addEventListener("click", (e) => {
   if (!e.target.classList.contains("delete-participant")) {
