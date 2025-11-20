@@ -1,0 +1,19 @@
+<!doctype html>
+{% extends "base.html" %}
+
+{% block content %}
+    <h2><a href="/{{ exchangeSlug }}/">{{ exchangeName }}</a></h2>
+    <dialog id="name-confirmation" aria-labelledby="dialog-title" aria-describedby="dialog-content">
+        <h3 id="dialog-title">{{ _("Confirm your name") }}</h3>
+        <p id="dialog-content">{{ _("Are you %(name)s and want to see who you'll be getting a gift for?", name=participantName) }}</p>
+        <form method="dialog">
+            <button id="yes-button">{{ _("Yes") }}</button>
+            <button id="no-button">{{ _("No") }}</button>
+        </form>
+    </dialog>
+    <div id="result-content">
+        <p>{{ _('Hello %(name)s!', name=participantName) }}</p>
+        <p>{{ _("You're getting a gift for %(giftee)s.", giftee="<strong>" ~ gifteeName ~ "</strong>") | safe }}</p>
+    </div>
+    <script src="/static/exchange-user-result.js"></script>
+{% endblock %}

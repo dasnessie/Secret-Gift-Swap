@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {% block head %}
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+        <script src="{{ url_for('babel_catalog') }}"></script>
+        <title>{{ _('Secret Gift Swap') }}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        {% endblock %}
+    </head>
+    <body>
+        <header>
+            <a href="/">
+                <h1>{{ _('Secret Gift Swap') }}</h1>
+            </a>
+        </header>
+        <main>
+            {% block content %}{% endblock %}
+        </main>
+        <footer>
+            {% block adminFooter %}{% endblock %}
+            <ul>
+                <li><a href="/data-disclaimer/">{{ _('Data disclaimer') }}</a></li>
+                <li><a href="https://github.com/dasnessie/secret-gift-swap/">{{ _('Secret Gift Swap on Github') }}</a></li>
+            </ul>
+        </footer>
+    </body>
+</html>

@@ -1,0 +1,277 @@
+# English translations for PROJECT.
+# Copyright (C) 2025 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2025-11-20 16:27+0100\n"
+"PO-Revision-Date: 2025-05-05 20:56+0200\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: app.py:81
+msgid ""
+"Something went wrong with your exchange name. Please try again with a "
+"different name."
+msgstr ""
+
+#: app.py:165
+msgid ""
+"Could not create a valid exchange with this data. Try removing some "
+"constraints or adding some participants to fix this."
+msgstr ""
+
+#: static/create.js:26
+msgid "Can't have the same name twice!"
+msgstr ""
+
+#: static/create.js:46
+msgid "You need at least three participants to set up an exchange."
+msgstr ""
+
+#: static/rename-exchange.js:14
+msgid "This exchange name is not available."
+msgstr ""
+
+#: templates/404.html:5
+msgid "Page not found"
+msgstr ""
+
+#: templates/404.html:6
+msgid "Sorry, it seems like this page does not exist."
+msgstr ""
+
+#: templates/404.html:7
+msgid "Back to the start"
+msgstr ""
+
+#: templates/base.html:8 templates/base.html:15
+msgid "Secret Gift Swap"
+msgstr ""
+
+#: templates/base.html:24
+msgid "Data disclaimer"
+msgstr ""
+
+#: templates/base.html:25
+msgid "Secret Gift Swap on Github"
+msgstr ""
+
+#: templates/create.html:5
+msgid "Create new gift exchange"
+msgstr ""
+
+#: templates/create.html:6
+msgid ""
+"There is no gift exchange with this name yet. You can create a new gift "
+"exchange here."
+msgstr ""
+
+#: templates/create.html:19
+msgid "Participants"
+msgstr ""
+
+#: templates/create.html:24 templates/create.html:30 templates/create.html:34
+#: templates/create.html:38
+msgid "participant name"
+msgstr ""
+
+#: templates/create.html:25 templates/create.html:31 templates/create.html:35
+#: templates/create.html:39 templates/create.html:83 templates/create.html:162
+msgid "Delete"
+msgstr ""
+
+#: templates/create.html:43
+msgid "Add participant"
+msgstr ""
+
+#: templates/create.html:50
+msgid "Constraints"
+msgstr ""
+
+#: templates/create.html:53 templates/create.html:88
+msgid "From"
+msgstr ""
+
+#: templates/create.html:54 templates/create.html:89
+msgid "gift giver"
+msgstr ""
+
+#: templates/create.html:55 templates/create.html:67 templates/create.html:94
+#: templates/create.html:122
+msgid "Participant…"
+msgstr ""
+
+#: templates/create.html:64 templates/create.html:107
+msgid "to"
+msgstr ""
+
+#: templates/create.html:65 templates/create.html:112
+msgid "and"
+msgstr ""
+
+#: templates/create.html:66 templates/create.html:117
+msgid "gift receiver"
+msgstr ""
+
+#: templates/create.html:76 templates/create.html:135
+msgid "constraint level"
+msgstr ""
+
+#: templates/create.html:77 templates/create.html:140
+msgid "Constraint level…"
+msgstr ""
+
+#: templates/create.html:78 templates/create.html:145
+msgid "Never match"
+msgstr ""
+
+#: templates/create.html:79 templates/create.html:150
+msgid "Did match last exchange"
+msgstr ""
+
+#: templates/create.html:80 templates/create.html:155
+msgid "Did match two exchanges ago"
+msgstr ""
+
+#: templates/create.html:81 templates/create.html:160
+msgid "Did match three exchanges ago"
+msgstr ""
+
+#: templates/create.html:167
+msgid "Add constraint"
+msgstr ""
+
+#: templates/create.html:171 templates/create.html:174
+msgid "Next"
+msgstr ""
+
+#: templates/create.html:172 templates/create.html:175
+msgid "Generate matching!"
+msgstr ""
+
+#: templates/data-disclaimer.html:5
+msgid "Data Disclaimer"
+msgstr ""
+
+#: templates/data-disclaimer.html:6
+msgid "Please don't enter sensitive data on this page."
+msgstr ""
+
+#: templates/data-disclaimer.html:7
+msgid "Think about using nicknames."
+msgstr ""
+
+#: templates/data-disclaimer.html:8
+msgid ""
+"I can not and will not make any guarantees about the safety of your data "
+"here."
+msgstr ""
+
+#: templates/data-disclaimer.html:9
+msgid "In fact, I will probably do shenanigans with it."
+msgstr ""
+
+#: templates/data-disclaimer.html:10
+msgid "Shenanigans may include, but are not limited to:"
+msgstr ""
+
+#: templates/data-disclaimer.html:12
+msgid "Read your data"
+msgstr ""
+
+#: templates/data-disclaimer.html:13
+msgid "Eat your data"
+msgstr ""
+
+#: templates/data-disclaimer.html:14
+msgid "Put you on santas naughty list"
+msgstr ""
+
+#: templates/data-disclaimer.html:15
+msgid "Trash it"
+msgstr ""
+
+#: templates/data-disclaimer.html:16
+msgid "Change it"
+msgstr ""
+
+#: templates/data-disclaimer.html:17
+msgid "Mail-upgrade it"
+msgstr ""
+
+#: templates/exchange-overview.html:6
+msgid ""
+"Here are the results! Click your name to see who you're getting a gift "
+"for."
+msgstr ""
+
+#: templates/exchange-user-result.html:7
+msgid "Confirm your name"
+msgstr ""
+
+#: templates/exchange-user-result.html:8
+#, python-format
+msgid "Are you %(name)s and want to see who you'll be getting a gift for?"
+msgstr ""
+
+#: templates/exchange-user-result.html:10
+msgid "Yes"
+msgstr ""
+
+#: templates/exchange-user-result.html:11
+msgid "No"
+msgstr ""
+
+#: templates/exchange-user-result.html:15
+#, python-format
+msgid "Hello %(name)s!"
+msgstr ""
+
+#: templates/exchange-user-result.html:16
+#, python-format
+msgid "You're getting a gift for %(giftee)s."
+msgstr ""
+
+#: templates/rename-exchange.html:5
+msgid "Oops"
+msgstr ""
+
+#: templates/rename-exchange.html:6
+msgid "It seems like an exchange with this name already exists."
+msgstr ""
+
+#: templates/rename-exchange.html:7
+msgid "Most likely someone created it while you were entering the data for yours."
+msgstr ""
+
+#: templates/rename-exchange.html:8
+msgid "Please choose a new name for your exchange to proceed."
+msgstr ""
+
+#: templates/rename-exchange.html:11
+msgid "Create your gift exchange as:"
+msgstr ""
+
+#: templates/rename-exchange.html:18
+msgid "Create exchange"
+msgstr ""
+
+#: templates/start.html:10
+msgid "Open or create gift exchange:"
+msgstr ""
+
+#: templates/start.html:12
+msgid "Open"
+msgstr ""
+
+

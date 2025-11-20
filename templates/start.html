@@ -1,0 +1,14 @@
+<!doctype html>
+{% extends "base.html" %}
+
+{% block content %}
+    {% if errorMessage %}
+        <p class="exchange-creation-error" role="alert"> {{ errorMessage }} </p>
+    {% endif %}
+
+    <form method="post">
+        <label for="exchange_name">{{ _('Open or create gift exchange:') }}</label>
+        <input type="text" id="exchange_name" name="exchange_name" autofocus="True" required>
+        <input type="submit" value="OK" aria-label="{{ _('Open') }}">
+    </form>
+{% endblock %}

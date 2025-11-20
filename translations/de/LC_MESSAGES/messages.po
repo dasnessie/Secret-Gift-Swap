@@ -1,0 +1,292 @@
+# German translations for PROJECT.
+# Copyright (C) 2025 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2025-11-20 16:27+0100\n"
+"PO-Revision-Date: 2025-05-05 20:56+0200\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: de\n"
+"Language-Team: de <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: app.py:81
+msgid ""
+"Something went wrong with your exchange name. Please try again with a "
+"different name."
+msgstr ""
+"Irgendetwas ist mit dem Auslosungsnamen schiefgelaufen. Bitte versuche es"
+" nochmal mit einem anderen Namen."
+
+#: app.py:165
+msgid ""
+"Could not create a valid exchange with this data. Try removing some "
+"constraints or adding some participants to fix this."
+msgstr ""
+"Mit diesen Daten konnte keine gültige Auslosung erzeugt werden. Versuch "
+"Einschränkungen zu entfernen oder Teilnehmende hinzuzufügen, um das "
+"Problem zu beheben."
+
+#: static/create.js:26
+msgid "Can't have the same name twice!"
+msgstr "Namen dürfen nicht doppelt vorkommen!"
+
+#: static/create.js:46
+msgid "You need at least three participants to set up an exchange."
+msgstr ""
+"Es muss mindestens drei Teilnehmende geben, um eine Auslosung erstellen "
+"zu können."
+
+#: static/rename-exchange.js:14
+msgid "This exchange name is not available."
+msgstr "Dieser Name ist nicht verfügbar."
+
+#: templates/404.html:5
+msgid "Page not found"
+msgstr "Seite nicht gefunden"
+
+#: templates/404.html:6
+msgid "Sorry, it seems like this page does not exist."
+msgstr "Leider scheint es diese Seite nicht zu geben."
+
+#: templates/404.html:7
+msgid "Back to the start"
+msgstr "Zurück zum Anfang"
+
+#: templates/base.html:8 templates/base.html:15
+msgid "Secret Gift Swap"
+msgstr "Secret Gift Swap"
+
+#: templates/base.html:24
+msgid "Data disclaimer"
+msgstr "Datenhinweis"
+
+#: templates/base.html:25
+msgid "Secret Gift Swap on Github"
+msgstr "Secret Gift Swap auf Github"
+
+#: templates/create.html:5
+msgid "Create new gift exchange"
+msgstr "Neue Auslosung anlegen"
+
+#: templates/create.html:6
+msgid ""
+"There is no gift exchange with this name yet. You can create a new gift "
+"exchange here."
+msgstr ""
+"Es gibt noch keine Auslosung mit dem eingegebenen Namen. Hier kannst du "
+"eine neue Auslosung anlegen."
+
+#: templates/create.html:19
+msgid "Participants"
+msgstr "Teilnehmende"
+
+#: templates/create.html:24 templates/create.html:30 templates/create.html:34
+#: templates/create.html:38
+msgid "participant name"
+msgstr "Name des Teilnehmenden"
+
+#: templates/create.html:25 templates/create.html:31 templates/create.html:35
+#: templates/create.html:39 templates/create.html:83 templates/create.html:162
+msgid "Delete"
+msgstr "Löschen"
+
+#: templates/create.html:43
+msgid "Add participant"
+msgstr "Teilnehmer hinzufügen"
+
+#: templates/create.html:50
+msgid "Constraints"
+msgstr "Einschränkungen"
+
+#: templates/create.html:53 templates/create.html:88
+msgid "From"
+msgstr "Von"
+
+#: templates/create.html:54 templates/create.html:89
+msgid "gift giver"
+msgstr "Schenkender"
+
+#: templates/create.html:55 templates/create.html:67 templates/create.html:94
+#: templates/create.html:122
+msgid "Participant…"
+msgstr "Teilnehmender…"
+
+#: templates/create.html:64 templates/create.html:107
+msgid "to"
+msgstr "an"
+
+#: templates/create.html:65 templates/create.html:112
+msgid "and"
+msgstr "und"
+
+#: templates/create.html:66 templates/create.html:117
+msgid "gift receiver"
+msgstr "Beschenkter"
+
+#: templates/create.html:76 templates/create.html:135
+msgid "constraint level"
+msgstr "Einschränkungsstufe"
+
+#: templates/create.html:77 templates/create.html:140
+msgid "Constraint level…"
+msgstr "Einschränkungsstufe…"
+
+#: templates/create.html:78 templates/create.html:145
+msgid "Never match"
+msgstr "Nie gegenseitig beschenken!"
+
+#: templates/create.html:79 templates/create.html:150
+msgid "Did match last exchange"
+msgstr "Wurde letztes Mal ausgelost"
+
+#: templates/create.html:80 templates/create.html:155
+msgid "Did match two exchanges ago"
+msgstr "Wurde vorletztes Mal ausgelost"
+
+#: templates/create.html:81 templates/create.html:160
+msgid "Did match three exchanges ago"
+msgstr "Wurde vor drei Malen ausgelost"
+
+#: templates/create.html:167
+msgid "Add constraint"
+msgstr "Einschränkung hinzufügen"
+
+#: templates/create.html:171 templates/create.html:174
+msgid "Next"
+msgstr "Weiter"
+
+#: templates/create.html:172 templates/create.html:175
+msgid "Generate matching!"
+msgstr "Auslosen!"
+
+#: templates/data-disclaimer.html:5
+msgid "Data Disclaimer"
+msgstr "Datenhinweis"
+
+#: templates/data-disclaimer.html:6
+msgid "Please don't enter sensitive data on this page."
+msgstr "Bitte trage auf dieser Seite keine sensiblen Daten ein."
+
+#: templates/data-disclaimer.html:7
+msgid "Think about using nicknames."
+msgstr "Denk drüber nach, Nicknamen zu benutzen."
+
+#: templates/data-disclaimer.html:8
+msgid ""
+"I can not and will not make any guarantees about the safety of your data "
+"here."
+msgstr ""
+"Ich kann und will keine Garantien für die Sicherheit deiner Daten hier "
+"geben."
+
+#: templates/data-disclaimer.html:9
+msgid "In fact, I will probably do shenanigans with it."
+msgstr "Tatsächlich werde ich vermutlich Blödsinn damit anstellen."
+
+#: templates/data-disclaimer.html:10
+msgid "Shenanigans may include, but are not limited to:"
+msgstr "Zum Blödsinn kann unter anderem gehören:"
+
+#: templates/data-disclaimer.html:12
+msgid "Read your data"
+msgstr "deine Daten ansehen"
+
+#: templates/data-disclaimer.html:13
+msgid "Eat your data"
+msgstr "deine Daten anbeißen"
+
+#: templates/data-disclaimer.html:14
+msgid "Put you on santas naughty list"
+msgstr "dich beim Weihnachtsmann verpetzen"
+
+#: templates/data-disclaimer.html:15
+msgid "Trash it"
+msgstr "trash it"
+
+#: templates/data-disclaimer.html:16
+msgid "Change it"
+msgstr "change it"
+
+#: templates/data-disclaimer.html:17
+msgid "Mail-upgrade it"
+msgstr "mail-upgrade it"
+
+#: templates/exchange-overview.html:6
+msgid ""
+"Here are the results! Click your name to see who you're getting a gift "
+"for."
+msgstr ""
+"Hier sind die Ergebnisse der Auslosung! Klicke auf deinen Namen, um zu "
+"erfahren, wen du beschenken darfst."
+
+#: templates/exchange-user-result.html:7
+msgid "Confirm your name"
+msgstr "Namen bestätigen"
+
+#: templates/exchange-user-result.html:8
+#, python-format
+msgid "Are you %(name)s and want to see who you'll be getting a gift for?"
+msgstr "Bist du %(name)s und möchtest wissen, wen du beschenken wirst?"
+
+#: templates/exchange-user-result.html:10
+msgid "Yes"
+msgstr "Ja"
+
+#: templates/exchange-user-result.html:11
+msgid "No"
+msgstr "Nein"
+
+#: templates/exchange-user-result.html:15
+#, python-format
+msgid "Hello %(name)s!"
+msgstr "Hallo %(name)s!"
+
+#: templates/exchange-user-result.html:16
+#, python-format
+msgid "You're getting a gift for %(giftee)s."
+msgstr "Du beschenkst %(giftee)s."
+
+#: templates/rename-exchange.html:5
+msgid "Oops"
+msgstr "Hoppla"
+
+#: templates/rename-exchange.html:6
+msgid "It seems like an exchange with this name already exists."
+msgstr "Es scheint schon eine Auslosung mit diesem Namen zu geben."
+
+#: templates/rename-exchange.html:7
+msgid "Most likely someone created it while you were entering the data for yours."
+msgstr ""
+"Wahrscheinlich hat sie jemand angelegt, während du dabei warst, die Daten"
+" für deine einzutragen."
+
+#: templates/rename-exchange.html:8
+msgid "Please choose a new name for your exchange to proceed."
+msgstr "Bitte gib deiner Auslosung einen neuen Namen, bevor du weitermachst."
+
+#: templates/rename-exchange.html:11
+msgid "Create your gift exchange as:"
+msgstr "Deine Auslosung mit folgendem Namen anlegen:"
+
+#: templates/rename-exchange.html:18
+msgid "Create exchange"
+msgstr "Auslosung anlegen"
+
+#: templates/start.html:10
+msgid "Open or create gift exchange:"
+msgstr "Auslosung öffnen oder anlegen:"
+
+#: templates/start.html:12
+msgid "Open"
+msgstr "Öffnen"
+
+

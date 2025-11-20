@@ -1,0 +1,21 @@
+<!doctype html>
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>{{ _('Oops') }}</h2>
+    <p>{{ _("It seems like an exchange with this name already exists.") }}
+        {{ _("Most likely someone created it while you were entering the data for yours.") }}
+        {{ _("Please choose a new name for your exchange to proceed.") }}
+    </p>
+    <form id="rename_exchange" method="post" action="/rename_exchange/">
+        <label for="exchange_name">{{ _('Create your gift exchange as:') }}</label>
+        <input type="text" id="exchange_name" name="exchange_name" autofocus="True" required>
+        {% for key, values in form_data.lists() %}
+            {% for value in values %}
+                <input type="hidden" name="{{ key }}" value="{{ value }}">
+            {% endfor %}
+        {% endfor %}
+        <input type="submit" value="OK" aria-label="{{ _('Create exchange') }}">
+    </form>
+    <script src="/static/rename-exchange.js"></script>
+{% endblock %}
