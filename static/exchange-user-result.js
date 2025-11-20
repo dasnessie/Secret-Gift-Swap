@@ -1,6 +1,6 @@
 function returnToOverview(event) {
   event.preventDefault();
-  window.location.href = "../../";
+  window.location.href = "../";
 }
 
 document.getElementById("no-button").addEventListener("click", (e) => {
