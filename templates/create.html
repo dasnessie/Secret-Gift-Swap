@@ -22,7 +22,7 @@
                     {% for participant in existingFormData.getlist("participant") %}
                         <li>
                             <input type="text" name="participant" class="participant" aria-label="{{ _('participant name') }}" value="{{ participant }}"/>
-                            <button type="button" class="delete-participant">{{ _('Delete') }}</button>
+                            <button type="button" class="delete-participant secondary-button">{{ _('Delete') }}</button>
                         </li>
                     {% endfor %}
                 {% else %}

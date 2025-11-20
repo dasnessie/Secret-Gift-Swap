@@ -362,6 +362,10 @@ form.inline {
   margin-block: 1rem;
 }
 
+#participant-list li {
+  margin-block: 0.5rem;
+}
+
 .result-participants {
   padding-inline-start: 0;
   margin-inline: 3rem;
