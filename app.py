@@ -107,9 +107,16 @@ def data_disclaimer():
 
 @app.route("/<exchange_slug>/create/", methods=["GET"])
 def view_create_exchange(exchange_slug, error_message=None, form_data=None):
+    if not slugify(exchange_slug):
+        return redirect("/")
     exchange_name = session.pop("exchange_name", None)
     if not exchange_name:
-        exchange_name = exchange_slug.title()
+        if exchange_slug.islower():
+            exchange_name = exchange_slug.title()
+        else:
+            exchange_name = exchange_slug
+    if exchange_slug != slugify(exchange_slug):
+        exchange_slug = slugify(exchange_slug)
     db = get_db()
     if db.exchange_exists(exchange_slug):
         return redirect(f"/{exchange_slug}/")
