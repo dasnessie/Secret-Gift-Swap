@@ -184,7 +184,7 @@ def view_exchange(exchange_name):
 
 
 @app.route(
-    "/<exchange_name>/results/<path:participant_name>/",
+    "/<exchange_name>/results/<path:participant_name>",
 )  # <path:… makes sure we can handle participant names containing slashes
 def view_exchange_participant_result(exchange_name, participant_name):
     participant_name = urllib.parse.unquote_plus(participant_name)
