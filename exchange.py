@@ -1,8 +1,7 @@
-from slugify import slugify
-
 from constraint import Constraint
 from match import Match
 from participant import Participant
+from utils import slugify
 
 
 class Exchange:

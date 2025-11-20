@@ -15,7 +15,6 @@ from flask import (
 )
 from flask_babel import Babel, _
 from flask_babel_js import BabelJS
-from slugify import slugify
 
 from constraint import Constraint
 from databaseHandler import DatabaseHandler
@@ -23,7 +22,7 @@ from exchange import Exchange
 from participant import (
     Participant,
 )
-from utils import get_pairing_with_probabilities
+from utils import get_pairing_with_probabilities, slugify
 
 app = Flask(__name__)
 

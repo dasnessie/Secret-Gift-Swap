@@ -2,6 +2,8 @@ import warnings
 from copy import deepcopy
 from random import random, shuffle
 
+from slugify import slugify as og_slugify
+
 from constraint import (
     Constraint,
     get_all_probability_values_from_constraints,
@@ -10,6 +12,28 @@ from constraint import (
 )
 from match import Match
 from participant import Participant
+
+
+def slugify(text: str) -> str:
+    """Slugify a string for use in url.
+
+    Makes sure the slug is not a link to a static page.
+
+    Args:
+        text (str): String to slugify
+
+    Returns:
+        str: Slugified string, or None
+
+    """
+    slug = og_slugify(text)
+    if slug and slug in [
+        "data-disclaimer",
+        "check_name",
+        "rename_exchange",
+    ]:
+        return None
+    return slug
 
 
 def _generate_pairing(participants: list[Participant]) -> list[Match]:
