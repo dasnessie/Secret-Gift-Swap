@@ -56,6 +56,8 @@ h6 {
  */
 
 :root {
+  --hue-theme: 180;
+
   /* System Fonts*/
   --system-ui: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", Helvetica, Arial,
@@ -63,7 +65,7 @@ h6 {
 
   --color-background: white;
   --color-text: hsl(0 0% 10%);
-  --color-theme: oklch(0.4 0.25 180);
+  --color-theme: oklch(0.4 0.25 var(--hue-theme));
   --color-danger: hsl(0 85% 60%);
   --color-danger-background: hsl(0, 60%, 80%);
 
@@ -140,7 +142,7 @@ button[hidden] {
 .secondary-button {
   background-color: var(--color-theme-light);
   border: 2px solid var(--color-theme-medium);
-  color: black;
+  color: inherit;
   padding: calc(0.5rem - 2px) calc(0.9rem - 2px);
 }
 
@@ -270,6 +272,7 @@ select {
   border: 1px solid var(--color-theme-medium);
   border-radius: var(--corner-radius-default);
   padding: 0.5rem;
+  color: inherit;
 }
 
 /* Strong */
@@ -299,7 +302,6 @@ details > * + * {
 
 /* Dialog */
 dialog::backdrop {
-  /* background-color: red; */
   backdrop-filter: blur(5px);
 }
 dialog {
@@ -308,6 +310,8 @@ dialog {
   top: 50%;
   transform: translateX(-50%) translateY(-50%);
   border-radius: var(--corner-radius-default);
+  color: inherit;
+  background-color: var(--color-background);
 }
 
 /* Form */
