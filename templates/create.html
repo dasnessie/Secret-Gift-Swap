@@ -9,7 +9,8 @@
         <p class="exchange-creation-error" role="alert"> {{ errorMessage }} </p>
     {% endif %}
 
-    <form id="participant-form" action="/{{ exchangeName }}/create" method="POST">
+    <form id="participant-form" action="/{{ exchangeSlug }}/create" method="POST">
+        <input type="hidden" name="exchangeName" value="{{ exchangeName }}">
         <fieldset id="participants"
             {% if existingFormData and existingFormData.getlist("giver") %}
                 disabled

@@ -24,13 +24,14 @@ class DatabaseHandler:
         self.connection.execute("PRAGMA foreign_keys = ON")
 
         self.cursor.execute(
-            "CREATE TABLE IF NOT EXISTS exchanges(name TEXT PRIMARY KEY) STRICT",
+            "CREATE TABLE IF NOT EXISTS "
+            "exchanges(slug TEXT PRIMARY KEY, name TEXT) STRICT",
         )
         self.cursor.execute(
             "CREATE TABLE IF NOT EXISTS "
             "participants(uuid TEXT PRIMARY KEY, "
-            "exchange_name TEXT, "
-            "FOREIGN KEY (exchange_name) REFERENCES exchanges (name)"
+            "exchange_slug TEXT, "
+            "FOREIGN KEY (exchange_slug) REFERENCES exchanges (slug)"
             ") STRICT",
         )
         self.cursor.execute(
@@ -38,18 +39,18 @@ class DatabaseHandler:
             "participant_names(participant_id TEXT, "
             "name TEXT, "
             "active INTEGER, "
-            "exchange_name TEXT, "
-            "FOREIGN KEY (exchange_name) REFERENCES exchanges (name), "
+            "exchange_slug TEXT, "
+            "FOREIGN KEY (exchange_slug) REFERENCES exchanges (slug), "
             "FOREIGN KEY (participant_id) REFERENCES participants (uuid), "
-            "UNIQUE (name, exchange_name)"
+            "UNIQUE (name, exchange_slug)"
             ") STRICT",
         )
         self.cursor.execute(
             "CREATE TABLE IF NOT EXISTS "
-            "matches(exchange_name TEXT, "
+            "matches(exchange_slug TEXT, "
             "giver_id TEXT, "
             "giftee_id TEXT, "
-            "FOREIGN KEY (exchange_name) REFERENCES exchanges (name), "
+            "FOREIGN KEY (exchange_slug) REFERENCES exchanges (slug), "
             "FOREIGN KEY (giver_id) REFERENCES participants (uuid), "
             "FOREIGN KEY (giftee_id) REFERENCES participants (uuid)"
             ") STRICT",
@@ -58,9 +59,9 @@ class DatabaseHandler:
             "CREATE TABLE IF NOT EXISTS "
             "constraints(giver_id TEXT, "
             "giftee_id TEXT, "
-            "exchange_name TEXT, "
+            "exchange_slug TEXT, "
             "probability_level TEXT, "
-            "FOREIGN KEY (exchange_name) REFERENCES exchanges (name), "
+            "FOREIGN KEY (exchange_slug) REFERENCES exchanges (slug), "
             "FOREIGN KEY (giver_id) REFERENCES participants (uuid), "
             "FOREIGN KEY (giftee_id) REFERENCES participants (uuid)"
             ") STRICT",
@@ -71,18 +72,36 @@ class DatabaseHandler:
         """Close the connection to the database."""
         self.connection.close()
 
-    def exchange_exists(self, name: str) -> bool:
-        """Whether an exchange with the given name exists in the database.
+    def exchange_exists(self, slug: str) -> bool:
+        """Whether an exchange with the given slug exists in the database.
 
         Args:
-            name (str): Name of the exchange
+            slug (str): Slug of the exchange
 
         Returns:
             bool: Whether or not the exchange exists
 
         """
-        res = self.cursor.execute("SELECT 1 FROM exchanges WHERE name = ?", (name,))
+        res = self.cursor.execute("SELECT 1 FROM exchanges WHERE slug = ?", (slug,))
         return res.fetchone() is not None
+
+    def get_exchange_name(self, slug: str) -> str:
+        """Get the name of an exchange for a given slug.
+
+        Args:
+            slug (str): Slug of the exchange
+
+        Raises:
+            ValueError: _description_If the exchange does not exist
+
+        Returns:
+            str: Name of the exchange
+
+        """
+        if not self.exchange_exists(slug):
+            raise ValueError(f"There is no exchange with slug '{slug}'!")
+        res = self.cursor.execute("SELECT name FROM exchanges WHERE slug = ?", (slug,))
+        return res.fetchone()[0]
 
     def create_exchange(
         self,
@@ -100,13 +119,16 @@ class DatabaseHandler:
             pairing (list[Match]): The pairing to create
 
         """
-        self.cursor.execute("INSERT INTO exchanges VALUES (?)", (exchange.name,))
+        self.cursor.execute(
+            "INSERT INTO exchanges VALUES (?, ?)",
+            (exchange.slug, exchange.name),
+        )
         for participant in participants:
             self.cursor.execute(
                 "INSERT INTO participants VALUES (?, ?)",
                 (
                     str(participant.uuid),
-                    exchange.name,
+                    exchange.slug,
                 ),
             )
             for i, name in enumerate(participant.names):
@@ -116,7 +138,7 @@ class DatabaseHandler:
                         str(participant.uuid),
                         name,
                         int(i == participant.active_name),
-                        exchange.name,
+                        exchange.slug,
                     ),
                 )
         for constraint in constraints:
@@ -125,7 +147,7 @@ class DatabaseHandler:
                 (
                     str(constraint.giver_id),
                     str(constraint.giftee_id),
-                    exchange.name,
+                    exchange.slug,
                     constraint.probability_level,
                 ),
             )
@@ -133,7 +155,7 @@ class DatabaseHandler:
             self.cursor.execute(
                 "INSERT INTO matches VALUES (?, ?, ?)",
                 (
-                    exchange.name,
+                    exchange.slug,
                     str(match.giver_id),
                     str(match.giftee_id),
                 ),
@@ -142,12 +164,12 @@ class DatabaseHandler:
 
     def get_exchange(
         self,
-        name: str,
+        slug: str,
     ) -> Exchange:
-        """Get exchange by name.
+        """Get exchange by it's slug.
 
         Args:
-            name (str): name of the exchange to get
+            slug (str): slug of the exchange to get
 
         Raises:
             ValueError: If the exchange does not exist
@@ -156,11 +178,11 @@ class DatabaseHandler:
             Exchange: The exchange object from the database
 
         """
-        if not self.exchange_exists(name):
-            raise ValueError(f"There is no exchange with name '{name}'!")
+        if not self.exchange_exists(slug):
+            raise ValueError(f"There is no exchange with slug '{slug}'!")
         result = self.cursor.execute(
-            "SELECT * FROM participants WHERE exchange_name = ?",
-            (name,),
+            "SELECT * FROM participants WHERE exchange_slug = ?",
+            (slug,),
         )
         participants = []
         for r in result.fetchall():
@@ -183,12 +205,12 @@ class DatabaseHandler:
             )
 
         result = self.cursor.execute(
-            "SELECT * FROM constraints WHERE exchange_name = ?",
-            (name,),
+            "SELECT * FROM constraints WHERE exchange_slug = ?",
+            (slug,),
         )
         constraints = []
         for r in result.fetchall():
-            giver_id, giftee_id, exchange_name, probability_level = r
+            giver_id, giftee_id, exchange_slug, probability_level = r
             constraints.append(
                 Constraint(
                     UUID(giver_id),
@@ -198,15 +220,17 @@ class DatabaseHandler:
             )
 
         result = self.cursor.execute(
-            "SELECT * FROM matches WHERE exchange_name = ?",
-            (name,),
+            "SELECT * FROM matches WHERE exchange_slug = ?",
+            (slug,),
         )
         pairing = []
         for r in result.fetchall():
-            exchange_name, giver_uuid, giftee_uuid = r
+            exchange_slug, giver_uuid, giftee_uuid = r
             pairing.append(Match(UUID(giver_uuid), UUID(giftee_uuid)))
 
-        return Exchange(name, participants, constraints, pairing)
+        exchange_name = self.get_exchange_name(exchange_slug)
+
+        return Exchange(exchange_name, participants, constraints, pairing)
 
     def get_participant(self, participant_id: UUID) -> Participant:
         """Get participant by their uuid.
@@ -238,11 +262,11 @@ class DatabaseHandler:
             uuid=UUID(participant_id),
         )
 
-    def get_giftee_for_giver(self, exchange_name: str, giver_name: str) -> Participant:
+    def get_giftee_for_giver(self, exchange_slug: str, giver_name: str) -> Participant:
         """Get the participant a given participant will get a gift for.
 
         Args:
-            exchange_name (str): name of the exchange to search in
+            exchange_slug (str): slug of the exchange to search in
             giver_name (str): name of the giver
 
         Raises:
@@ -253,8 +277,8 @@ class DatabaseHandler:
             Participant: Participant to get a gift for (giftee)
 
         """
-        if not self.exchange_exists(exchange_name):
-            raise ValueError(f"There is no exchange with name '{exchange_name}'!")
+        if not self.exchange_exists(exchange_slug):
+            raise ValueError(f"There is no exchange with slug '{exchange_slug}'!")
         result = self.cursor.execute(
             "SELECT m.giftee_id "
             "FROM matches AS m "
@@ -263,16 +287,16 @@ class DatabaseHandler:
             "JOIN participant_names as n "
             "ON p.uuid = n.participant_id "
             "WHERE n.name = ? "
-            "AND p.exchange_name = ?",
+            "AND p.exchange_slug = ?",
             (
                 giver_name,
-                exchange_name,
+                exchange_slug,
             ),
         )
         giftee_id = result.fetchone()[0]
         if not giftee_id:
             raise ValueError(
                 f"There is no participant with name '{giver_name}' "
-                f"in exchange '{exchange_name}'!",
+                f"in exchange '{exchange_slug}'!",
             )
         return self.get_participant(giftee_id)

@@ -1,3 +1,5 @@
+from slugify import slugify
+
 from constraint import Constraint
 from match import Match
 from participant import Participant
@@ -23,6 +25,12 @@ class Exchange:
 
         """
         self.name = name
+        self.slug = slugify(name)
+        if not self.slug:
+            raise ValueError(
+                "Could not generate reasonable url slug "
+                f"from exchange name '{self.name}'!",
+            )
         self.participants = participants
         self.constraints = constraints
         self.pairing = pairing

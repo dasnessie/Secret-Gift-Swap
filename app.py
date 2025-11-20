@@ -1,3 +1,4 @@
+import os
 import urllib.parse
 from sqlite3 import IntegrityError
 
@@ -10,6 +11,7 @@ from flask import (
     redirect,
     render_template,
     request,
+    session,
 )
 from flask_babel import Babel, _
 from flask_babel_js import BabelJS
@@ -24,6 +26,8 @@ from participant import (
 from utils import get_pairing_with_probabilities
 
 app = Flask(__name__)
+
+app.secret_key = os.urandom(32)
 
 
 def get_locale():
@@ -63,27 +67,38 @@ def not_found(_e):
 
 
 @app.route("/", methods=["GET"])
-def start():
-    return render_template("start.html")
+def start(error_msg: str = None):
+    return render_template("start.html", errorMessage=error_msg)
 
 
 @app.route("/", methods=["POST"])
 def route_to_exchange():
-    exchange_name = slugify(request.form["exchange_name"])
-    exchange_name = urllib.parse.quote_plus(exchange_name)
+    exchange_name = request.form["exchange_name"]
+    exchange_slug = slugify(exchange_name)
+    if not exchange_slug:
+        return start(
+            error_msg=_(
+                "Something went wrong with your exchange name. "
+                "Please try again with a different name.",
+            ),
+        )
     db = get_db()
     # if exchange exists
-    if db.exchange_exists(exchange_name):
-        return redirect(f"/{exchange_name}/")
+    if db.exchange_exists(exchange_slug):
+        return redirect(f"/{exchange_slug}/")
     # else create exchange
-    return redirect(f"/{exchange_name}/create/")
+    session["exchange_name"] = exchange_name
+    return redirect(f"/{exchange_slug}/create/")
 
 
 @app.route("/check_name")
 def check_name():
     name = request.args.get("name", "").strip()
+    slug = slugify(name)
+    if not slug:
+        return jsonify({"nameAvailable": False})
     db = get_db()
-    return jsonify({"nameAvailable": not db.exchange_exists(name)})
+    return jsonify({"nameAvailable": not db.exchange_exists(slug)})
 
 
 @app.route("/data-disclaimer/", methods=["GET"])
@@ -91,17 +106,21 @@ def data_disclaimer():
     return render_template("data-disclaimer.html")
 
 
-@app.route("/<exchange_name>/create/", methods=["GET"])
-def view_create_exchange(exchange_name, errorMessage=None, formData=None):
+@app.route("/<exchange_slug>/create/", methods=["GET"])
+def view_create_exchange(exchange_slug, error_message=None, form_data=None):
+    exchange_name = session.pop("exchange_name", None)
+    if not exchange_name:
+        exchange_name = exchange_slug.title()
     db = get_db()
-    if db.exchange_exists(exchange_name):
-        return redirect(f"/{exchange_name}/")
+    if db.exchange_exists(exchange_slug):
+        return redirect(f"/{exchange_slug}/")
     response = make_response(
         render_template(
             "create.html",
+            exchangeSlug=exchange_slug,
             exchangeName=exchange_name,
-            errorMessage=errorMessage,
-            existingFormData=formData,
+            errorMessage=error_message,
+            existingFormData=form_data,
         ),
     )
     response.headers["Cache-Control"] = "no-store, no-cache, must-revalidate, max-age=0"
@@ -110,7 +129,9 @@ def view_create_exchange(exchange_name, errorMessage=None, formData=None):
     return response
 
 
-def create_exchange(exchange_name, form):
+def create_exchange(exchange_slug, form, exchange_name: str = None):
+    if not exchange_name:
+        exchange_name = form.getlist("exchangeName")[0]
     participant_names = [p for p in form.getlist("participant") if p]
     if len(participant_names) != len(set(participant_names)):
         return Response(status=422)
@@ -140,62 +161,67 @@ def create_exchange(exchange_name, form):
         pairing = get_pairing_with_probabilities(participants, constraints)
     except ValueError:
         return view_create_exchange(
-            exchange_name,
-            errorMessage=_(
+            exchange_slug,
+            error_message=_(
                 "Could not create a valid exchange with this data. "
                 "Try removing some constraints "
                 "or adding some participants to fix this.",
             ),
-            formData=form,
+            form_data=form,
         )
     exchange = Exchange(exchange_name, participants, constraints, pairing)
     db = get_db()
     try:
         db.create_exchange(exchange, participants, constraints, pairing)
     except IntegrityError as e:
-        if db.exchange_exists(exchange_name):
+        if db.exchange_exists(exchange_slug):
             return render_template("rename-exchange.html", form_data=form)
         raise e
-    return redirect(f"/{exchange_name}/")
+    return redirect(f"/{exchange_slug}/")
 
 
-@app.route("/<exchange_name>/create/", methods=["POST"])
-def route_create_exchange(exchange_name):
-    return create_exchange(exchange_name, request.form)
+@app.route("/<exchange_slug>/create/", methods=["POST"])
+def route_create_exchange(exchange_slug):
+    return create_exchange(exchange_slug, request.form)
 
 
 @app.route("/rename_exchange/", methods=["POST"])
 def route_create_renamed_exchange():
     exchange_name = request.form.getlist("exchange_name")[0]
-    return create_exchange(exchange_name, request.form)
+    exchange_slug = slugify(exchange_name)
+    if not exchange_slug:
+        return render_template("rename-exchange.html", form_data=request.form)
+    return create_exchange(exchange_slug, request.form, exchange_name)
 
 
-@app.route("/<exchange_name>/")
-def view_exchange(exchange_name):
+@app.route("/<exchange_slug>/")
+def view_exchange(exchange_slug):
     db = get_db()
-    if not db.exchange_exists(exchange_name):
-        return redirect(f"/{exchange_name}/create/")
-    exchange = db.get_exchange(exchange_name)
+    if not db.exchange_exists(exchange_slug):
+        return redirect(f"/{exchange_slug}/create/")
+    exchange = db.get_exchange(exchange_slug)
     return render_template(
         "exchange-overview.html",
-        exchangeName=exchange_name,
+        exchangeSlug=exchange_slug,
+        exchangeName=db.get_exchange_name(exchange_slug),
         participants=exchange.participants,
     )
 
 
 @app.route(
-    "/<exchange_name>/results/<path:participant_name>",
+    "/<exchange_slug>/results/<path:participant_name>",
 )  # <path:… makes sure we can handle participant names containing slashes
-def view_exchange_participant_result(exchange_name, participant_name):
+def view_exchange_participant_result(exchange_slug, participant_name):
     participant_name = urllib.parse.unquote_plus(participant_name)
     db = get_db()
     try:
-        giftee = db.get_giftee_for_giver(exchange_name, participant_name)
+        giftee = db.get_giftee_for_giver(exchange_slug, participant_name)
     except ValueError as e:
         return not_found(e)
     return render_template(
         "exchange-user-result.html",
-        exchangeName=exchange_name,
+        exchangeSlug=exchange_slug,
+        exchangeName=db.get_exchange_name(exchange_slug),
         participantName=participant_name,
         gifteeName=giftee.get_name(),
     )

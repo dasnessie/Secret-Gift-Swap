@@ -11,7 +11,7 @@ form.addEventListener("submit", async (e) => {
   if (data.nameAvailable) {
     form.submit();
   } else {
-    nameInput.setCustomValidity(_("This exchange name is already taken!"));
+    nameInput.setCustomValidity(_("This exchange name is not available."));
     form.reportValidity();
   }
 });

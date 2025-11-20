@@ -2,11 +2,11 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h2><a href="/{{ exchangeName }}/">{{ exchangeName }}</a></h2>
+    <h2><a href="/{{ exchangeSlug }}/">{{ exchangeName }}</a></h2>
     <p>{{ _("Here are the results! Click your name to see who you're getting a gift for.") }}</p>
     <ul class="result-participants">
         {% for participant in participants %}
-        <li><a href="/{{ exchangeName }}/results/{{ participant.get_name()|quote_plus }}">{{ participant.get_name() }}</a></li>
+        <li><a href="/{{ exchangeSlug }}/results/{{ participant.get_name()|quote_plus }}">{{ participant.get_name() }}</a></li>
         {% endfor %}
     </ul>
 {% endblock %}

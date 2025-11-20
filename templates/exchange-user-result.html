@@ -2,7 +2,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h2><a href="/{{ exchangeName }}/">{{ exchangeName }}</a></h2>
+    <h2><a href="/{{ exchangeSlug }}/">{{ exchangeName }}</a></h2>
     <dialog id="name-confirmation" aria-labelledby="dialog-title" aria-describedby="dialog-content">
         <h3 id="dialog-title">{{ _("Confirm your name") }}</h3>
         <p id="dialog-content">{{ _("Are you %(name)s and want to see who you'll be getting a gift for?", name=participantName) }}</p>
