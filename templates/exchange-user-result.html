@@ -15,5 +15,12 @@
         <p>{{ _('Hello %(name)s!', name=participantName) }}</p>
         <p>{{ _("You're getting a gift for %(giftee)s.", giftee="<strong>" ~ gifteeName ~ "</strong>") | safe }}</p>
     </div>
+    <details id="giver-spoiler">
+        <summary>{{ _("I can't stand surprises and want to know who I'm getting a gift from.") }}</summary>
+        {% set spoiler_html = '<button id="spoiler-cover" type="button">' ~ _("Click to reveal name") ~ '</button>' ~
+            '<span id="spoiler-content" style="display: none;">' ~ giverName ~ '</span>' %}
+
+        {{ _("You're getting a gift from %(giver)s.") | format(giver=spoiler_html) | safe }}
+    </details>
     <script src="/static/exchange-user-result.js"></script>
 {% endblock %}

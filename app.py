@@ -222,6 +222,7 @@ def view_exchange_participant_result(exchange_slug, participant_name):
     db = get_db()
     try:
         giftee = db.get_giftee_for_giver(exchange_slug, participant_name)
+        giver = db.get_giver_for_giftee(exchange_slug, participant_name)
     except ValueError as e:
         return not_found(e)
     return render_template(
@@ -230,4 +231,5 @@ def view_exchange_participant_result(exchange_slug, participant_name):
         exchangeName=db.get_exchange_name(exchange_slug),
         participantName=participant_name,
         gifteeName=giftee.get_name(),
+        giverName=giver.get_name(),
     )

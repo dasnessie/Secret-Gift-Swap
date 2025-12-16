@@ -285,7 +285,7 @@ strong {
 
 /* Details */
 details {
-  background: var(--color-theme-light);
+  background: white;
   border: 1px solid var(--color-theme-medium);
   padding: 1rem;
   border-radius: var(--corner-radius-default);
@@ -397,6 +397,15 @@ form.inline {
   border: 1px solid var(--color-theme-medium);
   padding: 1rem;
   border-radius: var(--corner-radius-default);
+}
+
+#spoiler-cover {
+  border: none;
+  border-radius: var(--corner-radius-default);
+  background-color: var(--color-theme);
+  color: white;
+  padding: 0.2rem;
+  margin: -0.2rem;
 }
 
 .exchange-creation-error {

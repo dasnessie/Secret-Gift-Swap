@@ -300,3 +300,42 @@ class DatabaseHandler:
                 f"in exchange '{exchange_slug}'!",
             )
         return self.get_participant(giftee_id)
+
+    def get_giver_for_giftee(self, exchange_slug: str, giftee_name: str) -> Participant:
+        """Get the participant a given participant will be getting a gift from.
+
+        Args:
+            exchange_slug (str): slug of the exchange to search in
+            giftee_name (str): name of the giftee
+
+        Raises:
+            ValueError: If the exchange does not exist
+            ValueError: If there is no participant with the given name in the exchange
+
+        Returns:
+            Participant: Participant to get a gift from (giver)
+
+        """
+        if not self.exchange_exists(exchange_slug):
+            raise ValueError(f"There is no exchange with slug '{exchange_slug}'!")
+        result = self.cursor.execute(
+            "SELECT m.giver_id "
+            "FROM matches AS m "
+            "JOIN participants as p "
+            "ON p.uuid = m.giftee_id "
+            "JOIN participant_names as n "
+            "ON p.uuid = n.participant_id "
+            "WHERE n.name = ? "
+            "AND p.exchange_slug = ?",
+            (
+                giftee_name,
+                exchange_slug,
+            ),
+        )
+        giver_id = result.fetchone()[0]
+        if not giver_id:
+            raise ValueError(
+                f"There is no participant with name '{giftee_name}' "
+                f"in exchange '{exchange_slug}'!",
+            )
+        return self.get_participant(giver_id)

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-11-20 16:27+0100\n"
+"POT-Creation-Date: 2025-12-16 17:55+0100\n"
 "PO-Revision-Date: 2025-05-05 20:56+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -18,13 +18,13 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
 
-#: app.py:81
+#: app.py:80
 msgid ""
 "Something went wrong with your exchange name. Please try again with a "
 "different name."
 msgstr ""
 
-#: app.py:165
+#: app.py:172
 msgid ""
 "Could not create a valid exchange with this data. Try removing some "
 "constraints or adding some participants to fix this."
@@ -242,6 +242,19 @@ msgstr ""
 msgid "You're getting a gift for %(giftee)s."
 msgstr ""
 
+#: templates/exchange-user-result.html:19
+msgid "I can't stand surprises and want to know who I'm getting a gift from."
+msgstr ""
+
+#: templates/exchange-user-result.html:20
+msgid "Click to reveal name"
+msgstr ""
+
+#: templates/exchange-user-result.html:23
+#, python-format
+msgid "You're getting a gift from %(giver)s."
+msgstr ""
+
 #: templates/rename-exchange.html:5
 msgid "Oops"
 msgstr ""
@@ -273,5 +286,4 @@ msgstr ""
 #: templates/start.html:12
 msgid "Open"
 msgstr ""
-
 
