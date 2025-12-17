@@ -17,18 +17,22 @@
     </div>
     <details id="giver-spoiler">
         <summary>{{ _("I can't stand surprises and want to know who I'm getting a gift from.") }}</summary>
-        {% set spoiler_html = '<button id="spoiler-cover" type="button">' ~ _("Click to reveal name") ~ '</button>' ~
-            '<span id="spoiler-content" style="display: none;">' ~ giverName ~ '</span>' %}
+        <p>
+            {% set spoiler_html = '<button id="spoiler-cover" type="button">' ~ _("Click to reveal name") ~ '</button>' ~
+                '<span id="spoiler-content" style="display: none;">' ~ giverName ~ '</span>' %}
 
-        {{ _("You're getting a gift from %(giver)s.") | format(giver=spoiler_html) | safe }}
+            {{ _("You're getting a gift from %(giver)s.") | format(giver=spoiler_html) | safe }}
+        </p>
     </details>
     <details id="change-name">
         <summary>{{ _("My name is not correct, I need to change it.") }}</summary>
-        {{ _("Your current name is %(participantName)s.", participantName=participantName) }}
-        {{ _("If that is not correct, you can change it here.") }}
-        {{ _("Your old name will immediately be replaced with your new name everywhere in this exchange.") }}
-        {{ _("Please use a name that the other participants of this exchange know you as, if possible.") }}
-        {{ _("Links containing your old name will continue to work, and will automatically be redirected.") }}
+        <p>
+            {{ _("Your current name is %(participantName)s.", participantName=participantName) }}
+            {{ _("If that is not correct, you can change it here.") }}
+            {{ _("Your old name will immediately be replaced with your new name everywhere in this exchange.") }}
+            {{ _("Please use a name that the other participants of this exchange know you as, if possible.") }}
+            {{ _("Links containing your old name will continue to work, and will automatically be redirected.") }}
+        </p>
         <form id="rename_participant" method="post" action="">
             <label for="participant_name">{{ _('Change you name to:') }}</label>
             <input type="text" id="participant_name" name="participant_name" autofocus="True" required>
