@@ -29,7 +29,7 @@ def slugify(text: str) -> str:
     slug = og_slugify(text)
     if slug and slug in [
         "data-disclaimer",
-        "check_name",
+        "check_exchange_name",
         "rename_exchange",
     ]:
         return None

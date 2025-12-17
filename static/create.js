@@ -50,6 +50,17 @@ function validateSufficientParticipants() {
   }
 }
 
+function validateNames() {
+  const nameInputs = Array.from(
+    document.querySelectorAll("#participant-list input.participant")
+  );
+  for (const nameInput of nameInputs) {
+    if (nameInput.value.startsWith("/")) {
+      nameInput.setCustomValidity(_("Names may not begin with a slash."));
+    }
+  }
+}
+
 for (const participantNameInput of document.getElementsByName("participant")) {
   participantNameInput.addEventListener("blur", (e) => {
     validateUserNames(e);
@@ -115,6 +126,9 @@ document.getElementById("participant-list").addEventListener("click", (e) => {
 
 document.getElementById("next-button").addEventListener("click", () => {
   const form = document.getElementById("participant-form");
+  if (form.checkValidity()) {
+    validateNames();
+  }
   if (form.checkValidity()) {
     validateSufficientParticipants();
   }

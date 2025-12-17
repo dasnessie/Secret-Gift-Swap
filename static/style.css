@@ -146,6 +146,10 @@ button[hidden] {
   padding: calc(0.5rem - 2px) calc(0.9rem - 2px);
 }
 
+h2 {
+  text-align: center;
+}
+
 textarea,
 input:not(:checkbox) {
   appearance: none;
@@ -285,15 +289,25 @@ strong {
 
 /* Details */
 details {
-  background: var(--color-theme-light);
+  background: var(--color-background);
   border: 1px solid var(--color-theme-medium);
   padding: 1rem;
   border-radius: var(--corner-radius-default);
 }
 
 details summary {
-  font-weight: bold;
+  /* font-weight: regular; */
   cursor: pointer;
+  text-decoration: underline;
+  color: var(--color-theme);
+}
+
+details summary:hover {
+  text-decoration: none;
+}
+
+details p {
+  margin-block-start: 0.7rem;
 }
 
 details > * + * {
@@ -396,7 +410,18 @@ form.inline {
 #result-content {
   border: 1px solid var(--color-theme-medium);
   padding: 1rem;
+  margin-block-end: 3rem;
   border-radius: var(--corner-radius-default);
+  background-color: var(--color-theme-light);
+}
+
+#spoiler-cover {
+  border: none;
+  border-radius: var(--corner-radius-default);
+  background-color: var(--color-theme);
+  color: var(--color-background);
+  padding: 0.2rem;
+  margin: -0.2rem;
 }
 
 .exchange-creation-error {

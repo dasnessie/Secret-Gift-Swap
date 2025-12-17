@@ -90,14 +90,31 @@ def route_to_exchange():
     return redirect(f"/{exchange_slug}/create/")
 
 
-@app.route("/check_name")
-def check_name():
+@app.route("/check_exchange_name/")
+def check_exchange_name():
     name = request.args.get("name", "").strip()
     slug = slugify(name)
     if not slug:
         return jsonify({"nameAvailable": False})
     db = get_db()
     return jsonify({"nameAvailable": not db.exchange_exists(slug)})
+
+
+@app.route("/check_participant_name/")
+def check_participant_name():
+    exchange_slug = request.args.get("exchangeslug", "")
+    new_name = request.args.get("newname", "").strip()
+    old_name = request.args.get("oldname", "").strip()
+    db = get_db()
+    return jsonify(
+        {
+            "nameAvailable": db.participant_name_available(
+                exchange_slug,
+                old_name,
+                new_name,
+            ),
+        },
+    )
 
 
 @app.route("/data-disclaimer/", methods=["GET"])
@@ -141,6 +158,9 @@ def create_exchange(exchange_slug, form, exchange_name: str = None):
     participant_names = [p for p in form.getlist("participant") if p]
     if len(participant_names) != len(set(participant_names)):
         return Response(status=422)
+    for name in participant_names:
+        if name[0] == "/":
+            return Response(status=422)
     participants = [Participant(participant) for participant in participant_names]
     name_id_mapping = {p.names[p.active_name]: p.uuid for p in participants}
     constraint_givers = form.getlist("giver")[1:]
@@ -216,12 +236,20 @@ def view_exchange(exchange_slug):
 
 @app.route(
     "/<exchange_slug>/results/<path:participant_name>",
+    methods=["GET"],
 )  # <path:… makes sure we can handle participant names containing slashes
 def view_exchange_participant_result(exchange_slug, participant_name):
     participant_name = urllib.parse.unquote_plus(participant_name)
     db = get_db()
     try:
+        active_name = db.get_active_name(exchange_slug, participant_name)
+        if participant_name != active_name:
+            return redirect(f"/{exchange_slug}/results/{active_name}")
+    except ValueError as e:
+        return not_found(e)
+    try:
         giftee = db.get_giftee_for_giver(exchange_slug, participant_name)
+        giver = db.get_giver_for_giftee(exchange_slug, participant_name)
     except ValueError as e:
         return not_found(e)
     return render_template(
@@ -230,4 +258,23 @@ def view_exchange_participant_result(exchange_slug, participant_name):
         exchangeName=db.get_exchange_name(exchange_slug),
         participantName=participant_name,
         gifteeName=giftee.get_name(),
+        giverName=giver.get_name(),
     )
+
+
+@app.route(
+    "/<exchange_slug>/results/<path:old_participant_name>",
+    methods=["POST"],
+)  # <path:… makes sure we can handle participant names containing slashes
+def rename_participant(exchange_slug, old_participant_name):
+    new_participant_name = request.form.getlist("participant_name")[0]
+    if new_participant_name[0] == "/":
+        return Response(status=422)
+    old_participant_name = urllib.parse.unquote_plus(old_participant_name)
+    db = get_db()
+    db.change_participant_name(
+        exchange_slug,
+        old_participant_name,
+        new_participant_name,
+    )
+    return redirect(f"/{exchange_slug}/results/{new_participant_name}")

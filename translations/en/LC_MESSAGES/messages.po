@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-11-20 16:27+0100\n"
+"POT-Creation-Date: 2025-12-17 17:53+0100\n"
 "PO-Revision-Date: 2025-05-05 20:56+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -18,13 +18,13 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
 
-#: app.py:81
+#: app.py:80
 msgid ""
 "Something went wrong with your exchange name. Please try again with a "
 "different name."
 msgstr ""
 
-#: app.py:165
+#: app.py:192
 msgid ""
 "Could not create a valid exchange with this data. Try removing some "
 "constraints or adding some participants to fix this."
@@ -36,6 +36,18 @@ msgstr ""
 
 #: static/create.js:46
 msgid "You need at least three participants to set up an exchange."
+msgstr ""
+
+#: static/create.js:59 static/exchange-user-result.js:31
+msgid "Names may not begin with a slash."
+msgstr ""
+
+#: static/exchange-user-result.js:29
+msgid "That's already your name."
+msgstr ""
+
+#: static/exchange-user-result.js:46
+msgid "This name is already used by someone else."
 msgstr ""
 
 #: static/rename-exchange.js:14
@@ -242,6 +254,58 @@ msgstr ""
 msgid "You're getting a gift for %(giftee)s."
 msgstr ""
 
+#: templates/exchange-user-result.html:19
+msgid "I can't stand surprises and want to know who I'm getting a gift from."
+msgstr ""
+
+#: templates/exchange-user-result.html:20
+msgid "Click to reveal name"
+msgstr ""
+
+#: templates/exchange-user-result.html:23
+#, python-format
+msgid "You're getting a gift from %(giver)s."
+msgstr ""
+
+#: templates/exchange-user-result.html:26
+msgid "My name is not correct, I need to change it."
+msgstr ""
+
+#: templates/exchange-user-result.html:27
+#, python-format
+msgid "Your current name is %(participantName)s."
+msgstr ""
+
+#: templates/exchange-user-result.html:28
+msgid "If that is not correct, you can change it here."
+msgstr ""
+
+#: templates/exchange-user-result.html:29
+msgid ""
+"Your old name will immediately be replaced with your new name everywhere "
+"in this exchange."
+msgstr ""
+
+#: templates/exchange-user-result.html:30
+msgid ""
+"Please use a name that the other participants of this exchange know you "
+"as, if possible."
+msgstr ""
+
+#: templates/exchange-user-result.html:31
+msgid ""
+"Links containing your old name will continue to work, and will "
+"automatically be redirected."
+msgstr ""
+
+#: templates/exchange-user-result.html:33
+msgid "Change you name to:"
+msgstr ""
+
+#: templates/exchange-user-result.html:35
+msgid "Change name"
+msgstr ""
+
 #: templates/rename-exchange.html:5
 msgid "Oops"
 msgstr ""
@@ -273,5 +337,4 @@ msgstr ""
 #: templates/start.html:12
 msgid "Open"
 msgstr ""
-
 

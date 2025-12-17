@@ -4,7 +4,7 @@ form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
   const res = await fetch(
-    `/check_name?name=${encodeURIComponent(nameInput.value)}`
+    `/check_exchange_name?name=${encodeURIComponent(nameInput.value)}`
   );
   const data = await res.json();
 

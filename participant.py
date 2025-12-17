@@ -21,12 +21,18 @@ class Participant:
             uuid (UUID): uuid to use for participant, if one already exists.
                 Defaults to None.
 
+        Raises:
+            ValueError: If the name begins with a slash
+
         """
         if uuid is None:
             self.uuid = uuid4()
         else:
             self.uuid = uuid
         self.names = names if isinstance(names, list) else [names]
+        for name in self.names:
+            if name[0] == "/":
+                raise ValueError("Names can not begin with a slash!")
         self.active_name = active_name
 
     def add_name(self, new_name: str) -> None:
@@ -35,7 +41,12 @@ class Participant:
         Args:
             new_name (str): the new name
 
+        Raises:
+            ValueError: If the name begins with a slash
+
         """
+        if new_name[0] == "/":
+            raise ValueError("Names can not begin with a slash!")
         self.names.append(new_name)
 
     def change_name(self, new_name: str) -> None:
