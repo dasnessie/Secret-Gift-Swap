@@ -293,8 +293,9 @@ class DatabaseHandler:
                 exchange_slug,
             ),
         )
-        giftee_id = result.fetchone()[0]
-        if not giftee_id:
+        try:
+            giftee_id = result.fetchone()[0]
+        except TypeError:
             raise ValueError(
                 f"There is no participant with name '{giver_name}' "
                 f"in exchange '{exchange_slug}'!",
@@ -332,8 +333,9 @@ class DatabaseHandler:
                 exchange_slug,
             ),
         )
-        giver_id = result.fetchone()[0]
-        if not giver_id:
+        try:
+            giver_id = result.fetchone()[0]
+        except TypeError:
             raise ValueError(
                 f"There is no participant with name '{giftee_name}' "
                 f"in exchange '{exchange_slug}'!",
