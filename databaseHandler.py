@@ -85,6 +85,35 @@ class DatabaseHandler:
         res = self.cursor.execute("SELECT 1 FROM exchanges WHERE slug = ?", (slug,))
         return res.fetchone() is not None
 
+    def participant_name_available(
+        self,
+        exchange_slug: str,
+        old_name: str,
+        new_name: str,
+    ) -> bool:
+        """Check if a participant name is already taken by someone else.
+
+        Args:
+            exchange_slug (str): slug of the exchange to search in
+            old_name (str): current name of the participant to exclude from search
+            new_name (str): name to check availability of
+
+        Returns:
+            bool: Whether the name is available
+
+        """
+        res = self.cursor.execute(
+            "SELECT 1 FROM participant_names "
+            "WHERE exchange_slug = ? "
+            "AND participant_id != ("
+            "SELECT participant_id FROM participant_names "
+            "WHERE name = ? AND exchange_slug = ? LIMIT 1"
+            ")"
+            "AND name = ?",
+            (exchange_slug, old_name, exchange_slug, new_name),
+        )
+        return res.fetchone() is None
+
     def get_exchange_name(self, slug: str) -> str:
         """Get the name of an exchange for a given slug.
 
@@ -261,6 +290,94 @@ class DatabaseHandler:
             active_name=active_name,
             uuid=UUID(participant_id),
         )
+
+    def change_participant_name(
+        self,
+        exchange_slug: str,
+        old_name: str,
+        new_name: str,
+    ) -> None:
+        """Change the active name of the participant.
+
+        Args:
+            exchange_slug (str): Slug of the exchange to use
+            old_name (str): current name of the participant
+            new_name (str): new name of the participant
+
+        Raises:
+            ValueError: If there is no participant with the given name in the exchange
+
+        """
+        res_id = self.cursor.execute(
+            "SELECT participant_id FROM participant_names "
+            "WHERE name = ? AND exchange_slug = ?",
+            (old_name, exchange_slug),
+        )
+        try:
+            participant_id = res_id.fetchone()[0]
+        except TypeError:
+            raise ValueError(f"There is no participant with name '{old_name}'!")
+        self.cursor.execute(
+            "UPDATE participant_names SET active = 0 "
+            "WHERE participant_id = ? AND name = ?",
+            (participant_id, old_name),
+        )
+        res_name_exists = self.cursor.execute(
+            "SELECT * FROM participant_names WHERE participant_id = ? AND name = ?",
+            (participant_id, new_name),
+        )
+        name_exists = bool(res_name_exists.fetchone())
+        if name_exists:
+            # Don't add a new name, just set the existing new_name to active
+            self.cursor.execute(
+                "UPDATE participant_names SET active = 1 "
+                "WHERE participant_id = ? AND name = ?",
+                (participant_id, new_name),
+            )
+        else:
+            # Add a new name
+            self.cursor.execute(
+                "INSERT INTO participant_names VALUES (?, ?, ?, ?)",
+                (
+                    str(participant_id),
+                    new_name,
+                    1,
+                    exchange_slug,
+                ),
+            )
+        self.connection.commit()
+
+    def get_active_name(self, exchange_slug: str, name: str) -> str:
+        """Get up-to-date name of a participant that used to go by the given name.
+
+        Args:
+            exchange_slug (str): Slug of the exchange to search in
+            name (str): old name of the participant
+
+        Raises:
+            ValueError: if there is no participant with that name
+
+        Returns:
+            str: the current name of the participant
+
+        """
+        res = self.cursor.execute(
+            "SELECT name FROM participant_names "
+            "WHERE exchange_slug = ? "
+            "AND active = 1 "
+            "AND participant_id = ("
+            "SELECT participant_id FROM participant_names "
+            "WHERE exchange_slug = ? "
+            "AND name = ?)",
+            (exchange_slug, exchange_slug, name),
+        )
+        try:
+            return res.fetchone()[0]
+        except TypeError:
+            raise ValueError(
+                f"Could not find a match for exchange {exchange_slug} "
+                f"and participant name {name}!",
+            )
 
     def get_giftee_for_giver(self, exchange_slug: str, giver_name: str) -> Participant:
         """Get the participant a given participant will get a gift for.

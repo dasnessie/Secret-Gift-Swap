@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-12-16 17:55+0100\n"
+"POT-Creation-Date: 2025-12-17 17:53+0100\n"
 "PO-Revision-Date: 2025-05-05 20:56+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: de\n"
@@ -26,7 +26,7 @@ msgstr ""
 "Irgendetwas ist mit dem Auslosungsnamen schiefgelaufen. Bitte versuche es"
 " nochmal mit einem anderen Namen."
 
-#: app.py:172
+#: app.py:192
 msgid ""
 "Could not create a valid exchange with this data. Try removing some "
 "constraints or adding some participants to fix this."
@@ -44,6 +44,18 @@ msgid "You need at least three participants to set up an exchange."
 msgstr ""
 "Es muss mindestens drei Teilnehmende geben, um eine Auslosung erstellen "
 "zu können."
+
+#: static/create.js:59 static/exchange-user-result.js:31
+msgid "Names may not begin with a slash."
+msgstr "Namen dürfen nicht mit einem Schrägstrich beginnen."
+
+#: static/exchange-user-result.js:29
+msgid "That's already your name."
+msgstr "Das ist schon dein Name."
+
+#: static/exchange-user-result.js:46
+msgid "This name is already used by someone else."
+msgstr "Dieser Name wird schon von jemand anderem verwendet."
 
 #: static/rename-exchange.js:14
 msgid "This exchange name is not available."
@@ -256,9 +268,10 @@ msgid "You're getting a gift for %(giftee)s."
 msgstr "Du beschenkst %(giftee)s."
 
 #: templates/exchange-user-result.html:19
-#, python-format
 msgid "I can't stand surprises and want to know who I'm getting a gift from."
-msgstr "Ich kann Überraschungen nicht leiden und möchte gerne wissen, von wem ich ein Geschenk bekomme."
+msgstr ""
+"Ich kann Überraschungen nicht leiden und möchte gerne wissen, von wem ich"
+" ein Geschenk bekomme."
 
 #: templates/exchange-user-result.html:20
 msgid "Click to reveal name"
@@ -268,6 +281,49 @@ msgstr "Klicken, um Namen anzuzeigen"
 #, python-format
 msgid "You're getting a gift from %(giver)s."
 msgstr "Du wirst von %(giver)s beschenkt."
+
+#: templates/exchange-user-result.html:26
+msgid "My name is not correct, I need to change it."
+msgstr "Mein Name stimmt nicht, ich möchte ihn ändern."
+
+#: templates/exchange-user-result.html:27
+#, python-format
+msgid "Your current name is %(participantName)s."
+msgstr "Dein aktueller Name ist %(participantName)s."
+
+#: templates/exchange-user-result.html:28
+msgid "If that is not correct, you can change it here."
+msgstr "Falls das nicht stimmt, kannst du es hier ändern."
+
+#: templates/exchange-user-result.html:29
+msgid ""
+"Your old name will immediately be replaced with your new name everywhere "
+"in this exchange."
+msgstr "Dein alter Name wird sofort überall in dieser Auslosung ersetzt."
+
+#: templates/exchange-user-result.html:30
+msgid ""
+"Please use a name that the other participants of this exchange know you "
+"as, if possible."
+msgstr ""
+"Verwende bitte einen Namen, unter dem dich die anderen Teilnehmer kennen,"
+" falls möglich."
+
+#: templates/exchange-user-result.html:31
+msgid ""
+"Links containing your old name will continue to work, and will "
+"automatically be redirected."
+msgstr ""
+"Links, die deinen alten Namen enthalten, funktionieren weiterhin und "
+"leiten automatisch weiter."
+
+#: templates/exchange-user-result.html:33
+msgid "Change you name to:"
+msgstr "Namen ändern zu:"
+
+#: templates/exchange-user-result.html:35
+msgid "Change name"
+msgstr "Namen ändern"
 
 #: templates/rename-exchange.html:5
 msgid "Oops"
