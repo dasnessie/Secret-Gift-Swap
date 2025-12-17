@@ -141,6 +141,9 @@ def create_exchange(exchange_slug, form, exchange_name: str = None):
     participant_names = [p for p in form.getlist("participant") if p]
     if len(participant_names) != len(set(participant_names)):
         return Response(status=422)
+    for name in participant_names:
+        if name[0] == "/":
+            return Response(status=422)
     participants = [Participant(participant) for participant in participant_names]
     name_id_mapping = {p.names[p.active_name]: p.uuid for p in participants}
     constraint_givers = form.getlist("giver")[1:]
