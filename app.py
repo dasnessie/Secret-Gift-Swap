@@ -1,3 +1,4 @@
+import json
 import os
 import urllib.parse
 from sqlite3 import IntegrityError
@@ -16,7 +17,7 @@ from flask import (
 from flask_babel import Babel, _
 from flask_babel_js import BabelJS
 
-from constraint import Constraint
+from constraint import Constraint, consolidate_constraint_list
 from databaseHandler import DatabaseHandler
 from exchange import Exchange
 from participant import (
@@ -137,6 +138,23 @@ def view_create_exchange(exchange_slug, error_message=None, form_data=None):
     db = get_db()
     if db.exchange_exists(exchange_slug):
         return redirect(f"/{exchange_slug}/")
+    copy_from = request.args.get("copy-from")
+    copy_data = {}
+    if copy_from:
+        copy_exchange = db.get_exchange(copy_from)
+        copy_data["participants"] = [p.get_name() for p in copy_exchange.participants]
+        copy_data["constraints-json"] = [
+            c.to_tuple(db)
+            for c in consolidate_constraint_list(
+                [
+                    c.duplicate_for_next_exchange()
+                    for c in copy_exchange.constraints
+                    if c.duplicate_for_next_exchange() is not None
+                ]
+                + [m.to_constraint() for m in copy_exchange.pairing],
+            )
+        ]
+        print(copy_data["constraints-json"])
     response = make_response(
         render_template(
             "create.html",
@@ -144,6 +162,7 @@ def view_create_exchange(exchange_slug, error_message=None, form_data=None):
             exchangeName=exchange_name,
             errorMessage=error_message,
             existingFormData=form_data,
+            copyData=copy_data,
         ),
     )
     response.headers["Cache-Control"] = "no-store, no-cache, must-revalidate, max-age=0"
@@ -220,7 +239,7 @@ def route_create_renamed_exchange():
     return create_exchange(exchange_slug, request.form, exchange_name)
 
 
-@app.route("/<exchange_slug>/")
+@app.route("/<exchange_slug>/", methods=["GET"])
 def view_exchange(exchange_slug):
     db = get_db()
     if not db.exchange_exists(exchange_slug):
@@ -232,6 +251,14 @@ def view_exchange(exchange_slug):
         exchangeName=db.get_exchange_name(exchange_slug),
         participants=exchange.participants,
     )
+
+
+@app.route("/<exchange_slug>/", methods=["POST"])
+def copy_exchange(exchange_slug):
+    new_exchange_name = request.form.getlist("new_exchange_name")[0]
+    session["exchange_name"] = new_exchange_name
+    new_exchange_slug = slugify(new_exchange_name)
+    return redirect(f"/{new_exchange_slug}/create/?copy-from={exchange_slug}")
 
 
 @app.route(

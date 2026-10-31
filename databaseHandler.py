@@ -288,7 +288,7 @@ class DatabaseHandler:
         return Participant(
             names=participant_names,
             active_name=active_name,
-            uuid=UUID(participant_id),
+            uuid=participant_id,
         )
 
     def change_participant_name(

@@ -1,6 +1,6 @@
 function getParticipantNameCounts() {
   const nameInputs = Array.from(
-    document.querySelectorAll("#participant-list input.participant")
+    document.querySelectorAll("#participant-list input.participant"),
   );
   const names = nameInputs
     .map((input) => input.value)
@@ -15,11 +15,11 @@ function getParticipantNameCounts() {
 
 function validateUserNames(e) {
   const nameInputs = Array.from(
-    document.querySelectorAll("#participant-list input.participant")
+    document.querySelectorAll("#participant-list input.participant"),
   );
   const nameCounts = getParticipantNameCounts();
   const duplicateNames = Object.keys(nameCounts).filter(
-    (key) => nameCounts[key] > 1
+    (key) => nameCounts[key] > 1,
   );
   for (const input of nameInputs) {
     if (duplicateNames.includes(input.value)) {
@@ -32,7 +32,7 @@ function validateUserNames(e) {
 
 function validateSufficientParticipants() {
   const nameInputs = Array.from(
-    document.querySelectorAll("#participant-list input.participant")
+    document.querySelectorAll("#participant-list input.participant"),
   );
   const nameCounts = getParticipantNameCounts();
   if (Object.keys(nameCounts).length < 3) {
@@ -43,7 +43,7 @@ function validateSufficientParticipants() {
     for (const nameInput of nameInputs) {
       if (nameInput.value == "") {
         nameInput.setCustomValidity(
-          _("You need at least three participants to set up an exchange.")
+          _("You need at least three participants to set up an exchange."),
         );
       }
     }
@@ -52,7 +52,7 @@ function validateSufficientParticipants() {
 
 function validateNames() {
   const nameInputs = Array.from(
-    document.querySelectorAll("#participant-list input.participant")
+    document.querySelectorAll("#participant-list input.participant"),
   );
   for (const nameInput of nameInputs) {
     if (nameInput.value.startsWith("/")) {
@@ -147,6 +147,15 @@ document.getElementById("next-button").addEventListener("click", () => {
     }
     giverSelect.value = "";
     gifteeSelect.value = "";
+    const constraintDataElement = document.getElementById("constraint-data");
+    const constraintData = constraintDataElement.textContent.trim()
+      ? JSON.parse(constraintDataElement.textContent)
+      : null;
+    if (constraintData) {
+      for (constraint of constraintData) {
+        addConstraint(...constraint);
+      }
+    }
     document.getElementById("participants").disabled = true;
     document.getElementById("constraints").hidden = false;
     document.getElementById("constraints").disabled = false;
@@ -158,14 +167,14 @@ document.getElementById("next-button").addEventListener("click", () => {
   }
 });
 
-function setArrows(e) {
+function setArrows(selectElement) {
   const rightArrow =
-    e.target.parentElement.getElementsByClassName("arrow-right")[0];
+    selectElement.parentElement.getElementsByClassName("arrow-right")[0];
   const bothArrow =
-    e.target.parentElement.getElementsByClassName("arrow-both")[0];
+    selectElement.parentElement.getElementsByClassName("arrow-both")[0];
   const fromLabel =
-    e.target.parentElement.getElementsByClassName("from-label")[0];
-  if (e.target.value == "never") {
+    selectElement.parentElement.getElementsByClassName("from-label")[0];
+  if (selectElement.value == "never") {
     rightArrow.hidden = true;
     fromLabel.hidden = true;
     bothArrow.hidden = false;
@@ -180,30 +189,64 @@ for (const probabilitySelect of document
   .getElementById("constraint-list")
   .getElementsByClassName("probability-level")) {
   probabilitySelect.addEventListener("change", (e) => {
-    setArrows(e);
+    setArrows(e.target);
   });
 }
 
-document.getElementById("add-constraint").addEventListener("click", () => {
+function addConstraint(giver, giftee, level) {
   const constraints = document.getElementById("constraint-list");
-  const newConstraintLine = constraints.lastElementChild.cloneNode(true);
-  for (const el of newConstraintLine.getElementsByTagName("select")) {
-    el.value = "";
-    el.required = true;
-    el.disabled = false;
+  const participantOptions = Array.from(
+    constraints.getElementsByClassName("giver")[0].options,
+    (option) => option.value,
+  );
+  const levelOptions = Array.from(
+    constraints.getElementsByClassName("probability-level")[0].options,
+    (option) => option.value,
+  );
+  if (
+    giver &&
+    giftee &&
+    level &&
+    (!participantOptions.includes(giver) ||
+      !participantOptions.includes(giftee) ||
+      !levelOptions.includes(level))
+  ) {
+    console.warn(
+      "Got instruction to add constraint with unavailable options, skipping this constraint!",
+    );
+  } else {
+    const newConstraintLine = constraints.lastElementChild.cloneNode(true);
+    for (const el of newConstraintLine.getElementsByTagName("select")) {
+      el.value = "";
+      el.required = true;
+      el.disabled = false;
+    }
+    newConstraintLine
+      .getElementsByClassName("probability-level")[0]
+      .addEventListener("change", (e) => {
+        setArrows(e.target);
+      });
+    const giverInput = newConstraintLine.getElementsByClassName("giver")[0];
+    const gifteeInput = newConstraintLine.getElementsByClassName("giftee")[0];
+    const levelInput =
+      newConstraintLine.getElementsByClassName("probability-level")[0];
+    if (giver && giftee && level) {
+      giverInput.value = giver;
+      gifteeInput.value = giftee;
+      levelInput.value = level;
+    }
+    setArrows(levelInput);
+    newConstraintLine.hidden = false;
+    constraints.appendChild(newConstraintLine);
+    if (!(giver && giftee && level)) {
+      newConstraintLine.getElementsByClassName("giver")[0].focus();
+    }
   }
-  newConstraintLine
-    .getElementsByClassName("probability-level")[0]
-    .addEventListener("change", (e) => {
-      setArrows(e);
-    });
-  newConstraintLine.getElementsByClassName("arrow-both")[0].hidden = true;
-  newConstraintLine.getElementsByClassName("arrow-right")[0].hidden = false;
-  newConstraintLine.getElementsByClassName("from-label")[0].hidden = false;
-  newConstraintLine.hidden = false;
-  constraints.appendChild(newConstraintLine);
-  newConstraintLine.getElementsByClassName("giver")[0].focus();
-});
+}
+
+document
+  .getElementById("add-constraint")
+  .addEventListener("click", addConstraint);
 
 document.getElementById("constraint-list").addEventListener("click", (e) => {
   if (!e.target.classList.contains("delete-constraint")) {
