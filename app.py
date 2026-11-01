@@ -154,7 +154,6 @@ def view_create_exchange(exchange_slug, error_message=None, form_data=None):
                 + [m.to_constraint() for m in copy_exchange.pairing],
             )
         ]
-        print(copy_data["constraints-json"])
     response = make_response(
         render_template(
             "create.html",
