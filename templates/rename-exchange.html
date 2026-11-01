@@ -7,9 +7,9 @@
         {{ _("Most likely someone created it while you were entering the data for yours.") }}
         {{ _("Please choose a new name for your exchange to proceed.") }}
     </p>
-    <form id="rename_exchange" method="post" action="/rename_exchange/">
+    <form id="rename_exchange" class="exchange_name_form" method="post" action="/rename_exchange/">
         <label for="exchange_name">{{ _('Create your gift exchange as:') }}</label>
-        <input type="text" id="exchange_name" name="exchange_name" autofocus="True" required>
+        <input type="text" id="exchange_name" class="exchange_name" name="exchange_name" autofocus="True" required>
         {% for key, values in form_data.lists() %}
             {% for value in values %}
                 <input type="hidden" name="{{ key }}" value="{{ value }}">
@@ -17,5 +17,5 @@
         {% endfor %}
         <input type="submit" value="OK" aria-label="{{ _('Create exchange') }}">
     </form>
-    <script src="/static/rename-exchange.js"></script>
+    <script src="/static/exchange-name-available.js"></script>
 {% endblock %}

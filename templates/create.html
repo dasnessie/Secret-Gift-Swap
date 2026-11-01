@@ -25,6 +25,13 @@
                             <button type="button" class="delete-participant secondary-button">{{ _('Delete') }}</button>
                         </li>
                     {% endfor %}
+                {% elif copyData["participants"] %}
+                    {% for participant in copyData["participants"] %}
+                        <li>
+                            <input type="text" name="participant" class="participant" aria-label="{{ _('participant name') }}" value="{{ participant }}"/>
+                            <button type="button" class="delete-participant secondary-button">{{ _('Delete') }}</button>
+                        </li>
+                    {% endfor %}
                 {% else %}
                     <li>
                         <input type="text" name="participant" class="participant" aria-label="{{ _('participant name') }}" autofocus/>
@@ -177,5 +184,6 @@
         </div>
     </form>
 
+    <script  id="constraint-data" type="application/json">{{ (copyData.get("constraints-json") or []) | tojson }}</script>
     <script src="/static/create.js"></script>
 {% endblock %}

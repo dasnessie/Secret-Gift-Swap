@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
+from constraint import Constraint
+
 if TYPE_CHECKING:
     from uuid import UUID
 
@@ -30,6 +32,19 @@ class Match:
 
     def __repr__(self):
         return f"Match(giver={self.giver_id}, giftee={self.giftee_id})"
+
+    def to_constraint(self) -> Constraint:
+        """Convert match to constraint for use in the next exchange.
+
+        Returns:
+            Constraint: Constraint with probability level 1_past_exchange
+
+        """
+        return Constraint(
+            giver_id=self.giver_id,
+            giftee_id=self.giftee_id,
+            probability_level="1_past_exchange",
+        )
 
 
 def get_giftee_for_giver(

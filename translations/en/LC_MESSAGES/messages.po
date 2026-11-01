@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-12-17 17:53+0100\n"
+"POT-Creation-Date: 2026-10-31 21:02+0100\n"
 "PO-Revision-Date: 2025-05-05 20:56+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -16,15 +16,15 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.17.0\n"
+"Generated-By: Babel 2.18.0\n"
 
-#: app.py:80
+#: app.py:81
 msgid ""
 "Something went wrong with your exchange name. Please try again with a "
 "different name."
 msgstr ""
 
-#: app.py:192
+#: app.py:211
 msgid ""
 "Could not create a valid exchange with this data. Try removing some "
 "constraints or adding some participants to fix this."
@@ -42,16 +42,16 @@ msgstr ""
 msgid "Names may not begin with a slash."
 msgstr ""
 
+#: static/exchange-name-available.js:14
+msgid "This exchange name is not available."
+msgstr ""
+
 #: static/exchange-user-result.js:29
 msgid "That's already your name."
 msgstr ""
 
 #: static/exchange-user-result.js:46
 msgid "This name is already used by someone else."
-msgstr ""
-
-#: static/rename-exchange.js:14
-msgid "This exchange name is not available."
 msgstr ""
 
 #: templates/404.html:5
@@ -92,82 +92,83 @@ msgstr ""
 msgid "Participants"
 msgstr ""
 
-#: templates/create.html:24 templates/create.html:30 templates/create.html:34
-#: templates/create.html:38
+#: templates/create.html:24 templates/create.html:31 templates/create.html:37
+#: templates/create.html:41 templates/create.html:45
 msgid "participant name"
 msgstr ""
 
-#: templates/create.html:25 templates/create.html:31 templates/create.html:35
-#: templates/create.html:39 templates/create.html:83 templates/create.html:162
+#: templates/create.html:25 templates/create.html:32 templates/create.html:38
+#: templates/create.html:42 templates/create.html:46 templates/create.html:90
+#: templates/create.html:169
 msgid "Delete"
 msgstr ""
 
-#: templates/create.html:43
+#: templates/create.html:50
 msgid "Add participant"
 msgstr ""
 
-#: templates/create.html:50
+#: templates/create.html:57
 msgid "Constraints"
 msgstr ""
 
-#: templates/create.html:53 templates/create.html:88
+#: templates/create.html:60 templates/create.html:95
 msgid "From"
 msgstr ""
 
-#: templates/create.html:54 templates/create.html:89
+#: templates/create.html:61 templates/create.html:96
 msgid "gift giver"
 msgstr ""
 
-#: templates/create.html:55 templates/create.html:67 templates/create.html:94
-#: templates/create.html:122
+#: templates/create.html:62 templates/create.html:74 templates/create.html:101
+#: templates/create.html:129
 msgid "Participant…"
 msgstr ""
 
-#: templates/create.html:64 templates/create.html:107
+#: templates/create.html:71 templates/create.html:114
 msgid "to"
 msgstr ""
 
-#: templates/create.html:65 templates/create.html:112
+#: templates/create.html:72 templates/create.html:119
 msgid "and"
 msgstr ""
 
-#: templates/create.html:66 templates/create.html:117
+#: templates/create.html:73 templates/create.html:124
 msgid "gift receiver"
 msgstr ""
 
-#: templates/create.html:76 templates/create.html:135
+#: templates/create.html:83 templates/create.html:142
 msgid "constraint level"
 msgstr ""
 
-#: templates/create.html:77 templates/create.html:140
+#: templates/create.html:84 templates/create.html:147
 msgid "Constraint level…"
 msgstr ""
 
-#: templates/create.html:78 templates/create.html:145
+#: templates/create.html:85 templates/create.html:152
 msgid "Never match"
 msgstr ""
 
-#: templates/create.html:79 templates/create.html:150
+#: templates/create.html:86 templates/create.html:157
 msgid "Did match last exchange"
 msgstr ""
 
-#: templates/create.html:80 templates/create.html:155
+#: templates/create.html:87 templates/create.html:162
 msgid "Did match two exchanges ago"
 msgstr ""
 
-#: templates/create.html:81 templates/create.html:160
+#: templates/create.html:88 templates/create.html:167
 msgid "Did match three exchanges ago"
 msgstr ""
 
-#: templates/create.html:167
+#: templates/create.html:174
 msgid "Add constraint"
 msgstr ""
 
-#: templates/create.html:171 templates/create.html:174
+#: templates/create.html:178 templates/create.html:181
 msgid "Next"
 msgstr ""
 
-#: templates/create.html:172 templates/create.html:175
+#: templates/create.html:179 templates/create.html:182
 msgid "Generate matching!"
 msgstr ""
 
@@ -227,6 +228,24 @@ msgid ""
 "for."
 msgstr ""
 
+#: templates/exchange-overview.html:13
+msgid "Next Exchange"
+msgstr ""
+
+#: templates/exchange-overview.html:14
+msgid ""
+"Ready for the next round? Create a new exchange here while carrying over "
+"the constraints and results."
+msgstr ""
+
+#: templates/exchange-overview.html:16
+msgid "Name of new exchange:"
+msgstr ""
+
+#: templates/exchange-overview.html:18
+msgid "Copy exchange"
+msgstr ""
+
 #: templates/exchange-user-result.html:7
 msgid "Confirm your name"
 msgstr ""
@@ -258,51 +277,51 @@ msgstr ""
 msgid "I can't stand surprises and want to know who I'm getting a gift from."
 msgstr ""
 
-#: templates/exchange-user-result.html:20
+#: templates/exchange-user-result.html:21
 msgid "Click to reveal name"
 msgstr ""
 
-#: templates/exchange-user-result.html:23
+#: templates/exchange-user-result.html:24
 #, python-format
 msgid "You're getting a gift from %(giver)s."
 msgstr ""
 
-#: templates/exchange-user-result.html:26
+#: templates/exchange-user-result.html:28
 msgid "My name is not correct, I need to change it."
 msgstr ""
 
-#: templates/exchange-user-result.html:27
+#: templates/exchange-user-result.html:30
 #, python-format
 msgid "Your current name is %(participantName)s."
 msgstr ""
 
-#: templates/exchange-user-result.html:28
+#: templates/exchange-user-result.html:31
 msgid "If that is not correct, you can change it here."
 msgstr ""
 
-#: templates/exchange-user-result.html:29
+#: templates/exchange-user-result.html:32
 msgid ""
 "Your old name will immediately be replaced with your new name everywhere "
 "in this exchange."
 msgstr ""
 
-#: templates/exchange-user-result.html:30
+#: templates/exchange-user-result.html:33
 msgid ""
 "Please use a name that the other participants of this exchange know you "
 "as, if possible."
 msgstr ""
 
-#: templates/exchange-user-result.html:31
+#: templates/exchange-user-result.html:34
 msgid ""
 "Links containing your old name will continue to work, and will "
 "automatically be redirected."
 msgstr ""
 
-#: templates/exchange-user-result.html:33
+#: templates/exchange-user-result.html:37
 msgid "Change you name to:"
 msgstr ""
 
-#: templates/exchange-user-result.html:35
+#: templates/exchange-user-result.html:39
 msgid "Change name"
 msgstr ""
 
@@ -337,4 +356,308 @@ msgstr ""
 #: templates/start.html:12
 msgid "Open"
 msgstr ""
+
+#: venv-old/lib/python3.13/site-packages/_pytest/config/argparsing.py:474
+#, python-format
+msgid "ambiguous option: %(option)s could match %(matches)s"
+msgstr ""
+
+#: venv-old/lib/python3.13/site-packages/click/_termui_impl.py:556
+#, python-brace-format
+msgid "{editor}: Editing failed"
+msgstr ""
+
+#: venv-old/lib/python3.13/site-packages/click/_termui_impl.py:560
+#, python-brace-format
+msgid "{editor}: Editing failed: {e}"
+msgstr ""
+
+#: venv-old/lib/python3.13/site-packages/click/core.py:1124
+msgid "Aborted!"
+msgstr ""
+
+#: venv-old/lib/python3.13/site-packages/click/core.py:1349
+#: venv-old/lib/python3.13/site-packages/click/core.py:1379
+#, python-brace-format
+msgid "(Deprecated) {text}"
+msgstr ""
+
+#: venv-old/lib/python3.13/site-packages/click/core.py:1396
+msgid "Options"
+msgstr ""
+
+#: venv-old/lib/python3.13/site-packages/click/core.py:1422
+#, python-brace-format
+msgid "Got unexpected extra argument ({args})"
+msgid_plural "Got unexpected extra arguments ({args})"
+msgstr[0] ""
+msgstr[1] ""
+
+#: venv-old/lib/python3.13/site-packages/click/core.py:1438
+#, python-brace-format
+msgid "DeprecationWarning: The command {name!r} is deprecated."
+msgstr ""
+
+#: venv-old/lib/python3.13/site-packages/click/core.py:1645
+msgid "Commands"
+msgstr ""
+
+#: venv-old/lib/python3.13/site-packages/click/core.py:1677
+msgid "Missing command."
+msgstr ""
+
+#: venv-old/lib/python3.13/site-packages/click/core.py:1755
+#, python-brace-format
+msgid "No such command {name!r}."
+msgstr ""
+
+#: venv-old/lib/python3.13/site-packages/click/core.py:2313
+msgid "Value must be an iterable."
+msgstr ""
+
+#: venv-old/lib/python3.13/site-packages/click/core.py:2334
+#, python-brace-format
+msgid "Takes {nargs} values but 1 was given."
+msgid_plural "Takes {nargs} values but {len} were given."
+msgstr[0] ""
+msgstr[1] ""
+
+#: venv-old/lib/python3.13/site-packages/click/core.py:2783
+#, python-brace-format
+msgid "env var: {var}"
+msgstr ""
+
+#: venv-old/lib/python3.13/site-packages/click/core.py:2813
+msgid "(dynamic)"
+msgstr ""
+
+#: venv-old/lib/python3.13/site-packages/click/core.py:2828
+#, python-brace-format
+msgid "default: {default}"
+msgstr ""
+
+#: venv-old/lib/python3.13/site-packages/click/core.py:2841
+msgid "required"
+msgstr ""
+
+#: venv-old/lib/python3.13/site-packages/click/decorators.py:457
+#, python-format
+msgid "%(prog)s, version %(version)s"
+msgstr ""
+
+#: venv-old/lib/python3.13/site-packages/click/decorators.py:520
+msgid "Show the version and exit."
+msgstr ""
+
+#: venv-old/lib/python3.13/site-packages/click/decorators.py:541
+msgid "Show this message and exit."
+msgstr ""
+
+#: venv-old/lib/python3.13/site-packages/click/exceptions.py:49
+#: venv-old/lib/python3.13/site-packages/click/exceptions.py:88
+#, python-brace-format
+msgid "Error: {message}"
+msgstr ""
+
+#: venv-old/lib/python3.13/site-packages/click/exceptions.py:80
+#, python-brace-format
+msgid "Try '{command} {option}' for help."
+msgstr ""
+
+#: venv-old/lib/python3.13/site-packages/click/exceptions.py:129
+#, python-brace-format
+msgid "Invalid value: {message}"
+msgstr ""
+
+#: venv-old/lib/python3.13/site-packages/click/exceptions.py:131
+#, python-brace-format
+msgid "Invalid value for {param_hint}: {message}"
+msgstr ""
+
+#: venv-old/lib/python3.13/site-packages/click/exceptions.py:187
+msgid "Missing argument"
+msgstr ""
+
+#: venv-old/lib/python3.13/site-packages/click/exceptions.py:189
+msgid "Missing option"
+msgstr ""
+
+#: venv-old/lib/python3.13/site-packages/click/exceptions.py:191
+msgid "Missing parameter"
+msgstr ""
+
+#: venv-old/lib/python3.13/site-packages/click/exceptions.py:193
+#, python-brace-format
+msgid "Missing {param_type}"
+msgstr ""
+
+#: venv-old/lib/python3.13/site-packages/click/exceptions.py:200
+#, python-brace-format
+msgid "Missing parameter: {param_name}"
+msgstr ""
+
+#: venv-old/lib/python3.13/site-packages/click/exceptions.py:220
+#, python-brace-format
+msgid "No such option: {name}"
+msgstr ""
+
+#: venv-old/lib/python3.13/site-packages/click/exceptions.py:232
+#, python-brace-format
+msgid "Did you mean {possibility}?"
+msgid_plural "(Possible options: {possibilities})"
+msgstr[0] ""
+msgstr[1] ""
+
+#: venv-old/lib/python3.13/site-packages/click/exceptions.py:270
+msgid "unknown error"
+msgstr ""
+
+#: venv-old/lib/python3.13/site-packages/click/exceptions.py:277
+#, python-brace-format
+msgid "Could not open file {filename!r}: {message}"
+msgstr ""
+
+#: venv-old/lib/python3.13/site-packages/click/formatting.py:156
+msgid "Usage:"
+msgstr ""
+
+#: venv-old/lib/python3.13/site-packages/click/parser.py:233
+#, python-brace-format
+msgid "Argument {name!r} takes {nargs} values."
+msgstr ""
+
+#: venv-old/lib/python3.13/site-packages/click/parser.py:415
+#, python-brace-format
+msgid "Option {name!r} does not take a value."
+msgstr ""
+
+#: venv-old/lib/python3.13/site-packages/click/parser.py:476
+#, python-brace-format
+msgid "Option {name!r} requires an argument."
+msgid_plural "Option {name!r} requires {nargs} arguments."
+msgstr[0] ""
+msgstr[1] ""
+
+#: venv-old/lib/python3.13/site-packages/click/shell_completion.py:326
+msgid "Shell completion is not supported for Bash versions older than 4.4."
+msgstr ""
+
+#: venv-old/lib/python3.13/site-packages/click/shell_completion.py:333
+msgid "Couldn't detect Bash version, shell completion is not supported."
+msgstr ""
+
+#: venv-old/lib/python3.13/site-packages/click/termui.py:158
+msgid "Repeat for confirmation"
+msgstr ""
+
+#: venv-old/lib/python3.13/site-packages/click/termui.py:174
+msgid "Error: The value you entered was invalid."
+msgstr ""
+
+#: venv-old/lib/python3.13/site-packages/click/termui.py:176
+#, python-brace-format
+msgid "Error: {e.message}"
+msgstr ""
+
+#: venv-old/lib/python3.13/site-packages/click/termui.py:187
+msgid "Error: The two entered values do not match."
+msgstr ""
+
+#: venv-old/lib/python3.13/site-packages/click/termui.py:243
+msgid "Error: invalid input"
+msgstr ""
+
+#: venv-old/lib/python3.13/site-packages/click/termui.py:773
+msgid "Press any key to continue..."
+msgstr ""
+
+#: venv-old/lib/python3.13/site-packages/click/types.py:267
+#, python-brace-format
+msgid ""
+"Choose from:\n"
+"\t{choices}"
+msgstr ""
+
+#: venv-old/lib/python3.13/site-packages/click/types.py:299
+#, python-brace-format
+msgid "{value!r} is not {choice}."
+msgid_plural "{value!r} is not one of {choices}."
+msgstr[0] ""
+msgstr[1] ""
+
+#: venv-old/lib/python3.13/site-packages/click/types.py:393
+#, python-brace-format
+msgid "{value!r} does not match the format {format}."
+msgid_plural "{value!r} does not match the formats {formats}."
+msgstr[0] ""
+msgstr[1] ""
+
+#: venv-old/lib/python3.13/site-packages/click/types.py:415
+#, python-brace-format
+msgid "{value!r} is not a valid {number_type}."
+msgstr ""
+
+#: venv-old/lib/python3.13/site-packages/click/types.py:471
+#, python-brace-format
+msgid "{value} is not in the range {range}."
+msgstr ""
+
+#: venv-old/lib/python3.13/site-packages/click/types.py:612
+#, python-brace-format
+msgid "{value!r} is not a valid boolean."
+msgstr ""
+
+#: venv-old/lib/python3.13/site-packages/click/types.py:636
+#, python-brace-format
+msgid "{value!r} is not a valid UUID."
+msgstr ""
+
+#: venv-old/lib/python3.13/site-packages/click/types.py:826
+msgid "file"
+msgstr ""
+
+#: venv-old/lib/python3.13/site-packages/click/types.py:828
+msgid "directory"
+msgstr ""
+
+#: venv-old/lib/python3.13/site-packages/click/types.py:830
+msgid "path"
+msgstr ""
+
+#: venv-old/lib/python3.13/site-packages/click/types.py:881
+#, python-brace-format
+msgid "{name} {filename!r} does not exist."
+msgstr ""
+
+#: venv-old/lib/python3.13/site-packages/click/types.py:890
+#, python-brace-format
+msgid "{name} {filename!r} is a file."
+msgstr ""
+
+#: venv-old/lib/python3.13/site-packages/click/types.py:898
+#, python-brace-format
+msgid "{name} {filename!r} is a directory."
+msgstr ""
+
+#: venv-old/lib/python3.13/site-packages/click/types.py:907
+#, python-brace-format
+msgid "{name} {filename!r} is not readable."
+msgstr ""
+
+#: venv-old/lib/python3.13/site-packages/click/types.py:916
+#, python-brace-format
+msgid "{name} {filename!r} is not writable."
+msgstr ""
+
+#: venv-old/lib/python3.13/site-packages/click/types.py:925
+#, python-brace-format
+msgid "{name} {filename!r} is not executable."
+msgstr ""
+
+#: venv-old/lib/python3.13/site-packages/click/types.py:992
+#, python-brace-format
+msgid "{len_type} values are required, but {len_value} was given."
+msgid_plural "{len_type} values are required, but {len_value} were given."
+msgstr[0] ""
+msgstr[1] ""
 

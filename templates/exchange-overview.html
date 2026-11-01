@@ -9,4 +9,14 @@
         <li><a href="/{{ exchangeSlug }}/results/{{ participant.get_name()|quote_plus }}">{{ participant.get_name() }}</a></li>
         {% endfor %}
     </ul>
+    <details>
+        <summary>{{ _("Next Exchange") }}</summary>
+        <p>{{ _("Ready for the next round? Create a new exchange here while carrying over the constraints and results.") }}</p>
+        <form id="copy_exchange" class="exchange_name_form" method="post" action="">
+            <label for="new_exchange_name">{{ _('Name of new exchange:') }}</label>
+            <input type="text" id="new_exchange_name" class="exchange_name" name="new_exchange_name" autofocus="True" required>
+            <input type="submit" value="OK" aria-label="{{ _('Copy exchange') }}">
+        </form>
+    </details>
+    <script src="/static/exchange-name-available.js"></script>
 {% endblock %}
